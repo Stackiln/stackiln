@@ -9,8 +9,10 @@ export type ModuleRecipe = {
   conflicts?: readonly ModuleName[];
   owns: Record<OwnedSurface, readonly string[]>;
   dependencies?: Readonly<Record<string, string>>;
-  navigation?: readonly { label: string; href: string }[];
+  navigation?: readonly { label: string; href: string; area: "main" | "legal" }[];
   components?: readonly { importPath: string; exportName: string }[];
+  schemaExports?: readonly string[];
+  migrations?: readonly { tag: string; when: number }[];
   verification?: readonly string[];
   suspension: "deny-routes" | "disable-provider" | "not-supported";
   removal: "stateless" | "archive-required";

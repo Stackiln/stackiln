@@ -16,7 +16,7 @@ Routes: /features. Tables: none.
 
 Validated contact endpoint with local and Resend adapters.
 
-Routes: /contact, /api/contact. Tables: none.
+Routes: /contact, /contact/thanks, /contact/error, /api/contact. Tables: none.
 
 ## legal
 

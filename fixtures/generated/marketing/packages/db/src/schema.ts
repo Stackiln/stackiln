@@ -6,3 +6,4 @@ export const outbox = pgTable("outbox", {
   payload: text("payload").notNull(),
   createdAt: timestamp("created_at", { withTimezone: true }).defaultNow().notNull()
 });
+export * from "./enabled-schema";

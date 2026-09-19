@@ -2,17 +2,20 @@
 import { spawnSync } from "node:child_process";
 import { readFile, writeFile } from "node:fs/promises";
 import { resolve, join } from "node:path";
-import { defineFactoryConfig, presetNames, type PresetName } from "../../config/src/index.js";
+import { defineFactoryConfig, moduleNames, presetNames, type ModuleName, type PresetName } from "../../config/src/index.js";
 import { applyCreate, factoryRoot, formatPlan, planCreate, readState, validateProduct } from "../../generator/src/index.js";
 
 function option(args: string[], name: string): string | undefined {
   const index = args.indexOf(`--${name}`);
   return index < 0 ? undefined : args[index + 1];
 }
+function options(args: string[], name: string): string[] {
+  return args.flatMap((value, index) => value === `--${name}` && args[index + 1] ? [args[index + 1]!] : []);
+}
 function help(): string { return `site-factory 0.1.0
 
 Usage:
-  pnpm factory create <directory> --preset marketing --name "Product Name" [--description text] [--plan] [--json]
+  pnpm factory create <directory> --preset marketing --name "Product Name" [--module accounts] [--description text] [--plan] [--json]
   pnpm factory inspect [directory] [--json]
   pnpm factory doctor [directory] [--json]
   pnpm factory context [directory]
@@ -29,7 +32,9 @@ async function run(args: string[]): Promise<number> {
     const preset = (option(rest, "preset") ?? "marketing") as PresetName;
     const name = option(rest, "name") ?? directory;
     if (!directory || !name) throw new Error("create needs a directory and a product name");
-    const config = defineFactoryConfig({ product: { name, description: option(rest, "description") ?? "" }, preset });
+    const selected = options(rest, "module");
+    for (const item of selected) if (!moduleNames.includes(item as ModuleName)) throw new Error(`Unknown module: ${item}`);
+    const config = defineFactoryConfig({ product: { name, description: option(rest, "description") ?? "" }, preset, modules: Object.fromEntries(selected.map(item => [item, true])) });
     const plan = await planCreate(config);
     if (rest.includes("--plan")) { process.stdout.write(rest.includes("--json") ? `${JSON.stringify(plan, null, 2)}\n` : `${formatPlan(plan)}\n`); return 0; }
     const state = await applyCreate(plan, directory, { lockfile: true });

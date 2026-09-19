@@ -3,3 +3,6 @@
 .git
 .env*
 coverage
+**/.local-mailbox
+**/test-results
+**/playwright-report

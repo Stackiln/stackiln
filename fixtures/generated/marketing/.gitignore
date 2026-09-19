@@ -4,3 +4,5 @@ node_modules/
 .env.local
 coverage/
 .local-mailbox/
+test-results/
+playwright-report/

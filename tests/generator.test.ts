@@ -31,7 +31,31 @@ test("managed file modifications are detected", async () => {
   const destination = join(root, "product");
   const plan = await planCreate(config);
   await applyCreate(plan, destination);
+  const state = JSON.parse(await readFile(join(destination, ".factory/state.json"), "utf8")) as { managedFiles: Record<string, unknown> };
+  expect(state.managedFiles["apps/web/next-env.d.ts"]).toBeUndefined();
   expect(await validateProduct(destination)).toEqual([]);
   await writeFile(join(destination, "apps/web/src/app/page.tsx"), "customised");
   expect(await validateProduct(destination)).toEqual(["apps/web/src/app/page.tsx"]);
+});
+
+test("identical inputs generate identical managed files", async () => {
+  const root = await mkdtemp(join(tmpdir(), "site-factory-test-")); temporary.push(root);
+  const plan = await planCreate(config);
+  const first = await applyCreate(plan, join(root, "one"));
+  const second = await applyCreate(plan, join(root, "two"));
+  expect(first).toEqual(second);
+});
+
+test("accounts is optional and composes its schema without changing marketing", async () => {
+  const marketing = await planCreate(config);
+  expect(marketing.files.some(file => file.destination.endsWith("accounts-schema.ts"))).toBe(false);
+  const withAccounts = await planCreate(defineFactoryConfig({ product: { name: "Accounts" }, preset: "marketing", modules: { accounts: true } }));
+  expect(withAccounts.modules.map(module => module.id)).toContain("accounts");
+  const root = await mkdtemp(join(tmpdir(), "site-factory-test-")); temporary.push(root);
+  const destination = join(root, "with-accounts");
+  await applyCreate(withAccounts, destination);
+  expect(await readFile(join(destination, "packages/db/src/enabled-schema.ts"), "utf8")).toBe('export * from "./accounts-schema";\n');
+  const journal = JSON.parse(await readFile(join(destination, "packages/db/drizzle/meta/_journal.json"), "utf8")) as { entries: { tag: string }[] };
+  expect(journal.entries.map(entry => entry.tag)).toEqual(["0000_oval_wonder_man", "0001_accounts"]);
+  expect(await validateProduct(destination)).toEqual([]);
 });

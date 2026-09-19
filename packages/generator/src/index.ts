@@ -120,7 +120,7 @@ export async function applyCreate(plan: Plan, destination: string, options: { be
       const output = join(stage, file.destination);
       await mkdir(dirname(output), { recursive: true });
       await copyFile(file.source, output);
-      managedFiles[file.destination] = { owner: file.owner, sha256: sha256(await readFile(output)) };
+      if (file.destination !== "apps/web/next-env.d.ts") managedFiles[file.destination] = { owner: file.owner, sha256: sha256(await readFile(output)) };
     }
     const packagePath = join(stage, "apps/web/package.json");
     const webPackage = JSON.parse(await readFile(packagePath, "utf8")) as { dependencies: Record<string, string> };
@@ -134,10 +134,27 @@ export async function applyCreate(plan: Plan, destination: string, options: { be
     await writeJson(join(stage, "factory.config.json"), plan.config);
     await writeJson(join(stage, "apps/web/product-config.json"), plan.config);
     const components = plan.modules.flatMap(module => module.components ?? []);
+    const navigation = plan.modules.flatMap(module => module.navigation ?? []);
     const componentSource = components.map((item, index) => `import { ${item.exportName} as Component${index} } from ${JSON.stringify(item.importPath)};`).join("\n");
     const componentBody = components.length ? `<>${components.map((_, index) => `<Component${index} />`).join("")}</>` : "null";
     await mkdir(join(stage, "apps/web/src/components"), { recursive: true });
     await writeFile(join(stage, "apps/web/src/components/enabled.tsx"), `${componentSource}\nexport function EnabledComponents() { return ${componentBody}; }\n`);
+    const mainLinks = navigation.filter(item => item.area === "main").map(({ label, href }) => ({ label, href }));
+    const legalLinks = navigation.filter(item => item.area === "legal").map(({ label, href }) => ({ label, href }));
+    await writeFile(join(stage, "apps/web/src/components/navigation.tsx"), `import Link from "next/link";\nconst main: { label: string; href: string }[] = ${JSON.stringify(mainLinks)};\nconst legal: { label: string; href: string }[] = ${JSON.stringify(legalLinks)};\nexport function MainNavigation() { return main.length ? <nav aria-label="Main navigation">{main.map(item => <Link key={item.href} href={item.href}>{item.label}</Link>)}</nav> : null; }\nexport function LegalNavigation() { return legal.length ? <nav aria-label="Legal">{legal.map(item => <Link key={item.href} href={item.href}>{item.label}</Link>)}</nav> : null; }\n`);
+    const schemaExports = plan.modules.flatMap(module => module.schemaExports ?? []);
+    await writeFile(join(stage, "packages/db/src/enabled-schema.ts"), schemaExports.length ? `${schemaExports.map(path => `export * from ${JSON.stringify(path)};`).join("\n")}\n` : "export {};\n");
+    const journalPath = join(stage, "packages/db/drizzle/meta/_journal.json");
+    const journal = JSON.parse(await readFile(journalPath, "utf8")) as { version: string; entries: { idx: number; version: string; when: number; tag: string; breakpoints: boolean }[] };
+    for (const migration of plan.modules.flatMap(module => module.migrations ?? [])) {
+      if (journal.entries.some(entry => entry.tag === migration.tag)) throw new Error(`Migration collision: ${migration.tag}`);
+      journal.entries.push({ idx: journal.entries.length, version: journal.version, when: migration.when, tag: migration.tag, breakpoints: true });
+    }
+    if (journal.entries.length > 1) {
+      await writeJson(journalPath, journal);
+      managedFiles["packages/db/drizzle/meta/_journal.json"] = { owner: "factory", sha256: sha256(await readFile(journalPath)) };
+    }
+    await writeJson(join(stage, "apps/web/routes.json"), ["/", ...new Set(navigation.map(item => item.href))]);
     await writeFile(join(stage, "factory.config.ts"), 'import { defineFactoryConfig } from "./packages/config/src/index";\nimport config from "./factory.config.json";\nexport default defineFactoryConfig(config);\n');
     await writeFile(join(stage, "resolved-manifest.md"), `${formatPlan(plan)}\n`);
     const moduleDocs = plan.modules.map(module => `## ${module.id}\n\n${module.docs}\n\nRoutes: ${module.owns.routes.join(", ") || "none"}. Tables: ${module.owns.tables.join(", ") || "none"}.\n`).join("\n");
@@ -145,7 +162,7 @@ export async function applyCreate(plan: Plan, destination: string, options: { be
     await writeFile(join(stage, "docs/routes.md"), `# Routes\n\n${plan.modules.flatMap(module => module.owns.routes.map(route => `- ${route} (${module.id})`)).join("\n")}\n`);
     await writeFile(join(stage, "docs/events.md"), `# Events\n\n${plan.modules.flatMap(module => module.owns.events.map(event => `- ${event} (${module.id})`)).join("\n")}\n`);
     await writeFile(join(stage, "docs/permissions.md"), `# Permissions\n\n${plan.modules.flatMap(module => module.owns.permissions.map(permission => `- ${permission} (${module.id})`)).join("\n")}\n`);
-    for (const name of ["factory.config.json", "factory.config.ts", "resolved-manifest.md", "apps/web/product-config.json", "apps/web/src/components/enabled.tsx", "docs/modules.md", "docs/routes.md", "docs/events.md", "docs/permissions.md"]) managedFiles[name] = { owner: "factory", sha256: sha256(await readFile(join(stage, name))) };
+    for (const name of ["factory.config.json", "factory.config.ts", "resolved-manifest.md", "apps/web/product-config.json", "apps/web/routes.json", "apps/web/src/components/enabled.tsx", "apps/web/src/components/navigation.tsx", "packages/db/src/enabled-schema.ts", "docs/modules.md", "docs/routes.md", "docs/events.md", "docs/permissions.md"]) managedFiles[name] = { owner: "factory", sha256: sha256(await readFile(join(stage, name))) };
     if (options.lockfile) {
       const result = spawnSync(process.platform === "win32" ? "pnpm.cmd" : "pnpm", ["install", "--lockfile-only", "--ignore-scripts"], { cwd: stage, encoding: "utf8", shell: process.platform === "win32" });
       if (result.status !== 0) throw new Error(`Could not generate product lockfile: ${result.stderr || result.stdout}`);

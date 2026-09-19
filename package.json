@@ -9,13 +9,15 @@
     "typecheck": "tsc --noEmit",
     "test": "vitest run",
     "lint": "eslint .",
-    "verify": "pnpm typecheck && pnpm test && pnpm lint",
+    "verify": "node scripts/verify.mjs",
     "format": "prettier --write .",
     "format:check": "prettier --check ."
   },
   "dependencies": { "zod": "4.6.5" },
   "devDependencies": {
     "@types/node": "^24.0.0",
+    "auth": "1.7.5",
+    "better-auth": "1.7.5",
     "@typescript-eslint/eslint-plugin": "^8.0.0",
     "@typescript-eslint/parser": "^8.0.0",
     "eslint": "^9.0.0",

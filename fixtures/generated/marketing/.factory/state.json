@@ -29,7 +29,7 @@
   "managedFiles": {
     ".dockerignore": {
       "owner": "base",
-      "sha256": "7fc1fbd8e101a700a05bec15fd8f4d8c24b6d3fac508e076f2af575a0c307b89"
+      "sha256": "9752944c2c7e0aa0f086d0f37590db51ecda422aa1b8940b39d9c331367a4770"
     },
     ".env.example": {
       "owner": "base",
@@ -37,11 +37,11 @@
     },
     ".github/workflows/verify.yml": {
       "owner": "base",
-      "sha256": "62b5265b7475fc8f0ec355cf31a1c2c1174def544f64814a9c0e7e6643345808"
+      "sha256": "efac4a8ccc9f9e1c085a2b2e26535c49eec92c84eb741f68cc22c78220e554cc"
     },
     ".gitignore": {
       "owner": "base",
-      "sha256": "417d5c071ce98477b80638846defbe9e553ba38adb0165e8d455e49f4700ffdc"
+      "sha256": "d0d0a77e02e5daed125b7f42d1ed95d69c219f91ebbbfc713e79c91847ebdfe6"
     },
     "AGENTS.md": {
       "owner": "base",
@@ -51,13 +51,9 @@
       "owner": "base",
       "sha256": "295f32393394a7b74b0076795ae3e3b4453828c1dba59c70ddc6aa196d1b3441"
     },
-    "apps/web/next-env.d.ts": {
-      "owner": "base",
-      "sha256": "1862ac4bbbc5192d4bf562161df66ea547ed3e67173100656ab606ae9797db2b"
-    },
     "apps/web/next.config.ts": {
       "owner": "base",
-      "sha256": "a7a5ce8134765ae1c721f9c39d88221ba89e511b42dc1e243c3fed60a1235f2f"
+      "sha256": "507acc61131d7505957d4c23080b957a204fdcf7c0e80c4bde568c6469d1bc1c"
     },
     "apps/web/package.json": {
       "owner": "base",
@@ -79,13 +75,25 @@
       "owner": "base",
       "sha256": "5515bded87751f0e152663cf5d18438badcf3e1a8bec593fd476bebda4d12ee1"
     },
+    "apps/web/routes.json": {
+      "owner": "factory",
+      "sha256": "4bd668e4318afea3b2c7e58cb48de83e11fb1aba23e30c0d9c9fb8654d67fb48"
+    },
     "apps/web/src/app/api/contact/route.ts": {
       "owner": "email",
-      "sha256": "db5f3e404620c81db19d86f69d4baa0e2c2a9343cae6c8dc92728937cb3923a7"
+      "sha256": "64f33558e0742027d2b8762fe18ddb13d45d2c967cf3a10a1fab624d4f62f86c"
+    },
+    "apps/web/src/app/contact/error/page.tsx": {
+      "owner": "email",
+      "sha256": "e13019fbef7d34a5cf28983d7a64a2567a667d8832a709492956ca5621617f84"
     },
     "apps/web/src/app/contact/page.tsx": {
       "owner": "email",
-      "sha256": "271008010fd5b1202820011ba519f0aed972abab56f3c7408268fe1acd3aaba5"
+      "sha256": "5fb93433ddfcb9c9807f121ab3766bd152dbb4023e85f608ea020c9ba85da78d"
+    },
+    "apps/web/src/app/contact/thanks/page.tsx": {
+      "owner": "email",
+      "sha256": "51d4a27836def070ab944d8188bbd45b4f9dd1627fc16f6556db93cc02bb79a1"
     },
     "apps/web/src/app/error.tsx": {
       "owner": "base",
@@ -97,7 +105,7 @@
     },
     "apps/web/src/app/globals.css": {
       "owner": "base",
-      "sha256": "03391d6e92f68376b41b62f07a2d37b0756bb336215f45a90630dbe3029581f2"
+      "sha256": "ae838b3ffd6ee19c0a47217f1809393dab562fa635bd42d9a263a9ac0dcddb7a"
     },
     "apps/web/src/app/health/live/route.test.ts": {
       "owner": "base",
@@ -113,7 +121,7 @@
     },
     "apps/web/src/app/layout.tsx": {
       "owner": "base",
-      "sha256": "70e85b70373474d33ff2f1c8041855a3bbfec8c9f6a941812e5e6354da1030fd"
+      "sha256": "c914c9db423b5a9f1d8fd8cb743ff5efb92716eceebd0c852c06d68fa9786af0"
     },
     "apps/web/src/app/loading.tsx": {
       "owner": "base",
@@ -125,7 +133,7 @@
     },
     "apps/web/src/app/page.tsx": {
       "owner": "base",
-      "sha256": "a35891b1ae9c95cd7a35727521d38d98272403194cc6e35c3b4a80dfdf0e06ca"
+      "sha256": "3e70c1fbe72418daa0daed9e6e4d5ba7000f90e8ca5b0a7eddd63d2be3738270"
     },
     "apps/web/src/app/privacy/page.tsx": {
       "owner": "legal",
@@ -137,7 +145,7 @@
     },
     "apps/web/src/app/sitemap.ts": {
       "owner": "seo",
-      "sha256": "c8c9ad5b656716a31f55fff12cbc169011035336d016542424b0073105c41447"
+      "sha256": "398041f811c852731098881ebff0b0822b11e4c8ce995de0dc0050dabfb4aee4"
     },
     "apps/web/src/app/terms/page.tsx": {
       "owner": "legal",
@@ -150,6 +158,10 @@
     "apps/web/src/components/enabled.tsx": {
       "owner": "factory",
       "sha256": "b657dad4da4f7d39bf7bfd349fc803c4547b657a4a50c0626da9eb82fb71eb9d"
+    },
+    "apps/web/src/components/navigation.tsx": {
+      "owner": "factory",
+      "sha256": "dd1b03d764dc3d00095b535a1d994ac7841e2b566307f605258801bab9aef87d"
     },
     "apps/web/src/content/pages.ts": {
       "owner": "cms",
@@ -177,7 +189,7 @@
     },
     "Dockerfile": {
       "owner": "base",
-      "sha256": "7852172c454af783978c7bdf836ed2d2e9869cfbcd78bd4f179a8a1cb68dfe3f"
+      "sha256": "9776436b48139976e4898a7eb040c706add14b669e731ef514ae13f3302853b3"
     },
     "docs/architecture.md": {
       "owner": "base",
@@ -193,7 +205,7 @@
     },
     "docs/modules.md": {
       "owner": "factory",
-      "sha256": "dfbb7b2962a92c1ca15f2d9015054ea60326f2c5727fe69c6faa2b19a6fc8169"
+      "sha256": "c9927333ec78493f2cbb52ad508fa0c57b76694c6cabbd1bde5ba43d242695f8"
     },
     "docs/permissions.md": {
       "owner": "factory",
@@ -201,7 +213,7 @@
     },
     "docs/routes.md": {
       "owner": "factory",
-      "sha256": "6018db592a0ae6b6c439722538bb2e1b0fcad8e772104b50154bcfad7b6b183c"
+      "sha256": "28707578edfece0d72d9691324044ab186bf5ffe8daa29583164aebb55ee73ae"
     },
     "factory.config.json": {
       "owner": "factory",
@@ -213,7 +225,7 @@
     },
     "package.json": {
       "owner": "base",
-      "sha256": "ccf1b894d6574ff268119d0dc26f6e4491f49cac7b409b0856acd847454f7c7e"
+      "sha256": "4e88b05c966d62c79e3506f2fb08491f2a629b2fc53469468eb45494aea01aaa"
     },
     "packages/config/package.json": {
       "owner": "base",
@@ -243,13 +255,17 @@
       "owner": "base",
       "sha256": "6cc838da9cb86f7fbb89c367136c13961f697145df16f0c74738fb6aefd9aaa4"
     },
+    "packages/db/src/enabled-schema.ts": {
+      "owner": "factory",
+      "sha256": "8e609bb71c20b858c77f0e9f90bb1319db8477b13f9f965f1a1e18524bf50881"
+    },
     "packages/db/src/index.ts": {
       "owner": "base",
       "sha256": "ce8121c2d51ee0a4b84b9e705e14daf9995122fc8f24549dca7f1feb1c854c6d"
     },
     "packages/db/src/schema.ts": {
       "owner": "base",
-      "sha256": "c7dae5d97d2b70c02e0d4cfc08503626318c85162ea37a4f3a2f23562c7cfc1a"
+      "sha256": "30930352a810ecdbf6135337d332e2adf3aeae97f64b8117c52736d832011a4a"
     },
     "packages/ui/package.json": {
       "owner": "base",
@@ -259,9 +275,13 @@
       "owner": "base",
       "sha256": "c73e34e2d14e60bbdc7a6adf950d782e399e38fad5fa836979aabf8becd6b2ef"
     },
+    "playwright.config.ts": {
+      "owner": "base",
+      "sha256": "6714140286907b65f9782100ff73ff25db5e4534ff0e2d39e9d170fbc2428a36"
+    },
     "pnpm-lock.yaml": {
       "owner": "factory",
-      "sha256": "a94ad648b9f2f2a83dac8c2f3630f57b6d5803907719b16168266a8792550dc5"
+      "sha256": "8fd67eae59a1736204595a8d39db882d2fb0d589ba50f9c986df56e252b90b0f"
     },
     "pnpm-workspace.yaml": {
       "owner": "base",
@@ -269,11 +289,19 @@
     },
     "README.md": {
       "owner": "base",
-      "sha256": "90a6c0eb7e1f45145321fc571fc6ae2e9b2153b5c84c4d1011203aa48dba32aa"
+      "sha256": "faf3a3432a2a283a5e95bdcc13f0eaa594da54811e833aadebbdb8b6b701130a"
     },
     "resolved-manifest.md": {
       "owner": "factory",
-      "sha256": "eb7f3d769ce4d2fbeb0c1bd1d724293c85fbec09b33e7ec9f030e78af4f619b0"
+      "sha256": "e71dd012b5c04ac49156aaba2b9be4a46de90fab07aecca627f10dabbb6bbc1b"
+    },
+    "tests/e2e/contact.spec.ts": {
+      "owner": "email",
+      "sha256": "4fb3b3355977a3a6bb5d674a02d284a603685b5b0ef6c1f71c7e3850976c2275"
+    },
+    "tests/e2e/smoke.spec.ts": {
+      "owner": "base",
+      "sha256": "1aca20c3eb4ced3301fd1c429ab470a46f07cc6499f9aac98032111aef3e32aa"
     },
     "turbo.json": {
       "owner": "base",
