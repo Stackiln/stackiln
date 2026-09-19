@@ -1,0 +1,284 @@
+{
+  "format": 1,
+  "factoryVersion": "0.1.0",
+  "preset": "marketing",
+  "manifestHash": "ca838ddfb0da87e334200b2cb481e6cec1161b0f657592dbd309cea245d1d2fa",
+  "installed": {
+    "analytics": {
+      "version": 1,
+      "status": "active"
+    },
+    "cms": {
+      "version": 1,
+      "status": "active"
+    },
+    "email": {
+      "version": 1,
+      "status": "active"
+    },
+    "legal": {
+      "version": 1,
+      "status": "active"
+    },
+    "seo": {
+      "version": 1,
+      "status": "active"
+    }
+  },
+  "applied": [],
+  "managedFiles": {
+    ".dockerignore": {
+      "owner": "base",
+      "sha256": "7fc1fbd8e101a700a05bec15fd8f4d8c24b6d3fac508e076f2af575a0c307b89"
+    },
+    ".env.example": {
+      "owner": "base",
+      "sha256": "8fd61500b47fb3f3e1ffc9eb9ff9f2d9228ac693d953e4439f91c59cf352c9c1"
+    },
+    ".github/workflows/verify.yml": {
+      "owner": "base",
+      "sha256": "62b5265b7475fc8f0ec355cf31a1c2c1174def544f64814a9c0e7e6643345808"
+    },
+    ".gitignore": {
+      "owner": "base",
+      "sha256": "417d5c071ce98477b80638846defbe9e553ba38adb0165e8d455e49f4700ffdc"
+    },
+    "AGENTS.md": {
+      "owner": "base",
+      "sha256": "a2e06fdff2d2f53ecfb4a87f7acd046d0db0da9a5fc4656d93f6fbb483b1f6da"
+    },
+    "apps/web/eslint.config.mjs": {
+      "owner": "base",
+      "sha256": "295f32393394a7b74b0076795ae3e3b4453828c1dba59c70ddc6aa196d1b3441"
+    },
+    "apps/web/next-env.d.ts": {
+      "owner": "base",
+      "sha256": "1862ac4bbbc5192d4bf562161df66ea547ed3e67173100656ab606ae9797db2b"
+    },
+    "apps/web/next.config.ts": {
+      "owner": "base",
+      "sha256": "a7a5ce8134765ae1c721f9c39d88221ba89e511b42dc1e243c3fed60a1235f2f"
+    },
+    "apps/web/package.json": {
+      "owner": "base",
+      "sha256": "548f92cc482db349738522c13617cd46abf763eb9412a386a82501cae550f3c4"
+    },
+    "apps/web/postcss.config.mjs": {
+      "owner": "base",
+      "sha256": "b783348d5618047d0f37e12acd15c5a2c5f02809d8711e0764c9cea52750346c"
+    },
+    "apps/web/product-config.json": {
+      "owner": "factory",
+      "sha256": "46728da709e945ea4e65e84a5aa21fca191d64ead0a9933bf98933add488669a"
+    },
+    "apps/web/public/.gitkeep": {
+      "owner": "base",
+      "sha256": "01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b"
+    },
+    "apps/web/public/workspace.png": {
+      "owner": "base",
+      "sha256": "5515bded87751f0e152663cf5d18438badcf3e1a8bec593fd476bebda4d12ee1"
+    },
+    "apps/web/src/app/api/contact/route.ts": {
+      "owner": "email",
+      "sha256": "db5f3e404620c81db19d86f69d4baa0e2c2a9343cae6c8dc92728937cb3923a7"
+    },
+    "apps/web/src/app/contact/page.tsx": {
+      "owner": "email",
+      "sha256": "271008010fd5b1202820011ba519f0aed972abab56f3c7408268fe1acd3aaba5"
+    },
+    "apps/web/src/app/error.tsx": {
+      "owner": "base",
+      "sha256": "637ed42e3b7cc53c47f6fc9d1473eaa8d0398d265d99493511e91643ef0cd1ae"
+    },
+    "apps/web/src/app/features/page.tsx": {
+      "owner": "cms",
+      "sha256": "3a29ff867aa1f0b63d4c79115d6ee87463eb52545f7e7543e08117d15aec03cb"
+    },
+    "apps/web/src/app/globals.css": {
+      "owner": "base",
+      "sha256": "03391d6e92f68376b41b62f07a2d37b0756bb336215f45a90630dbe3029581f2"
+    },
+    "apps/web/src/app/health/live/route.test.ts": {
+      "owner": "base",
+      "sha256": "e1a9591b9ff4599dad790706cc86dff92ad35123aa3fbe9062beb65c915f3188"
+    },
+    "apps/web/src/app/health/live/route.ts": {
+      "owner": "base",
+      "sha256": "e5aac37e7904d91facebdfe20807ce1ff04feb31a97fd4b885b6ac8e9d82f702"
+    },
+    "apps/web/src/app/health/ready/route.ts": {
+      "owner": "base",
+      "sha256": "32d89e837324106d9ec5db4fb96672e58c0960b92e65da236c491b99a5934a31"
+    },
+    "apps/web/src/app/layout.tsx": {
+      "owner": "base",
+      "sha256": "70e85b70373474d33ff2f1c8041855a3bbfec8c9f6a941812e5e6354da1030fd"
+    },
+    "apps/web/src/app/loading.tsx": {
+      "owner": "base",
+      "sha256": "1387b16b31a0fec69f90b5494a70a141b173194d9e92f000b19c2fd5cc43642b"
+    },
+    "apps/web/src/app/not-found.tsx": {
+      "owner": "seo",
+      "sha256": "52526732899c1efd65731f9c4d6c13a9f5d72a4665594b57eca69afdd7851196"
+    },
+    "apps/web/src/app/page.tsx": {
+      "owner": "base",
+      "sha256": "a35891b1ae9c95cd7a35727521d38d98272403194cc6e35c3b4a80dfdf0e06ca"
+    },
+    "apps/web/src/app/privacy/page.tsx": {
+      "owner": "legal",
+      "sha256": "3106a468e905165a4e2d41f6736c02dd9ca624d3258fc29983c32528d1346908"
+    },
+    "apps/web/src/app/robots.ts": {
+      "owner": "seo",
+      "sha256": "278e339aecfe0588e434089dd4b51edbc07e6a927731cc52f770191e6e90e6d1"
+    },
+    "apps/web/src/app/sitemap.ts": {
+      "owner": "seo",
+      "sha256": "c8c9ad5b656716a31f55fff12cbc169011035336d016542424b0073105c41447"
+    },
+    "apps/web/src/app/terms/page.tsx": {
+      "owner": "legal",
+      "sha256": "8fd60aaff774b130c3ab74373c7c5aff2d4a4ab7c423a0c683d546572765c2b4"
+    },
+    "apps/web/src/components/consent.tsx": {
+      "owner": "analytics",
+      "sha256": "033a4356149d6cf36fcf051b6a6051673460bc38aa2478cd6899005ec41c5449"
+    },
+    "apps/web/src/components/enabled.tsx": {
+      "owner": "factory",
+      "sha256": "b657dad4da4f7d39bf7bfd349fc803c4547b657a4a50c0626da9eb82fb71eb9d"
+    },
+    "apps/web/src/content/pages.ts": {
+      "owner": "cms",
+      "sha256": "86a7567db34ef4454f7a9e4d6bfdb3668fd9fb3ea2e6490a435e818d8ed912d2"
+    },
+    "apps/web/src/lib/analytics.ts": {
+      "owner": "analytics",
+      "sha256": "81ca17dd044e17eea2536d0f2081aed1b47aa081c21a02ac286c614eed61b501"
+    },
+    "apps/web/src/lib/email.ts": {
+      "owner": "email",
+      "sha256": "71b58579ee00ef443d99ad2fc438297a319f69855d059c8735237263275f1514"
+    },
+    "apps/web/tsconfig.json": {
+      "owner": "base",
+      "sha256": "660673187abfb0562872a808d2d061fff333320594a7224d72f81c64c66c1e04"
+    },
+    "apps/web/vitest.config.ts": {
+      "owner": "base",
+      "sha256": "ef37271d6e36a38ac90641cb406afb1ef6e919047e5b09d08b3e0c5108a8ebc8"
+    },
+    "compose.yaml": {
+      "owner": "base",
+      "sha256": "29ad4462523795a79d5e6fd2c4f67863dee05fd829d94d07e5f8f3e4c029a81b"
+    },
+    "Dockerfile": {
+      "owner": "base",
+      "sha256": "7852172c454af783978c7bdf836ed2d2e9869cfbcd78bd4f179a8a1cb68dfe3f"
+    },
+    "docs/architecture.md": {
+      "owner": "base",
+      "sha256": "05299f653a7ccff33cceaf4fb4fa1b7f413328644d9b0710451805ac0b882430"
+    },
+    "docs/deployment.md": {
+      "owner": "base",
+      "sha256": "11e62a75794c996b11cf783f4871dd3d1f56e679b36141566774e3964dd7a8d5"
+    },
+    "docs/events.md": {
+      "owner": "factory",
+      "sha256": "fa1a35b888584e8f9e72a79a23de61e944c9bab1dc8859945c232d51d1fe9afa"
+    },
+    "docs/modules.md": {
+      "owner": "factory",
+      "sha256": "dfbb7b2962a92c1ca15f2d9015054ea60326f2c5727fe69c6faa2b19a6fc8169"
+    },
+    "docs/permissions.md": {
+      "owner": "factory",
+      "sha256": "b54aedce4e3e6153ff8db8c99158fc47439f65258ddcfd6ac140bdbbfda4f5d6"
+    },
+    "docs/routes.md": {
+      "owner": "factory",
+      "sha256": "6018db592a0ae6b6c439722538bb2e1b0fcad8e772104b50154bcfad7b6b183c"
+    },
+    "factory.config.json": {
+      "owner": "factory",
+      "sha256": "46728da709e945ea4e65e84a5aa21fca191d64ead0a9933bf98933add488669a"
+    },
+    "factory.config.ts": {
+      "owner": "factory",
+      "sha256": "dd3eb25bccefe6d809a16c536d39b018fed929fb7f5fb9441c25d8ef54a459cb"
+    },
+    "package.json": {
+      "owner": "base",
+      "sha256": "ccf1b894d6574ff268119d0dc26f6e4491f49cac7b409b0856acd847454f7c7e"
+    },
+    "packages/config/package.json": {
+      "owner": "base",
+      "sha256": "b705c9eac66c22594c423be7f80720dfe46840869939f01a383df622763c22d3"
+    },
+    "packages/config/src/index.ts": {
+      "owner": "base",
+      "sha256": "45e9898f1b33dbc4e288935e33720acdd9ecea730c64ffe97a0a6f0b9d0622f8"
+    },
+    "packages/db/drizzle.config.ts": {
+      "owner": "base",
+      "sha256": "38128cffc3bac09864fe980990fedef4961ec8aff1503f2ab195c947fadfd8c9"
+    },
+    "packages/db/drizzle/0000_oval_wonder_man.sql": {
+      "owner": "base",
+      "sha256": "293424163c6eef644e02e61ff245e74ede5f014528b954409391940a23423eb6"
+    },
+    "packages/db/drizzle/meta/_journal.json": {
+      "owner": "base",
+      "sha256": "83a6e16a122a2a03bab1d7499d098186c3e7052337bacc44a3072b2809062d40"
+    },
+    "packages/db/drizzle/meta/0000_snapshot.json": {
+      "owner": "base",
+      "sha256": "cc96225599c4c219d6ed2802c9e09c2abe2cf93216341527f7f80945e55f8792"
+    },
+    "packages/db/package.json": {
+      "owner": "base",
+      "sha256": "6cc838da9cb86f7fbb89c367136c13961f697145df16f0c74738fb6aefd9aaa4"
+    },
+    "packages/db/src/index.ts": {
+      "owner": "base",
+      "sha256": "ce8121c2d51ee0a4b84b9e705e14daf9995122fc8f24549dca7f1feb1c854c6d"
+    },
+    "packages/db/src/schema.ts": {
+      "owner": "base",
+      "sha256": "c7dae5d97d2b70c02e0d4cfc08503626318c85162ea37a4f3a2f23562c7cfc1a"
+    },
+    "packages/ui/package.json": {
+      "owner": "base",
+      "sha256": "40c6cbaab28f176db728c40e0f837981529accbe6423826c699106dacb5a2c29"
+    },
+    "packages/ui/src/button.tsx": {
+      "owner": "base",
+      "sha256": "c73e34e2d14e60bbdc7a6adf950d782e399e38fad5fa836979aabf8becd6b2ef"
+    },
+    "pnpm-lock.yaml": {
+      "owner": "factory",
+      "sha256": "a94ad648b9f2f2a83dac8c2f3630f57b6d5803907719b16168266a8792550dc5"
+    },
+    "pnpm-workspace.yaml": {
+      "owner": "base",
+      "sha256": "253208fa7c1b64372c219b9e19cef15ed70ca93b66a4d5c4c4d2297a5aff8880"
+    },
+    "README.md": {
+      "owner": "base",
+      "sha256": "90a6c0eb7e1f45145321fc571fc6ae2e9b2153b5c84c4d1011203aa48dba32aa"
+    },
+    "resolved-manifest.md": {
+      "owner": "factory",
+      "sha256": "eb7f3d769ce4d2fbeb0c1bd1d724293c85fbec09b33e7ec9f030e78af4f619b0"
+    },
+    "turbo.json": {
+      "owner": "base",
+      "sha256": "4351bd2c8f288f0644b713b6ee8c8cd6324864855223db77ceff7439d4162e57"
+    }
+  },
+  "conflicts": []
+}

@@ -1,0 +1,1 @@
+{ "name": "site-factory-cli", "version": "0.1.0", "type": "module", "bin": { "site-factory": "./src/index.ts" } }
