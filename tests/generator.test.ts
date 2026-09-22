@@ -181,3 +181,36 @@ test("blocks cannot bypass required modules", async () => {
     }),
   ).rejects.toThrow("Block forms.contact requires module email.");
 });
+
+test("brand and block content become product-owned generated source", async () => {
+  const plan = await planCreate({
+    product: { name: "Distinctive" },
+    preset: "marketing",
+    brand: {
+      palette: "violet",
+      font: "editorial",
+      radius: "large",
+      density: "compact",
+    },
+    blocks: ["hero.centered"],
+    blockContent: {
+      "hero.centered": {
+        eyebrow: "Made differently",
+        title: "A genuinely specific proposition",
+        description: "Copy written for this product rather than the template.",
+        items: ["First truth", "Second truth"],
+      },
+    },
+  });
+  const block = plan.files.find((file) =>
+    file.destination.endsWith("hero-centered.tsx"),
+  );
+  const theme = plan.files.find((file) =>
+    file.destination.endsWith("theme.css"),
+  );
+  expect(block?.content).toContain("A genuinely specific proposition");
+  expect(block?.content).toContain("First truth");
+  expect(theme?.content).toContain("--action: #6842b8");
+  expect(theme?.content).toContain('Georgia, "Times New Roman", serif');
+  expect(theme?.content).toContain("--section-space: 3.5rem");
+});

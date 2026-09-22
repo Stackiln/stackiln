@@ -40,6 +40,7 @@ Usage:
   pnpm stackiln blocks list
   pnpm stackiln blocks show <block-id>
   pnpm stackiln recipes list
+  pnpm stackiln studio <directory> [--port 4173]
   pnpm stackiln inspect [directory] [--json]
   pnpm stackiln doctor [directory] [--json]
   pnpm stackiln context [directory]
@@ -78,6 +79,23 @@ async function run(args: string[]): Promise<number> {
       throw new Error(`Unknown recipes command: ${action}`);
     process.stdout.write(
       `${pageRecipeNames.map((name) => `${name}\t${pageRecipes[name].length} blocks`).join("\n")}\n`,
+    );
+    return 0;
+  }
+  if (command === "studio") {
+    const directory = rest[0];
+    if (!directory) throw new Error("studio needs an export directory");
+    const portValue = option(rest, "port") ?? "4173";
+    const port = Number(portValue);
+    if (!Number.isInteger(port) || port < 0 || port > 65535)
+      throw new Error(`Invalid studio port: ${portValue}`);
+    const { startStudio } = await import("../../studio/src/index.js");
+    const studio = await startStudio({ destination: directory, port });
+    process.stdout.write(
+      `Stackiln Studio: ${studio.url}\nDraft: ${studio.draftPath}\nExport destination: ${studio.destination}\nPress Ctrl+C to stop.\n`,
+    );
+    await new Promise<void>((resolveClose) =>
+      studio.server.once("close", resolveClose),
     );
     return 0;
   }

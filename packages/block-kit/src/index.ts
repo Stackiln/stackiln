@@ -26,6 +26,18 @@ export type BlockRecipe = {
   requiresModules: readonly ModuleName[];
   rendering: "server" | "client";
   accessibility: readonly string[];
+  pack: string;
+  tags: readonly string[];
+};
+
+export type BlockPackManifest = {
+  id: string;
+  name: string;
+  version: string;
+  author: string;
+  license: string;
+  homepage?: string;
+  blocks: readonly string[];
 };
 
 export function defineBlock<const T extends BlockRecipe>(recipe: T): T {

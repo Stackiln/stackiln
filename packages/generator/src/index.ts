@@ -178,6 +178,90 @@ function renderHomePage(selected: BlockRecipe[]): string {
   const body = selected.map((_, index) => `      <Block${index} />`).join("\n");
   return `${imports}\n\nexport default function Home() {\n  return (\n    <>\n${body}\n    </>\n  );\n}\n`;
 }
+const palettes: Record<
+  string,
+  {
+    background: string;
+    surface: string;
+    foreground: string;
+    muted: string;
+    border: string;
+    action: string;
+    focus: string;
+  }
+> = {
+  neutral: {
+    background: "#f7f8f6",
+    surface: "#ffffff",
+    foreground: "#162321",
+    muted: "#52605b",
+    border: "#c9d2cc",
+    action: "#135f4a",
+    focus: "#b15b2b",
+  },
+  ocean: {
+    background: "#f3f8fb",
+    surface: "#ffffff",
+    foreground: "#102b3a",
+    muted: "#496776",
+    border: "#bfd4df",
+    action: "#006b8f",
+    focus: "#c44f2b",
+  },
+  violet: {
+    background: "#f8f5ff",
+    surface: "#ffffff",
+    foreground: "#261b3d",
+    muted: "#675b79",
+    border: "#d6cbea",
+    action: "#6842b8",
+    focus: "#b14f72",
+  },
+  ember: {
+    background: "#fff8f2",
+    surface: "#fffdfb",
+    foreground: "#351c13",
+    muted: "#73594f",
+    border: "#e7cbbc",
+    action: "#b6421f",
+    focus: "#145f69",
+  },
+  forest: {
+    background: "#f2f6ef",
+    surface: "#fbfdf8",
+    foreground: "#1c2919",
+    muted: "#5b6c55",
+    border: "#c8d5c2",
+    action: "#3d6b34",
+    focus: "#a04d2b",
+  },
+  midnight: {
+    background: "#0e1220",
+    surface: "#171d2e",
+    foreground: "#f1f4ff",
+    muted: "#aab3cd",
+    border: "#343d58",
+    action: "#91a7ff",
+    focus: "#ffbd7a",
+  },
+};
+const fonts: Record<string, string> = {
+  system: "Arial, Helvetica, sans-serif",
+  editorial: 'Georgia, "Times New Roman", serif',
+  modern: "Inter, ui-sans-serif, system-ui, sans-serif",
+  geometric: 'Avenir, "Century Gothic", ui-sans-serif, sans-serif',
+  humanist: 'Optima, Candara, "Segoe UI", sans-serif',
+  mono: '"IBM Plex Mono", "Cascadia Code", monospace',
+};
+export function renderThemeSource(config: StackilnConfig): string {
+  const palette = palettes[config.brand.palette] ?? palettes.neutral!;
+  const radius = { small: "3px", medium: "8px", large: "18px" }[
+    config.brand.radius
+  ];
+  const spacing = config.brand.density === "compact" ? "3.5rem" : "5.5rem";
+  const motion = config.brand.motion === "none" ? "0ms" : "180ms";
+  return `:root {\n  color-scheme: ${config.brand.palette === "midnight" ? "dark" : "light"};\n  --background: ${palette.background};\n  --surface: ${palette.surface};\n  --foreground: ${palette.foreground};\n  --muted: ${palette.muted};\n  --border: ${palette.border};\n  --action: ${palette.action};\n  --focus: ${palette.focus};\n  --radius: ${radius};\n  --font-body: ${fonts[config.brand.font] ?? fonts.system};\n  --section-space: ${spacing};\n  --motion-duration: ${motion};\n}\nbody { font-family: var(--font-body); }\n`;
+}
 export async function planCreate(raw: unknown): Promise<Plan> {
   const config = defineStackilnConfig(
     raw as Parameters<typeof defineStackilnConfig>[0],
@@ -212,10 +296,15 @@ export async function planCreate(raw: unknown): Promise<Plan> {
   }
   for (const block of resolvedBlocks)
     files.push({
-      content: renderBlockSource(block),
+      content: renderBlockSource(block, config.blockContent[block.id]),
       destination: `apps/web/src/blocks/${blockFileName(block.id)}.tsx`,
       owner: `block:${block.id}`,
     });
+  files.push({
+    content: renderThemeSource(config),
+    destination: "apps/web/src/app/theme.css",
+    owner: "stackiln",
+  });
   files.push({
     content: renderHomePage(resolvedBlocks),
     destination: "apps/web/src/app/page.tsx",

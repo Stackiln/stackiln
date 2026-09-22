@@ -1,5 +1,6 @@
 import {
   blockNames,
+  type BlockContent,
   type BlockName,
   type ModuleName,
   type PageRecipeName,
@@ -441,6 +442,8 @@ export const blocks = Object.fromEntries(
           "Uses labelled structural regions",
           "Supports reduced motion",
         ],
+        pack: "@stackiln/core-marketing",
+        tags: [category, variant],
       }),
     ];
   }),
@@ -503,6 +506,10 @@ export function blockFileName(id: BlockName): string {
   return id.replaceAll(".", "-");
 }
 
-export function renderBlockSource(block: BlockRecipe): string {
-  return `import { MarketingBlock } from "../components/marketing-block";\n\nexport function ${block.exportName}() {\n  return (\n    <MarketingBlock\n      blockId=${JSON.stringify(block.id)}\n      category=${JSON.stringify(block.category)}\n      variant=${JSON.stringify(block.variant)}\n      eyebrow=${JSON.stringify(block.label)}\n      title=${JSON.stringify(block.label)}\n      description=${JSON.stringify(block.description)}\n      items={${JSON.stringify(block.items)}}\n    />\n  );\n}\n`;
+export function renderBlockSource(
+  block: BlockRecipe,
+  content: BlockContent = {},
+): string {
+  const items = content.items ?? block.items;
+  return `import { MarketingBlock } from "../components/marketing-block";\n\nexport function ${block.exportName}() {\n  return (\n    <MarketingBlock\n      blockId=${JSON.stringify(block.id)}\n      category=${JSON.stringify(block.category)}\n      variant=${JSON.stringify(block.variant)}\n      eyebrow=${JSON.stringify(content.eyebrow ?? block.label)}\n      title=${JSON.stringify(content.title ?? block.label)}\n      description=${JSON.stringify(content.description ?? block.description)}\n      items={${JSON.stringify(items)}}\n    />\n  );\n}\n`;
 }

@@ -104,6 +104,12 @@ export const presetSchema = z.enum(presetNames);
 export const moduleSchema = z.enum(moduleNames);
 export const blockSchema = z.enum(blockNames);
 export const pageRecipeSchema = z.enum(pageRecipeNames);
+export const blockContentSchema = z.object({
+  eyebrow: z.string().max(80).optional(),
+  title: z.string().max(160).optional(),
+  description: z.string().max(500).optional(),
+  items: z.array(z.string().max(160)).max(12).optional(),
+});
 export const configSchema = z.object({
   product: z.object({
     name: z.string().min(1),
@@ -131,6 +137,7 @@ export const configSchema = z.object({
     .default({}),
   pageRecipe: pageRecipeSchema.default("marketing-classic"),
   blocks: z.array(blockSchema).default([]),
+  blockContent: z.partialRecord(blockSchema, blockContentSchema).default({}),
   deployment: z
     .object({
       target: z.enum(["container", "managed"]).default("container"),
@@ -147,8 +154,7 @@ export type PresetName = z.infer<typeof presetSchema>;
 export type ModuleName = z.infer<typeof moduleSchema>;
 export type BlockName = z.infer<typeof blockSchema>;
 export type PageRecipeName = z.infer<typeof pageRecipeSchema>;
-export function defineStackilnConfig(
-  input: z.input<typeof configSchema>,
-): StackilnConfig {
+export type BlockContent = z.infer<typeof blockContentSchema>;
+export function defineStackilnConfig(input: unknown): StackilnConfig {
   return configSchema.parse(input);
 }

@@ -1,0 +1,45 @@
+{
+  "product": {
+    "name": "Studio Export Check",
+    "description": "A distinctive site built locally with Stackiln Studio.",
+    "defaultLocale": "en-GB",
+    "timezone": "Europe/London",
+    "currencies": [
+      "GBP"
+    ]
+  },
+  "preset": "marketing",
+  "tenancy": "personal",
+  "brand": {
+    "font": "system",
+    "radius": "medium",
+    "density": "comfortable",
+    "palette": "violet",
+    "motion": "subtle"
+  },
+  "modules": {},
+  "pageRecipe": "marketing-classic",
+  "blocks": [
+    "hero.split-image",
+    "navigation.announcement-bar",
+    "proof.logo-cloud",
+    "features.icon-grid",
+    "story.editorial-intro",
+    "pricing.cards",
+    "testimonials.cards",
+    "faq.accordion",
+    "forms.contact",
+    "footer.mega",
+    "hero.centered"
+  ],
+  "blockContent": {
+    "hero.centered": {
+      "title": "A site that looks unmistakably ours"
+    }
+  },
+  "deployment": {
+    "target": "container",
+    "region": "eu-west"
+  },
+  "environment": "local"
+}
