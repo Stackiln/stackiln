@@ -1,0 +1,15 @@
+:root {
+  color-scheme: light;
+  --background: #f8f5ff;
+  --surface: #ffffff;
+  --foreground: #261b3d;
+  --muted: #675b79;
+  --border: #d6cbea;
+  --action: #6842b8;
+  --focus: #b14f72;
+  --radius: 8px;
+  --font-body: Arial, Helvetica, sans-serif;
+  --section-space: 5.5rem;
+  --motion-duration: 180ms;
+}
+body { font-family: var(--font-body); }

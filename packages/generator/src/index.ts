@@ -15,23 +15,33 @@ import { fileURLToPath } from "node:url";
 import {
   defineStackilnConfig,
   type StackilnConfig,
+  type BlockName,
   type ModuleName,
 } from "../../config/src/index.js";
 import { modules, presets } from "./registry.js";
 import type { ModuleRecipe, OwnedSurface } from "../../module-kit/src/index.js";
+import type { BlockRecipe } from "../../block-kit/src/index.js";
+import {
+  blockFileName,
+  blocks,
+  pageRecipes,
+  renderBlockSource,
+} from "./block-registry.js";
 
 export const stackilnRoot = resolve(
   fileURLToPath(new URL("../../../", import.meta.url)),
 );
 export const stackilnVersion = "0.1.0";
 export type PlannedFile = {
-  source: string;
+  source?: string;
+  content?: string;
   destination: string;
   owner: string;
 };
 export type Plan = {
   config: StackilnConfig;
   modules: ModuleRecipe[];
+  blocks: BlockRecipe[];
   files: PlannedFile[];
   dependencies: Record<string, string>;
   warnings: string[];
@@ -46,6 +56,7 @@ export type StackilnState = {
     string,
     { version: number; status: "active" | "suspended" }
   >;
+  blocks: Record<string, { version: number }>;
   applied: string[];
   managedFiles: Record<string, { owner: string; sha256: string }>;
   conflicts: string[];
@@ -136,18 +147,136 @@ function checkCollisions(recipes: ModuleRecipe[]): void {
       }
   }
 }
+function resolveBlocks(
+  config: StackilnConfig,
+  resolvedModules: ModuleRecipe[],
+): BlockRecipe[] {
+  const selected = config.blocks.length
+    ? config.blocks
+    : pageRecipes[config.pageRecipe];
+  const duplicate = selected.find(
+    (id, index) => selected.indexOf(id) !== index,
+  );
+  if (duplicate) throw new Error(`Block selected more than once: ${duplicate}`);
+  const moduleIds = new Set(resolvedModules.map((module) => module.id));
+  return selected.map((id: BlockName) => {
+    const block = blocks[id];
+    if (!block) throw new Error(`Unknown block: ${id}`);
+    for (const required of block.requiresModules)
+      if (!moduleIds.has(required))
+        throw new Error(`Block ${id} requires module ${required}.`);
+    return block;
+  });
+}
+function renderHomePage(selected: BlockRecipe[]): string {
+  const imports = selected
+    .map(
+      (block, index) =>
+        `import { ${block.exportName} as Block${index} } from "../blocks/${blockFileName(block.id)}";`,
+    )
+    .join("\n");
+  const body = selected.map((_, index) => `      <Block${index} />`).join("\n");
+  return `${imports}\n\nexport default function Home() {\n  return (\n    <>\n${body}\n    </>\n  );\n}\n`;
+}
+const palettes: Record<
+  string,
+  {
+    background: string;
+    surface: string;
+    foreground: string;
+    muted: string;
+    border: string;
+    action: string;
+    focus: string;
+  }
+> = {
+  neutral: {
+    background: "#f7f8f6",
+    surface: "#ffffff",
+    foreground: "#162321",
+    muted: "#52605b",
+    border: "#c9d2cc",
+    action: "#135f4a",
+    focus: "#b15b2b",
+  },
+  ocean: {
+    background: "#f3f8fb",
+    surface: "#ffffff",
+    foreground: "#102b3a",
+    muted: "#496776",
+    border: "#bfd4df",
+    action: "#006b8f",
+    focus: "#c44f2b",
+  },
+  violet: {
+    background: "#f8f5ff",
+    surface: "#ffffff",
+    foreground: "#261b3d",
+    muted: "#675b79",
+    border: "#d6cbea",
+    action: "#6842b8",
+    focus: "#b14f72",
+  },
+  ember: {
+    background: "#fff8f2",
+    surface: "#fffdfb",
+    foreground: "#351c13",
+    muted: "#73594f",
+    border: "#e7cbbc",
+    action: "#b6421f",
+    focus: "#145f69",
+  },
+  forest: {
+    background: "#f2f6ef",
+    surface: "#fbfdf8",
+    foreground: "#1c2919",
+    muted: "#5b6c55",
+    border: "#c8d5c2",
+    action: "#3d6b34",
+    focus: "#a04d2b",
+  },
+  midnight: {
+    background: "#0e1220",
+    surface: "#171d2e",
+    foreground: "#f1f4ff",
+    muted: "#aab3cd",
+    border: "#343d58",
+    action: "#91a7ff",
+    focus: "#ffbd7a",
+  },
+};
+const fonts: Record<string, string> = {
+  system: "Arial, Helvetica, sans-serif",
+  editorial: 'Georgia, "Times New Roman", serif',
+  modern: "Inter, ui-sans-serif, system-ui, sans-serif",
+  geometric: 'Avenir, "Century Gothic", ui-sans-serif, sans-serif',
+  humanist: 'Optima, Candara, "Segoe UI", sans-serif',
+  mono: '"IBM Plex Mono", "Cascadia Code", monospace',
+};
+export function renderThemeSource(config: StackilnConfig): string {
+  const palette = palettes[config.brand.palette] ?? palettes.neutral!;
+  const radius = { small: "3px", medium: "8px", large: "18px" }[
+    config.brand.radius
+  ];
+  const spacing = config.brand.density === "compact" ? "3.5rem" : "5.5rem";
+  const motion = config.brand.motion === "none" ? "0ms" : "180ms";
+  return `:root {\n  color-scheme: ${config.brand.palette === "midnight" ? "dark" : "light"};\n  --background: ${palette.background};\n  --surface: ${palette.surface};\n  --foreground: ${palette.foreground};\n  --muted: ${palette.muted};\n  --border: ${palette.border};\n  --action: ${palette.action};\n  --focus: ${palette.focus};\n  --radius: ${radius};\n  --font-body: ${fonts[config.brand.font] ?? fonts.system};\n  --section-space: ${spacing};\n  --motion-duration: ${motion};\n}\nbody { font-family: var(--font-body); }\n`;
+}
 export async function planCreate(raw: unknown): Promise<Plan> {
   const config = defineStackilnConfig(
     raw as Parameters<typeof defineStackilnConfig>[0],
   );
   const resolved = resolveModules(config);
   checkCollisions(resolved);
+  const resolvedBlocks = resolveBlocks(config, resolved);
   const base = join(stackilnRoot, "templates", "base");
-  const files: PlannedFile[] = (await filesUnder(base)).map((source) => ({
-    source,
-    destination: relative(base, source).split(sep).join("/"),
-    owner: "base",
-  }));
+  const files: PlannedFile[] = (await filesUnder(base))
+    .map((source) => ({
+      source,
+      destination: relative(base, source).split(sep).join("/"),
+      owner: "base",
+    }))
+    .filter((file) => file.destination !== "apps/web/src/app/page.tsx");
   for (const recipe of resolved) {
     const root = join(stackilnRoot, "modules", recipe.id, "files");
     const sourceFiles = await filesUnder(root);
@@ -165,6 +294,22 @@ export async function planCreate(raw: unknown): Promise<Plan> {
         owner: recipe.id,
       });
   }
+  for (const block of resolvedBlocks)
+    files.push({
+      content: renderBlockSource(block, config.blockContent[block.id]),
+      destination: `apps/web/src/blocks/${blockFileName(block.id)}.tsx`,
+      owner: `block:${block.id}`,
+    });
+  files.push({
+    content: renderThemeSource(config),
+    destination: "apps/web/src/app/theme.css",
+    owner: "stackiln",
+  });
+  files.push({
+    content: renderHomePage(resolvedBlocks),
+    destination: "apps/web/src/app/page.tsx",
+    owner: "stackiln",
+  });
   const paths = new Set<string>();
   for (const file of files) {
     if (paths.has(file.destination))
@@ -181,6 +326,7 @@ export async function planCreate(raw: unknown): Promise<Plan> {
   return {
     config,
     modules: resolved,
+    blocks: resolvedBlocks,
     files: files.sort((a, b) => a.destination.localeCompare(b.destination)),
     dependencies,
     warnings: [],
@@ -188,15 +334,21 @@ export async function planCreate(raw: unknown): Promise<Plan> {
       stable({
         config,
         modules: resolved.map((item) => [item.id, item.version]),
+        blocks: resolvedBlocks.map((item) => [item.id, item.version]),
       }),
     ),
   };
 }
 export function formatPlan(plan: Plan): string {
+  const composition = plan.config.blocks.length
+    ? "custom"
+    : plan.config.pageRecipe;
   return [
     `Product: ${plan.config.product.name}`,
     `Preset: ${plan.config.preset}`,
     `Modules: ${plan.modules.map((module) => module.id).join(", ")}`,
+    `Page recipe: ${composition}`,
+    `Blocks (${plan.blocks.length}): ${plan.blocks.map((block) => block.id).join(", ")}`,
     `Template and module files: ${plan.files.length}`,
     `Dependencies: ${Object.keys(plan.dependencies).join(", ") || "none"}`,
     ...plan.warnings.map((warning) => `Warning: ${warning}`),
@@ -225,7 +377,9 @@ export async function applyCreate(
     for (const file of plan.files) {
       const output = join(stage, file.destination);
       await mkdir(dirname(output), { recursive: true });
-      await copyFile(file.source, output);
+      if (file.content !== undefined) await writeFile(output, file.content);
+      else if (file.source) await copyFile(file.source, output);
+      else throw new Error(`Planned file has no source: ${file.destination}`);
       if (file.destination !== "apps/web/next-env.d.ts")
         managedFiles[file.destination] = {
           owner: file.owner,
@@ -352,6 +506,16 @@ export async function applyCreate(
       join(stage, "docs/modules.md"),
       `# Enabled modules\n\n${moduleDocs}`,
     );
+    const blockDocs = plan.blocks
+      .map(
+        (block, index) =>
+          `${index + 1}. **${block.label}** (\`${block.id}\`, ${block.variant}) — ${block.description}`,
+      )
+      .join("\n");
+    await writeFile(
+      join(stage, "docs/blocks.md"),
+      `# Home page blocks\n\nRecipe: ${plan.config.blocks.length ? "custom selection" : plan.config.pageRecipe}.\n\n${blockDocs}\n`,
+    );
     await writeFile(
       join(stage, "docs/routes.md"),
       `# Routes\n\n${plan.modules.flatMap((module) => module.owns.routes.map((route) => `- ${route} (${module.id})`)).join("\n")}\n`,
@@ -381,6 +545,7 @@ export async function applyCreate(
       "apps/web/src/components/navigation.tsx",
       "packages/db/src/enabled-schema.ts",
       "docs/modules.md",
+      "docs/blocks.md",
       "docs/routes.md",
       "docs/events.md",
       "docs/permissions.md",
@@ -414,6 +579,9 @@ export async function applyCreate(
           module.id,
           { version: module.version, status: "active" },
         ]),
+      ),
+      blocks: Object.fromEntries(
+        plan.blocks.map((block) => [block.id, { version: block.version }]),
       ),
       applied: [],
       managedFiles: Object.fromEntries(

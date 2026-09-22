@@ -8,7 +8,7 @@
 
 Stackiln is a modular TypeScript framework and CLI that generates standalone, production-oriented Next.js products. It combines a small deployable base with explicit feature recipes, plans every file before writing, and records ownership hashes so generated code can evolve without silently replacing product customisations.
 
-> **Project status:** alpha. The marketing preset and optional accounts module are implemented and verified. Other presets are reserved by the schema but are not complete yet. See the [roadmap](ROADMAP.md) before choosing Stackiln for production work.
+> **Project status:** alpha. The marketing preset, 60-family public block catalogue, four page recipes, and optional accounts module are implemented. Other presets are reserved by the schema but are not complete yet. See the [roadmap](ROADMAP.md) before choosing Stackiln for production work.
 
 ## Why Stackiln
 
@@ -42,6 +42,9 @@ Add verified email/password accounts with `--module accounts`. In production, se
 
 ```text
 pnpm stackiln create <directory> --preset marketing --name "Name" [options]
+pnpm stackiln blocks list
+pnpm stackiln blocks show <block-id>
+pnpm stackiln recipes list
 pnpm stackiln inspect [directory] [--json]
 pnpm stackiln doctor [directory] [--json]
 pnpm stackiln context [directory] [--write]
@@ -51,6 +54,8 @@ pnpm stackiln verify
 Useful create options:
 
 - `--module accounts` enables an optional module; repeat the flag for more modules.
+- `--recipe saas-launch` selects one of four composed public page recipes.
+- `--block hero.centered` selects an exact block set; repeat it to build the page order.
 - `--description "..."` sets the generated product description.
 - `--plan` prints the exact plan without writing files.
 - `--json` emits machine-readable output where supported.
@@ -67,7 +72,7 @@ pnpm verify
 
 `pnpm verify` is the canonical gate. It requires Docker and validates the framework, independent marketing and accounts fixtures, PostgreSQL migrations, desktop and mobile Playwright journeys, and a non-root production container.
 
-Architecture and extension points are documented in [docs/architecture.md](docs/architecture.md) and [docs/module-authoring.md](docs/module-authoring.md). Release progress is tracked in [docs/build-progress.md](docs/build-progress.md).
+Architecture and extension points are documented in [docs/architecture.md](docs/architecture.md), [docs/module-authoring.md](docs/module-authoring.md), and [docs/block-authoring.md](docs/block-authoring.md). Release progress is tracked in [docs/build-progress.md](docs/build-progress.md).
 
 ## Community and security
 

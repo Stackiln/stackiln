@@ -9,6 +9,7 @@ All notable changes to Stackiln are documented here. This project follows [Seman
 - MIT licensing and public contribution, conduct, security, support, governance, release, and generated-code guidance.
 - GitHub issue forms, pull request guidance, dependency updates, and code ownership.
 - Stackiln brand mark and usage guidance.
+- A first-class block system with 60 public-site families, four composed page recipes, exact CLI selection, module requirements, generated ownership records, and responsive block foundations.
 
 ### Changed
 

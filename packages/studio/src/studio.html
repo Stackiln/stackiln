@@ -1,0 +1,727 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Stackiln Studio</title>
+    <style>
+      :root {
+        color-scheme: light;
+        font-family: Inter, ui-sans-serif, system-ui, sans-serif;
+        --ink: #171717;
+        --muted: #6d6b67;
+        --line: #dedbd5;
+        --panel: #ffffff;
+        --canvas: #f4f2ed;
+        --accent: #ff9d1c;
+        --accent-strong: #ff5a2b;
+        --accent-soft: #fff1dc;
+        --accent-ink: #171717;
+      }
+      * {
+        box-sizing: border-box;
+      }
+      body {
+        margin: 0;
+        background: var(--canvas);
+        color: var(--ink);
+        overflow: hidden;
+      }
+      button,
+      input,
+      textarea,
+      select {
+        font: inherit;
+      }
+      button {
+        cursor: pointer;
+      }
+      .topbar {
+        height: 64px;
+        display: flex;
+        align-items: center;
+        gap: 16px;
+        padding: 0 18px;
+        border-bottom: 1px solid var(--line);
+        background: #ffffff;
+      }
+      .brand {
+        font-weight: 900;
+        letter-spacing: -0.04em;
+        font-size: 20px;
+      }
+      .brand span {
+        display: inline-block;
+        margin-left: 2px;
+        padding: 3px 7px;
+        border-radius: 3px;
+        color: var(--accent-ink);
+        background: var(--accent);
+        font-size: 12px;
+        letter-spacing: 0;
+        vertical-align: 2px;
+      }
+      .destination {
+        color: var(--muted);
+        font-size: 12px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        flex: 1;
+      }
+      .status {
+        font-size: 12px;
+        color: var(--muted);
+        min-width: 90px;
+        text-align: right;
+      }
+      .button {
+        border: 1px solid var(--line);
+        border-radius: 7px;
+        padding: 9px 13px;
+        color: var(--ink);
+        background: #ffffff;
+        font-weight: 750;
+      }
+      .button:hover {
+        border-color: var(--accent-strong);
+      }
+      .button-primary {
+        color: var(--accent-ink);
+        background: var(--accent);
+        border-color: var(--accent);
+      }
+      .button-primary:hover {
+        border-color: var(--accent-strong);
+        background: var(--accent-strong);
+        color: #ffffff;
+      }
+      .workspace {
+        height: calc(100vh - 64px);
+        display: grid;
+        grid-template-columns: 290px minmax(480px, 1fr) 310px;
+      }
+      .sidebar,
+      .inspector {
+        overflow: auto;
+        background: var(--panel);
+      }
+      .sidebar {
+        border-right: 1px solid var(--line);
+      }
+      .inspector {
+        border-left: 1px solid var(--line);
+      }
+      .panel-head {
+        position: sticky;
+        top: 0;
+        z-index: 2;
+        padding: 16px;
+        background: var(--panel);
+        border-bottom: 1px solid var(--line);
+      }
+      .panel-head h2 {
+        margin: 0 0 10px;
+        font-size: 13px;
+        text-transform: uppercase;
+        letter-spacing: 0.12em;
+      }
+      .search,
+      .field input,
+      .field textarea,
+      .field select {
+        width: 100%;
+        color: var(--ink);
+        background: #ffffff;
+        border: 1px solid var(--line);
+        border-radius: 7px;
+        padding: 10px;
+      }
+      .catalog {
+        display: grid;
+        gap: 9px;
+        padding: 12px;
+      }
+      .catalog-card {
+        position: relative;
+        padding: 13px;
+        border: 1px solid var(--line);
+        border-radius: 9px;
+        background: #ffffff;
+        cursor: grab;
+      }
+      .catalog-card:hover {
+        border-color: var(--accent);
+      }
+      .catalog-card strong {
+        display: block;
+        font-size: 13px;
+        margin-bottom: 5px;
+      }
+      .catalog-card p {
+        margin: 0;
+        color: var(--muted);
+        font-size: 11px;
+        line-height: 1.45;
+      }
+      .badge {
+        display: inline-flex;
+        margin-bottom: 8px;
+        padding: 3px 6px;
+        border-radius: 999px;
+        color: #9f430e;
+        background: var(--accent-soft);
+        font-size: 9px;
+        font-weight: 800;
+        text-transform: uppercase;
+        letter-spacing: 0.08em;
+      }
+      .stage {
+        overflow: auto;
+        padding: 28px;
+        background: var(--canvas);
+      }
+      .stage-toolbar {
+        max-width: 920px;
+        margin: 0 auto 16px;
+        display: flex;
+        gap: 10px;
+        align-items: center;
+      }
+      .stage-toolbar select {
+        color: var(--ink);
+        background: #ffffff;
+        border: 1px solid var(--line);
+        border-radius: 7px;
+        padding: 8px;
+      }
+      .canvas {
+        width: min(920px, 100%);
+        min-height: calc(100vh - 145px);
+        margin: auto;
+        background: var(--site-bg, #f7f8f6);
+        color: var(--site-ink, #18221e);
+        border: 1px solid var(--line);
+        border-radius: 4px;
+        box-shadow: none;
+        overflow: hidden;
+      }
+      .empty {
+        min-height: 500px;
+        display: grid;
+        place-items: center;
+        padding: 60px;
+        color: #647067;
+        text-align: center;
+      }
+      .section {
+        position: relative;
+        min-height: 145px;
+        padding: 34px 42px;
+        border-bottom: 1px solid
+          color-mix(in srgb, var(--site-ink, #18221e) 16%, transparent);
+        background: var(--site-surface, #fff);
+      }
+      .section:nth-child(even) {
+        background: var(--site-bg, #f7f8f6);
+      }
+      .section.is-selected {
+        outline: 3px solid var(--accent-strong);
+        outline-offset: -3px;
+      }
+      .section-controls {
+        position: absolute;
+        top: 8px;
+        right: 8px;
+        display: flex;
+        gap: 4px;
+        opacity: 0;
+      }
+      .section:hover .section-controls,
+      .section.is-selected .section-controls {
+        opacity: 1;
+      }
+      .section-controls button {
+        width: 27px;
+        height: 27px;
+        border: 0;
+        border-radius: 5px;
+        background: var(--accent-strong);
+        color: white;
+      }
+      .eyebrow {
+        margin: 0 0 8px;
+        color: var(--site-action, #135f4a);
+        font-size: 10px;
+        font-weight: 900;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+      }
+      .section h2 {
+        max-width: 680px;
+        margin: 0;
+        font-size: clamp(25px, 4vw, 48px);
+        line-height: 1;
+        letter-spacing: -0.045em;
+      }
+      .section p {
+        max-width: 610px;
+        color: var(--site-muted, #59665f);
+        line-height: 1.55;
+      }
+      .mini-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(110px, 1fr));
+        gap: 8px;
+        margin-top: 20px;
+      }
+      .mini-item {
+        min-height: 62px;
+        padding: 12px;
+        border: 1px solid
+          color-mix(in srgb, var(--site-ink, #18221e) 17%, transparent);
+        border-radius: var(--site-radius, 8px);
+        font-size: 11px;
+        font-weight: 750;
+      }
+      .section[data-category="hero"] {
+        min-height: 340px;
+        display: grid;
+        align-content: center;
+        background: linear-gradient(
+          125deg,
+          var(--site-surface, #fff),
+          color-mix(
+            in srgb,
+            var(--site-action, #135f4a) 15%,
+            var(--site-bg, #f7f8f6)
+          )
+        );
+      }
+      .section[data-category="cta"] {
+        margin: 25px;
+        border-radius: var(--site-radius, 8px);
+        color: var(--site-bg, #f7f8f6);
+        background: var(--site-ink, #18221e);
+      }
+      .section[data-category="proof"] .mini-item {
+        display: grid;
+        place-items: center;
+      }
+      .section[data-category="pricing"] .mini-item {
+        min-height: 120px;
+      }
+      .section[data-category="footer"] {
+        background: var(--site-ink, #18221e);
+        color: var(--site-bg, #f7f8f6);
+      }
+      .inspector-body {
+        padding: 16px;
+      }
+      .field {
+        display: grid;
+        gap: 6px;
+        margin-bottom: 15px;
+      }
+      .field label {
+        color: var(--muted);
+        font-size: 11px;
+        font-weight: 800;
+        text-transform: uppercase;
+        letter-spacing: 0.08em;
+      }
+      .field textarea {
+        resize: vertical;
+        min-height: 90px;
+      }
+      .theme-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 10px;
+      }
+      .hint {
+        color: var(--muted);
+        font-size: 11px;
+        line-height: 1.5;
+      }
+      .inspector-empty {
+        padding: 30px 18px;
+        color: var(--muted);
+        line-height: 1.6;
+      }
+      @media (max-width: 1000px) {
+        .workspace {
+          grid-template-columns: 240px 1fr;
+        }
+        .inspector {
+          display: none;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <header class="topbar">
+      <div class="brand">Stackiln <span>Studio</span></div>
+      <div class="destination" id="destination"></div>
+      <div class="status" id="status">Loading…</div>
+      <button class="button" id="save">Save draft</button>
+      <button class="button button-primary" id="export">Export site</button>
+    </header>
+    <main class="workspace">
+      <aside class="sidebar">
+        <div class="panel-head">
+          <h2>Block library</h2>
+          <input
+            class="search"
+            id="search"
+            type="search"
+            placeholder="Search 60 blocks…"
+          />
+        </div>
+        <div class="catalog" id="catalog"></div>
+      </aside>
+      <section class="stage">
+        <div class="stage-toolbar">
+          <label for="recipe">Composition</label
+          ><select id="recipe"></select>
+        </div>
+        <div class="canvas" id="canvas"></div>
+      </section>
+      <aside class="inspector">
+        <div class="panel-head"><h2>Design and content</h2></div>
+        <div class="inspector-body" id="inspector"></div>
+      </aside>
+    </main>
+    <script>
+      const palettes = {
+        neutral: {
+          bg: "#f7f8f6",
+          surface: "#fff",
+          ink: "#162321",
+          muted: "#52605b",
+          action: "#135f4a",
+        },
+        ocean: {
+          bg: "#f3f8fb",
+          surface: "#fff",
+          ink: "#102b3a",
+          muted: "#496776",
+          action: "#006b8f",
+        },
+        violet: {
+          bg: "#f8f5ff",
+          surface: "#fff",
+          ink: "#261b3d",
+          muted: "#675b79",
+          action: "#6842b8",
+        },
+        ember: {
+          bg: "#fff8f2",
+          surface: "#fffdfb",
+          ink: "#351c13",
+          muted: "#73594f",
+          action: "#b6421f",
+        },
+        forest: {
+          bg: "#f2f6ef",
+          surface: "#fbfdf8",
+          ink: "#1c2919",
+          muted: "#5b6c55",
+          action: "#3d6b34",
+        },
+        midnight: {
+          bg: "#0e1220",
+          surface: "#171d2e",
+          ink: "#f1f4ff",
+          muted: "#aab3cd",
+          action: "#91a7ff",
+        },
+      };
+      let state,
+        selectedId = null,
+        saveTimer;
+      const $ = (id) => document.getElementById(id);
+      const escapeHtml = (value) =>
+        String(value ?? "").replace(
+          /[&<>'"]/g,
+          (c) =>
+            ({
+              "&": "&amp;",
+              "<": "&lt;",
+              ">": "&gt;",
+              "'": "&#39;",
+              '"': "&quot;",
+            })[c],
+        );
+      async function request(path, options = {}) {
+        const response = await fetch(path, {
+          headers: { "content-type": "application/json" },
+          ...options,
+        });
+        const data = await response.json();
+        if (!response.ok) throw Error(data.error || "Request failed");
+        return data;
+      }
+      function selected() {
+        return state.config.blocks.length
+          ? state.config.blocks
+          : [...state.recipes[state.config.pageRecipe]];
+      }
+      function materializeRecipe() {
+        if (!state.config.blocks.length)
+          state.config.blocks = [...state.recipes[state.config.pageRecipe]];
+      }
+      function content(id) {
+        return state.config.blockContent[id] || {};
+      }
+      function definition(id) {
+        return state.catalog.find((item) => item.id === id);
+      }
+      function markDirty() {
+        clearTimeout(saveTimer);
+        $("status").textContent = "Unsaved";
+        saveTimer = setTimeout(saveDraft, 700);
+      }
+      function applyTheme() {
+        const p = palettes[state.config.brand.palette] || palettes.neutral;
+        const canvas = $("canvas");
+        canvas.style.setProperty("--site-bg", p.bg);
+        canvas.style.setProperty("--site-surface", p.surface);
+        canvas.style.setProperty("--site-ink", p.ink);
+        canvas.style.setProperty("--site-muted", p.muted);
+        canvas.style.setProperty("--site-action", p.action);
+        canvas.style.setProperty(
+          "--site-radius",
+          state.config.brand.radius === "large"
+            ? "20px"
+            : state.config.brand.radius === "small"
+              ? "3px"
+              : "8px",
+        );
+      }
+      function renderCatalog(query = "") {
+        const needle = query.toLowerCase();
+        $("catalog").innerHTML = state.catalog
+          .filter((block) =>
+            `${block.label} ${block.category} ${block.description}`
+              .toLowerCase()
+              .includes(needle),
+          )
+          .map(
+            (block) =>
+              `<article class="catalog-card" draggable="true" data-id="${block.id}"><span class="badge">${block.category}</span><strong>${escapeHtml(block.label)}</strong><p>${escapeHtml(block.description)}</p></article>`,
+          )
+          .join("");
+        document
+          .querySelectorAll(".catalog-card")
+          .forEach((card) =>
+            card.addEventListener("dragstart", (event) =>
+              event.dataTransfer.setData("text/block-id", card.dataset.id),
+            ),
+          );
+      }
+      function renderCanvas() {
+        applyTheme();
+        const ids = selected();
+        if (!ids.length) {
+          $("canvas").innerHTML =
+            '<div class="empty">Drag blocks here to begin your page.</div>';
+          return;
+        }
+        $("canvas").innerHTML = ids
+          .map((id, index) => {
+            const block = definition(id),
+              copy = content(id);
+            const title = copy.title || block.label,
+              description = copy.description || block.description,
+              items = copy.items || block.items;
+            return `<article class="section ${selectedId === id ? "is-selected" : ""}" draggable="true" data-index="${index}" data-id="${id}" data-category="${block.category}"><div class="section-controls"><button data-action="up" title="Move up">↑</button><button data-action="down" title="Move down">↓</button><button data-action="remove" title="Remove">×</button></div><div class="eyebrow">${escapeHtml(copy.eyebrow || block.label)}</div><h2>${escapeHtml(title)}</h2><p>${escapeHtml(description)}</p><div class="mini-grid">${items
+              .slice(0, 5)
+              .map((item) => `<div class="mini-item">${escapeHtml(item)}</div>`)
+              .join("")}</div></article>`;
+          })
+          .join("");
+        document.querySelectorAll(".section").forEach((section) => {
+          section.addEventListener("click", (event) => {
+            const action = event.target.dataset.action;
+            if (action) changeOrder(Number(section.dataset.index), action);
+            else {
+              selectedId = section.dataset.id;
+              renderCanvas();
+              renderInspector();
+            }
+          });
+          section.addEventListener("dragstart", (event) =>
+            event.dataTransfer.setData(
+              "text/block-index",
+              section.dataset.index,
+            ),
+          );
+          section.addEventListener("dragover", (event) =>
+            event.preventDefault(),
+          );
+          section.addEventListener("drop", (event) => {
+            event.preventDefault();
+            const from = Number(event.dataTransfer.getData("text/block-index"));
+            if (Number.isInteger(from))
+              move(from, Number(section.dataset.index));
+          });
+        });
+      }
+      function addBlock(id) {
+        materializeRecipe();
+        if (state.config.blocks.includes(id)) {
+          selectedId = id;
+          renderCanvas();
+          renderInspector();
+          return;
+        }
+        state.config.blocks.push(id);
+        selectedId = id;
+        renderCanvas();
+        renderInspector();
+        markDirty();
+      }
+      function move(from, to) {
+        materializeRecipe();
+        const [item] = state.config.blocks.splice(from, 1);
+        state.config.blocks.splice(to, 0, item);
+        renderCanvas();
+        markDirty();
+      }
+      function changeOrder(index, action) {
+        materializeRecipe();
+        if (action === "remove") {
+          const [removed] = state.config.blocks.splice(index, 1);
+          if (selectedId === removed) selectedId = null;
+        } else if (action === "up" && index > 0) move(index, index - 1);
+        else if (action === "down" && index < state.config.blocks.length - 1)
+          move(index, index + 1);
+        renderCanvas();
+        renderInspector();
+        markDirty();
+      }
+      function field(label, name, value, type = "input") {
+        return `<div class="field"><label for="${name}">${label}</label>${type === "textarea" ? `<textarea id="${name}">${escapeHtml(value)}</textarea>` : `<input id="${name}" value="${escapeHtml(value)}" />`}</div>`;
+      }
+      function renderInspector() {
+        const block = selectedId && definition(selectedId),
+          copy = block ? content(selectedId) : null;
+        $("inspector").innerHTML =
+          `${field("Site name", "site-name", state.config.product.name)}${field("Description", "site-description", state.config.product.description, "textarea")}<div class="theme-grid"><div class="field"><label>Palette</label><select id="palette">${Object.keys(
+            palettes,
+          )
+            .map(
+              (name) =>
+                `<option ${state.config.brand.palette === name ? "selected" : ""}>${name}</option>`,
+            )
+            .join(
+              "",
+            )}</select></div><div class="field"><label>Typeface</label><select id="font">${["system", "editorial", "modern", "geometric", "humanist", "mono"].map((name) => `<option ${state.config.brand.font === name ? "selected" : ""}>${name}</option>`).join("")}</select></div><div class="field"><label>Radius</label><select id="radius">${["small", "medium", "large"].map((name) => `<option ${state.config.brand.radius === name ? "selected" : ""}>${name}</option>`).join("")}</select></div><div class="field"><label>Density</label><select id="density">${["compact", "comfortable"].map((name) => `<option ${state.config.brand.density === name ? "selected" : ""}>${name}</option>`).join("")}</select></div></div>${block ? `<hr style="border:0;border-top:1px solid var(--line);margin:22px 0"><span class="badge">${block.category}</span><h3>${escapeHtml(block.label)}</h3>${field("Eyebrow", "block-eyebrow", copy.eyebrow || block.label)}${field("Heading", "block-title", copy.title || block.label)}${field("Description", "block-description", copy.description || block.description, "textarea")}${field("Items, one per line", "block-items", (copy.items || block.items).join("\n"), "textarea")}<p class="hint">Changes are written to the local draft, then baked into product-owned React when you export.</p>` : '<p class="inspector-empty">Select a block on the canvas to edit its content. Theme controls affect the whole generated site.</p>'}`;
+        bindInspector();
+      }
+      function bindInspector() {
+        const bind = (id, handler, event = "input") =>
+          $(id)?.addEventListener(event, () => {
+            handler($(id).value);
+            renderCanvas();
+            markDirty();
+          });
+        bind("site-name", (v) => (state.config.product.name = v));
+        bind("site-description", (v) => (state.config.product.description = v));
+        bind("palette", (v) => (state.config.brand.palette = v), "change");
+        bind("font", (v) => (state.config.brand.font = v), "change");
+        bind("radius", (v) => (state.config.brand.radius = v), "change");
+        bind("density", (v) => (state.config.brand.density = v), "change");
+        if (selectedId) {
+          state.config.blockContent[selectedId] ??= {};
+          bind(
+            "block-eyebrow",
+            (v) => (state.config.blockContent[selectedId].eyebrow = v),
+          );
+          bind(
+            "block-title",
+            (v) => (state.config.blockContent[selectedId].title = v),
+          );
+          bind(
+            "block-description",
+            (v) => (state.config.blockContent[selectedId].description = v),
+          );
+          bind(
+            "block-items",
+            (v) =>
+              (state.config.blockContent[selectedId].items = v
+                .split("\n")
+                .map((x) => x.trim())
+                .filter(Boolean)),
+          );
+        }
+      }
+      async function saveDraft() {
+        try {
+          $("status").textContent = "Saving…";
+          const result = await request("/api/draft", {
+            method: "PUT",
+            body: JSON.stringify(state.config),
+          });
+          $("status").textContent = "Saved locally";
+          $("destination").title = `Draft: ${result.draftPath}`;
+        } catch (error) {
+          $("status").textContent = error.message;
+        }
+      }
+      async function exportSite() {
+        try {
+          $("export").disabled = true;
+          $("status").textContent = "Exporting…";
+          const result = await request("/api/export", {
+            method: "POST",
+            body: JSON.stringify(state.config),
+          });
+          $("status").textContent = `Exported ${result.blocks.length} blocks`;
+          alert(`${result.message}\n${result.directory}`);
+        } catch (error) {
+          $("status").textContent = error.message;
+          alert(error.message);
+        } finally {
+          $("export").disabled = false;
+        }
+      }
+      async function boot() {
+        state = await request("/api/bootstrap");
+        $("destination").textContent = state.destination;
+        $("recipe").innerHTML = Object.entries(state.recipes)
+          .map(
+            ([name, ids]) =>
+              `<option value="${name}" ${state.config.pageRecipe === name ? "selected" : ""}>${name} · ${ids.length} blocks</option>`,
+          )
+          .join("");
+        $("recipe").addEventListener("change", () => {
+          state.config.pageRecipe = $("recipe").value;
+          state.config.blocks = [];
+          selectedId = null;
+          renderCanvas();
+          renderInspector();
+          markDirty();
+        });
+        $("search").addEventListener("input", () =>
+          renderCatalog($("search").value),
+        );
+        $("save").addEventListener("click", saveDraft);
+        $("export").addEventListener("click", exportSite);
+        $("canvas").addEventListener("dragover", (event) =>
+          event.preventDefault(),
+        );
+        $("canvas").addEventListener("drop", (event) => {
+          const id = event.dataTransfer.getData("text/block-id");
+          if (id) addBlock(id);
+        });
+        renderCatalog();
+        renderCanvas();
+        renderInspector();
+        $("status").textContent = "Local draft";
+      }
+      boot().catch((error) => ($("status").textContent = error.message));
+    </script>
+  </body>
+</html>

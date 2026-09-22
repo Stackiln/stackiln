@@ -1,0 +1,12 @@
+export default function Privacy() {
+  return (
+    <article className="content-page">
+      <h1>Privacy</h1>
+      <p>
+        Publish your product-specific privacy policy here before launch.
+        Document what data you collect, why, retention periods, processors, and
+        contact details.
+      </p>
+    </article>
+  );
+}
