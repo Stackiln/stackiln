@@ -1,0 +1,53 @@
+{
+  "name": "stackiln",
+  "private": true,
+  "version": "0.1.0",
+  "description": "A modular TypeScript framework for generating production-ready, standalone Next.js products.",
+  "license": "MIT",
+  "author": "Christian Relf",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ChristianRelf/Stackiln.git"
+  },
+  "bugs": {
+    "url": "https://github.com/ChristianRelf/Stackiln/issues"
+  },
+  "homepage": "https://github.com/ChristianRelf/Stackiln#readme",
+  "keywords": [
+    "nextjs",
+    "typescript",
+    "framework",
+    "generator",
+    "starter",
+    "full-stack"
+  ],
+  "packageManager": "pnpm@9.15.9",
+  "engines": {
+    "node": ">=22"
+  },
+  "scripts": {
+    "stackiln": "tsx packages/cli/src/index.ts",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run",
+    "lint": "eslint .",
+    "verify": "node scripts/verify.mjs",
+    "format": "prettier --write .",
+    "format:check": "prettier --check ."
+  },
+  "dependencies": {
+    "zod": "4.6.5"
+  },
+  "devDependencies": {
+    "@types/node": "^24.0.0",
+    "auth": "1.7.5",
+    "better-auth": "1.7.5",
+    "@typescript-eslint/eslint-plugin": "^8.0.0",
+    "@typescript-eslint/parser": "^8.0.0",
+    "eslint": "^9.0.0",
+    "prettier": "^3.0.0",
+    "tsx": "4.23.13",
+    "typescript": "5.9.3",
+    "vitest": "^3.0.0",
+    "turbo": "2.11.2"
+  }
+}

@@ -1,0 +1,54 @@
+name: Bug report
+description: Report a reproducible problem in Stackiln or its generated output.
+title: "[Bug]: "
+body:
+  - type: markdown
+    attributes:
+      value: "Do not report security vulnerabilities here. Follow SECURITY.md instead."
+  - type: input
+    id: version
+    attributes:
+      label: Stackiln version or commit
+      placeholder: v0.1.0 or commit SHA
+    validations:
+      required: true
+  - type: dropdown
+    id: platform
+    attributes:
+      label: Operating system
+      options:
+        - Windows
+        - macOS
+        - Linux
+        - Other
+    validations:
+      required: true
+  - type: textarea
+    id: description
+    attributes:
+      label: Description
+      description: What happened, and what did you expect?
+    validations:
+      required: true
+  - type: textarea
+    id: reproduction
+    attributes:
+      label: Minimal reproduction
+      description: Include commands, configuration, and the smallest steps that reproduce the problem. Remove secrets.
+    validations:
+      required: true
+  - type: textarea
+    id: output
+    attributes:
+      label: Relevant output
+      description: Paste logs or errors with credentials and personal data removed.
+      render: shell
+  - type: checkboxes
+    id: checks
+    attributes:
+      label: Checks
+      options:
+        - label: I searched existing issues and pull requests.
+          required: true
+        - label: This is not a security vulnerability.
+          required: true
