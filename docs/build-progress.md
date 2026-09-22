@@ -12,8 +12,8 @@ Status: complete for the marketing preset.
 
 Evidence on 2026-09-19:
 
-- `pnpm.cmd factory create fixtures/generated/marketing --preset marketing --name 'Reference Marketing' --description 'A generated reference product'` produced the independent fixture.
-- `pnpm.cmd verify` passed the factory checks, frozen fixture install, real PostgreSQL migration, fixture typecheck/unit test/lint/production build, four Playwright journeys (desktop and mobile), managed-file checksum check, Docker image build, and live container probes for `/`, `/health/live`, `/health/ready`, and `/api/contact`.
+- `pnpm.cmd stackkiln create fixtures/generated/marketing --preset marketing --name 'Reference Marketing' --description 'A generated reference product'` produced the independent fixture.
+- `pnpm.cmd verify` passed the StackKiln checks, frozen fixture install, real PostgreSQL migration, fixture typecheck/unit test/lint/production build, four Playwright journeys (desktop and mobile), managed-file checksum check, Docker image build, and live container probes for `/`, `/health/live`, `/health/ready`, and `/api/contact`.
 - Generator tests prove deterministic plans and managed-file hashes, failed-apply rollback, and detection of changed managed files.
 - Contact requests reject foreign origins; local delivery was exercised in a non-root container.
 

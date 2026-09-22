@@ -1,1 +1,11 @@
-{ "name": "@site-factory/generator", "version": "0.1.0", "type": "module", "exports": { ".": "./src/index.ts" } }
+{
+  "name": "@stackkiln/generator",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Transactional product generator for StackKiln.",
+  "license": "MIT",
+  "type": "module",
+  "exports": {
+    ".": "./src/index.ts"
+  }
+}

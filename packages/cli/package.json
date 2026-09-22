@@ -1,1 +1,11 @@
-{ "name": "site-factory-cli", "version": "0.1.0", "type": "module", "bin": { "site-factory": "./src/index.ts" } }
+{
+  "name": "@stackkiln/cli",
+  "version": "0.1.0",
+  "private": true,
+  "description": "The StackKiln command-line interface.",
+  "license": "MIT",
+  "type": "module",
+  "bin": {
+    "stackkiln": "./src/index.ts"
+  }
+}

@@ -1,1 +1,11 @@
-{ "name": "@site-factory/module-kit", "version": "0.1.0", "type": "module", "exports": { ".": "./src/index.ts" } }
+{
+  "name": "@stackkiln/module-kit",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Typed module recipes and ownership contracts for StackKiln.",
+  "license": "MIT",
+  "type": "module",
+  "exports": {
+    ".": "./src/index.ts"
+  }
+}

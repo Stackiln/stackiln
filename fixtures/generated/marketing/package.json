@@ -17,5 +17,11 @@
     "db:studio": "pnpm --filter @product/db studio",
     "verify": "pnpm typecheck && pnpm test && pnpm lint && pnpm build && pnpm test:e2e"
   },
-  "devDependencies": { "typescript": "5.9.3", "tsx": "4.23.13", "vitest": "3.2.7", "@types/node": "^24.0.0", "@playwright/test": "1.63.0" }
+  "devDependencies": {
+    "typescript": "5.9.3",
+    "tsx": "4.23.13",
+    "vitest": "3.2.7",
+    "@types/node": "^24.0.0",
+    "@playwright/test": "1.63.0"
+  }
 }

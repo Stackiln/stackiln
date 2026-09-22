@@ -1,1 +1,11 @@
-export default function Terms() { return <article className="content-page"><h1>Terms</h1><p>Publish your product-specific terms here before launch. Describe the service, eligibility, payments where applicable, and support contact.</p></article>; }
+export default function Terms() {
+  return (
+    <article className="content-page">
+      <h1>Terms</h1>
+      <p>
+        Publish your product-specific terms here before launch. Describe the
+        service, eligibility, payments where applicable, and support contact.
+      </p>
+    </article>
+  );
+}

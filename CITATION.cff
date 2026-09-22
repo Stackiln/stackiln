@@ -1,0 +1,11 @@
+cff-version: 1.2.0
+message: "If StackKiln supports your work, cite the software using this metadata."
+title: "StackKiln"
+type: software
+authors:
+  - family-names: "Relf"
+    given-names: "Christian"
+repository-code: "https://github.com/ChristianRelf/StackKiln"
+url: "https://github.com/ChristianRelf/StackKiln"
+license: MIT
+version: 0.1.0

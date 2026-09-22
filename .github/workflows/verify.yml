@@ -1,4 +1,4 @@
-name: Verify factory
+name: Verify StackKiln
 on: [push, pull_request]
 jobs:
   verify:

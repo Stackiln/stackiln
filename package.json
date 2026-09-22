@@ -1,11 +1,32 @@
 {
-  "name": "site-factory",
+  "name": "stackkiln",
   "private": true,
   "version": "0.1.0",
+  "description": "A modular TypeScript framework for generating production-ready, standalone Next.js products.",
+  "license": "MIT",
+  "author": "Christian Relf",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ChristianRelf/StackKiln.git"
+  },
+  "bugs": {
+    "url": "https://github.com/ChristianRelf/StackKiln/issues"
+  },
+  "homepage": "https://github.com/ChristianRelf/StackKiln#readme",
+  "keywords": [
+    "nextjs",
+    "typescript",
+    "framework",
+    "generator",
+    "starter",
+    "full-stack"
+  ],
   "packageManager": "pnpm@9.15.9",
-  "engines": { "node": ">=22" },
+  "engines": {
+    "node": ">=22"
+  },
   "scripts": {
-    "factory": "tsx packages/cli/src/index.ts",
+    "stackkiln": "tsx packages/cli/src/index.ts",
     "typecheck": "tsc --noEmit",
     "test": "vitest run",
     "lint": "eslint .",
@@ -13,7 +34,9 @@
     "format": "prettier --write .",
     "format:check": "prettier --check ."
   },
-  "dependencies": { "zod": "4.6.5" },
+  "dependencies": {
+    "zod": "4.6.5"
+  },
   "devDependencies": {
     "@types/node": "^24.0.0",
     "auth": "1.7.5",

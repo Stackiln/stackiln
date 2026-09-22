@@ -6,8 +6,14 @@ import { betterAuth } from "better-auth";
 import { drizzleAdapter } from "better-auth/adapters/drizzle";
 import { email } from "./email";
 
-if (process.env.APP_ENV === "production" && (!process.env.BETTER_AUTH_SECRET || process.env.BETTER_AUTH_SECRET.length < 32)) {
-  throw new Error("Production accounts require BETTER_AUTH_SECRET with at least 32 characters");
+if (
+  process.env.APP_ENV === "production" &&
+  (!process.env.BETTER_AUTH_SECRET ||
+    process.env.BETTER_AUTH_SECRET.length < 32)
+) {
+  throw new Error(
+    "Production accounts require BETTER_AUTH_SECRET with at least 32 characters",
+  );
 }
 
 function mailKey(purpose: string, url: string) {
@@ -22,29 +28,53 @@ export const auth = betterAuth({
     enabled: true,
     requireEmailVerification: true,
     sendResetPassword: async ({ user, url }) => {
-      await email.send({ to: user.email, subject: "Reset your password", text: `Reset your password: ${url}`, key: mailKey("password-reset", url) });
-    }
+      await email.send({
+        to: user.email,
+        subject: "Reset your password",
+        text: `Reset your password: ${url}`,
+        key: mailKey("password-reset", url),
+      });
+    },
   },
   emailVerification: {
     sendOnSignUp: true,
     sendOnSignIn: true,
     sendVerificationEmail: async ({ user, url }) => {
-      await email.send({ to: user.email, subject: "Verify your email", text: `Verify your email: ${url}`, key: mailKey("verify-email", url) });
-    }
+      await email.send({
+        to: user.email,
+        subject: "Verify your email",
+        text: `Verify your email: ${url}`,
+        key: mailKey("verify-email", url),
+      });
+    },
   },
   user: {
     changeEmail: {
       enabled: true,
       sendChangeEmailConfirmation: async ({ user, newEmail, url }) => {
-        await email.send({ to: user.email, subject: "Approve email change", text: `Approve changing your email to ${newEmail}: ${url}`, key: mailKey("change-email", url) });
-      }
+        await email.send({
+          to: user.email,
+          subject: "Approve email change",
+          text: `Approve changing your email to ${newEmail}: ${url}`,
+          key: mailKey("change-email", url),
+        });
+      },
     },
     deleteUser: {
       enabled: true,
       sendDeleteAccountVerification: async ({ user, url }) => {
-        await email.send({ to: user.email, subject: "Confirm account deletion", text: `Confirm account deletion: ${url}`, key: mailKey("delete-account", url) });
-      }
-    }
+        await email.send({
+          to: user.email,
+          subject: "Confirm account deletion",
+          text: `Confirm account deletion: ${url}`,
+          key: mailKey("delete-account", url),
+        });
+      },
+    },
   },
-  rateLimit: { enabled: process.env.APP_ENV === "production", window: 60, max: 100 }
+  rateLimit: {
+    enabled: process.env.APP_ENV === "production",
+    window: 60,
+    max: 100,
+  },
 });
