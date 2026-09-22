@@ -2,7 +2,7 @@ import { afterEach, expect, test } from "vitest";
 import { mkdtemp, readFile, rm, writeFile } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
-import { defineStackKilnConfig } from "../packages/config/src/index.js";
+import { defineStackilnConfig } from "../packages/config/src/index.js";
 import {
   applyCreate,
   planCreate,
@@ -14,7 +14,7 @@ afterEach(async () => {
   for (const path of temporary.splice(0))
     await rm(path, { recursive: true, force: true });
 });
-const config = defineStackKilnConfig({
+const config = defineStackilnConfig({
   product: {
     name: "Reference Marketing",
     description: "A generated reference product",
@@ -38,7 +38,7 @@ test("plan is deterministic and contains only enabled modules", async () => {
 });
 
 test("failed apply leaves no destination or state", async () => {
-  const root = await mkdtemp(join(tmpdir(), "stackkiln-test-"));
+  const root = await mkdtemp(join(tmpdir(), "stackiln-test-"));
   temporary.push(root);
   const destination = join(root, "failed");
   const plan = await planCreate(config);
@@ -50,18 +50,18 @@ test("failed apply leaves no destination or state", async () => {
     }),
   ).rejects.toThrow("simulated failure");
   await expect(
-    readFile(join(destination, ".stackkiln/state.json")),
+    readFile(join(destination, ".stackiln/state.json")),
   ).rejects.toThrow();
 });
 
 test("managed file modifications are detected", async () => {
-  const root = await mkdtemp(join(tmpdir(), "stackkiln-test-"));
+  const root = await mkdtemp(join(tmpdir(), "stackiln-test-"));
   temporary.push(root);
   const destination = join(root, "product");
   const plan = await planCreate(config);
   await applyCreate(plan, destination);
   const state = JSON.parse(
-    await readFile(join(destination, ".stackkiln/state.json"), "utf8"),
+    await readFile(join(destination, ".stackiln/state.json"), "utf8"),
   ) as { managedFiles: Record<string, unknown> };
   expect(state.managedFiles["apps/web/next-env.d.ts"]).toBeUndefined();
   expect(await validateProduct(destination)).toEqual([]);
@@ -72,7 +72,7 @@ test("managed file modifications are detected", async () => {
 });
 
 test("identical inputs generate identical managed files", async () => {
-  const root = await mkdtemp(join(tmpdir(), "stackkiln-test-"));
+  const root = await mkdtemp(join(tmpdir(), "stackiln-test-"));
   temporary.push(root);
   const plan = await planCreate(config);
   const first = await applyCreate(plan, join(root, "one"));
@@ -88,14 +88,14 @@ test("accounts is optional and composes its schema without changing marketing", 
     ),
   ).toBe(false);
   const withAccounts = await planCreate(
-    defineStackKilnConfig({
+    defineStackilnConfig({
       product: { name: "Accounts" },
       preset: "marketing",
       modules: { accounts: true },
     }),
   );
   expect(withAccounts.modules.map((module) => module.id)).toContain("accounts");
-  const root = await mkdtemp(join(tmpdir(), "stackkiln-test-"));
+  const root = await mkdtemp(join(tmpdir(), "stackiln-test-"));
   temporary.push(root);
   const destination = join(root, "with-accounts");
   await applyCreate(withAccounts, destination);

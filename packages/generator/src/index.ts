@@ -13,33 +13,33 @@ import {
 import { dirname, join, relative, resolve, sep } from "node:path";
 import { fileURLToPath } from "node:url";
 import {
-  defineStackKilnConfig,
-  type StackKilnConfig,
+  defineStackilnConfig,
+  type StackilnConfig,
   type ModuleName,
 } from "../../config/src/index.js";
 import { modules, presets } from "./registry.js";
 import type { ModuleRecipe, OwnedSurface } from "../../module-kit/src/index.js";
 
-export const stackKilnRoot = resolve(
+export const stackilnRoot = resolve(
   fileURLToPath(new URL("../../../", import.meta.url)),
 );
-export const stackKilnVersion = "0.1.0";
+export const stackilnVersion = "0.1.0";
 export type PlannedFile = {
   source: string;
   destination: string;
   owner: string;
 };
 export type Plan = {
-  config: StackKilnConfig;
+  config: StackilnConfig;
   modules: ModuleRecipe[];
   files: PlannedFile[];
   dependencies: Record<string, string>;
   warnings: string[];
   manifestHash: string;
 };
-export type StackKilnState = {
+export type StackilnState = {
   format: 1;
-  stackKilnVersion: string;
+  stackilnVersion: string;
   preset: string;
   manifestHash: string;
   installed: Record<
@@ -72,7 +72,7 @@ async function filesUnder(root: string): Promise<string[]> {
   }
   return result.sort();
 }
-function resolveModules(config: StackKilnConfig): ModuleRecipe[] {
+function resolveModules(config: StackilnConfig): ModuleRecipe[] {
   const selected = new Set<ModuleName>(presets[config.preset]);
   for (const [name, setting] of Object.entries(config.modules) as [
     ModuleName,
@@ -137,19 +137,19 @@ function checkCollisions(recipes: ModuleRecipe[]): void {
   }
 }
 export async function planCreate(raw: unknown): Promise<Plan> {
-  const config = defineStackKilnConfig(
-    raw as Parameters<typeof defineStackKilnConfig>[0],
+  const config = defineStackilnConfig(
+    raw as Parameters<typeof defineStackilnConfig>[0],
   );
   const resolved = resolveModules(config);
   checkCollisions(resolved);
-  const base = join(stackKilnRoot, "templates", "base");
+  const base = join(stackilnRoot, "templates", "base");
   const files: PlannedFile[] = (await filesUnder(base)).map((source) => ({
     source,
     destination: relative(base, source).split(sep).join("/"),
     owner: "base",
   }));
   for (const recipe of resolved) {
-    const root = join(stackKilnRoot, "modules", recipe.id, "files");
+    const root = join(stackilnRoot, "modules", recipe.id, "files");
     const sourceFiles = await filesUnder(root);
     const actual = sourceFiles.map((source) =>
       relative(root, source).split(sep).join("/"),
@@ -210,7 +210,7 @@ export async function applyCreate(
   plan: Plan,
   destination: string,
   options: { beforeCommit?: () => Promise<void>; lockfile?: boolean } = {},
-): Promise<StackKilnState> {
+): Promise<StackilnState> {
   const target = resolve(destination);
   try {
     await stat(target);
@@ -218,8 +218,8 @@ export async function applyCreate(
   } catch (error) {
     if ((error as NodeJS.ErrnoException).code !== "ENOENT") throw error;
   }
-  const stage = `${target}.stackkiln-stage-${process.pid}-${Math.random().toString(36).slice(2)}`;
-  const managedFiles: StackKilnState["managedFiles"] = {};
+  const stage = `${target}.stackiln-stage-${process.pid}-${Math.random().toString(36).slice(2)}`;
+  const managedFiles: StackilnState["managedFiles"] = {};
   try {
     await mkdir(stage, { recursive: true });
     for (const file of plan.files) {
@@ -258,7 +258,7 @@ export async function applyCreate(
       owner: "base",
       sha256: sha256(await readFile(envPath)),
     };
-    await writeJson(join(stage, "stackkiln.config.json"), plan.config);
+    await writeJson(join(stage, "stackiln.config.json"), plan.config);
     await writeJson(join(stage, "apps/web/product-config.json"), plan.config);
     const components = plan.modules.flatMap(
       (module) => module.components ?? [],
@@ -326,7 +326,7 @@ export async function applyCreate(
     if (journal.entries.length > 1) {
       await writeJson(journalPath, journal);
       managedFiles["packages/db/drizzle/meta/_journal.json"] = {
-        owner: "stackkiln",
+        owner: "stackiln",
         sha256: sha256(await readFile(journalPath)),
       };
     }
@@ -335,8 +335,8 @@ export async function applyCreate(
       ...new Set(navigation.map((item) => item.href)),
     ]);
     await writeFile(
-      join(stage, "stackkiln.config.ts"),
-      'import { defineProductConfig } from "./packages/config/src/index";\nimport config from "./stackkiln.config.json";\nexport default defineProductConfig(config);\n',
+      join(stage, "stackiln.config.ts"),
+      'import { defineProductConfig } from "./packages/config/src/index";\nimport config from "./stackiln.config.json";\nexport default defineProductConfig(config);\n',
     );
     await writeFile(
       join(stage, "resolved-manifest.md"),
@@ -360,13 +360,20 @@ export async function applyCreate(
       join(stage, "docs/events.md"),
       `# Events\n\n${plan.modules.flatMap((module) => module.owns.events.map((event) => `- ${event} (${module.id})`)).join("\n")}\n`,
     );
+    const permissions = plan.modules.flatMap((module) =>
+      module.owns.permissions.map(
+        (permission) => `- ${permission} (${module.id})`,
+      ),
+    );
     await writeFile(
       join(stage, "docs/permissions.md"),
-      `# Permissions\n\n${plan.modules.flatMap((module) => module.owns.permissions.map((permission) => `- ${permission} (${module.id})`)).join("\n")}\n`,
+      permissions.length
+        ? `# Permissions\n\n${permissions.join("\n")}\n`
+        : "# Permissions\n",
     );
     for (const name of [
-      "stackkiln.config.json",
-      "stackkiln.config.ts",
+      "stackiln.config.json",
+      "stackiln.config.ts",
       "resolved-manifest.md",
       "apps/web/product-config.json",
       "apps/web/routes.json",
@@ -379,7 +386,7 @@ export async function applyCreate(
       "docs/permissions.md",
     ])
       managedFiles[name] = {
-        owner: "stackkiln",
+        owner: "stackiln",
         sha256: sha256(await readFile(join(stage, name))),
       };
     if (options.lockfile) {
@@ -393,13 +400,13 @@ export async function applyCreate(
           `Could not generate product lockfile: ${result.stderr || result.stdout}`,
         );
       managedFiles["pnpm-lock.yaml"] = {
-        owner: "stackkiln",
+        owner: "stackiln",
         sha256: sha256(await readFile(join(stage, "pnpm-lock.yaml"))),
       };
     }
-    const state: StackKilnState = {
+    const state: StackilnState = {
       format: 1,
-      stackKilnVersion,
+      stackilnVersion,
       preset: plan.config.preset,
       manifestHash: plan.manifestHash,
       installed: Object.fromEntries(
@@ -414,7 +421,7 @@ export async function applyCreate(
       ),
       conflicts: [],
     };
-    await writeJson(join(stage, ".stackkiln/state.json"), state);
+    await writeJson(join(stage, ".stackiln/state.json"), state);
     const changed = await validateProduct(stage, state);
     if (changed.length)
       throw new Error(
@@ -428,19 +435,19 @@ export async function applyCreate(
     throw error;
   }
 }
-export async function readState(root: string): Promise<StackKilnState> {
+export async function readState(root: string): Promise<StackilnState> {
   const state = JSON.parse(
-    await readFile(join(root, ".stackkiln/state.json"), "utf8"),
-  ) as StackKilnState;
+    await readFile(join(root, ".stackiln/state.json"), "utf8"),
+  ) as StackilnState;
   if (state.format !== 1)
     throw new Error(
-      `Unsupported StackKiln state format: ${String(state.format)}`,
+      `Unsupported Stackiln state format: ${String(state.format)}`,
     );
   return state;
 }
 export async function validateProduct(
   root: string,
-  knownState?: StackKilnState,
+  knownState?: StackilnState,
 ): Promise<string[]> {
   const state = knownState ?? (await readState(root));
   const changed: string[] = [];

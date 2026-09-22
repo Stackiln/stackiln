@@ -3,7 +3,7 @@ import { spawnSync } from "node:child_process";
 import { readFile, writeFile } from "node:fs/promises";
 import { resolve, join } from "node:path";
 import {
-  defineStackKilnConfig,
+  defineStackilnConfig,
   moduleNames,
   presetNames,
   type ModuleName,
@@ -11,7 +11,7 @@ import {
 } from "../../config/src/index.js";
 import {
   applyCreate,
-  stackKilnRoot,
+  stackilnRoot,
   formatPlan,
   planCreate,
   readState,
@@ -28,14 +28,14 @@ function options(args: string[], name: string): string[] {
   );
 }
 function help(): string {
-  return `stackkiln 0.1.0
+  return `stackiln 0.1.0
 
 Usage:
-  pnpm stackkiln create <directory> --preset marketing --name "Product Name" [--module accounts] [--description text] [--plan] [--json]
-  pnpm stackkiln inspect [directory] [--json]
-  pnpm stackkiln doctor [directory] [--json]
-  pnpm stackkiln context [directory]
-  pnpm stackkiln verify
+  pnpm stackiln create <directory> --preset marketing --name "Product Name" [--module accounts] [--description text] [--plan] [--json]
+  pnpm stackiln inspect [directory] [--json]
+  pnpm stackiln doctor [directory] [--json]
+  pnpm stackiln context [directory]
+  pnpm stackiln verify
 
 Presets: ${presetNames.join(", ")}
 Exit codes: 0 success, 1 failure, 2 invalid command or arguments.
@@ -57,7 +57,7 @@ async function run(args: string[]): Promise<number> {
     for (const item of selected)
       if (!moduleNames.includes(item as ModuleName))
         throw new Error(`Unknown module: ${item}`);
-    const config = defineStackKilnConfig({
+    const config = defineStackilnConfig({
       product: { name, description: option(rest, "description") ?? "" },
       preset,
       modules: Object.fromEntries(selected.map((item) => [item, true])),
@@ -83,14 +83,14 @@ async function run(args: string[]): Promise<number> {
     const root = resolve(rest[0] && !rest[0].startsWith("--") ? rest[0] : ".");
     const state = await readState(root);
     const config = JSON.parse(
-      await readFile(join(root, "stackkiln.config.json"), "utf8"),
+      await readFile(join(root, "stackiln.config.json"), "utf8"),
     ) as { deployment: { target: string } };
     const changed = await validateProduct(root, state);
     if (command === "inspect") {
       const result = {
         preset: state.preset,
         modules: state.installed,
-        stackKilnVersion: state.stackKilnVersion,
+        stackilnVersion: state.stackilnVersion,
         deployment: config.deployment.target,
         changedManagedFiles: changed,
       };
@@ -122,7 +122,7 @@ async function run(args: string[]): Promise<number> {
       process.platform === "win32" ? "pnpm.cmd" : "pnpm",
       ["verify"],
       {
-        cwd: stackKilnRoot,
+        cwd: stackilnRoot,
         stdio: "inherit",
         shell: process.platform === "win32",
       },

@@ -1,3 +1,7 @@
+# Stackiln source notice
+
+Portions of this generated product were produced from Stackiln templates and modules.
+
 MIT License
 
 Copyright (c) 2026 Christian Relf and Stackiln contributors

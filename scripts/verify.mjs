@@ -50,7 +50,7 @@ run("docker", [
 ]);
 run(pnpm, ["db:migrate"], { cwd: fixture });
 run(pnpm, ["verify"], { cwd: fixture });
-run(pnpm, ["stackkiln", "doctor", fixture]);
+run(pnpm, ["stackiln", "doctor", fixture]);
 const accountDatabase = run(
   "docker",
   [
@@ -106,10 +106,10 @@ if (!schemaCheck.includes("No schema changes"))
     "Account fixture schema differs from its checked-in migration",
   );
 run(pnpm, ["verify"], { cwd: accountFixture, env: accountEnv });
-run(pnpm, ["stackkiln", "doctor", accountFixture], { env: accountEnv });
-run("docker", ["build", "-t", "stackkiln-marketing-verify", fixture]);
+run(pnpm, ["stackiln", "doctor", accountFixture], { env: accountEnv });
+run("docker", ["build", "-t", "stackiln-marketing-verify", fixture]);
 
-const container = `stackkiln-verify-${process.pid}`;
+const container = `stackiln-verify-${process.pid}`;
 try {
   run("docker", [
     "run",
@@ -126,7 +126,7 @@ try {
     "APP_ENV=local",
     "-e",
     "CONTACT_EMAIL=team@example.test",
-    "stackkiln-marketing-verify",
+    "stackiln-marketing-verify",
   ]);
   const smoke = `const sleep=ms=>new Promise(r=>setTimeout(r,ms)); for(let attempt=0;attempt<20;attempt++){try{for(const path of ['/','/health/live','/health/ready']){const response=await fetch('http://localhost:3000'+path);if(!response.ok)throw Error(path+' '+response.status)} const contact=await fetch('http://localhost:3000/api/contact',{method:'POST',headers:{origin:'http://localhost:3000','content-type':'application/json'},body:JSON.stringify({name:'Smoke',email:'smoke@example.test',message:'Container test'})});if(!contact.ok)throw Error('contact '+contact.status);process.exit(0)}catch(error){if(attempt===19)throw error;await sleep(1000)}}`;
   run("docker", [
@@ -141,5 +141,5 @@ try {
   spawnSync("docker", ["stop", container], { stdio: "ignore" });
 }
 process.stdout.write(
-  "\nStackKiln, marketing, accounts, database, browser, and container checks passed.\n",
+  "\nStackiln, marketing, accounts, database, browser, and container checks passed.\n",
 );

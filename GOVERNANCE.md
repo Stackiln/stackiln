@@ -1,6 +1,6 @@
 # Governance
 
-StackKiln currently uses a maintainer-led model.
+Stackiln currently uses a maintainer-led model.
 
 Christian Relf is the founding maintainer and release steward. Maintainers review contributions, set release scope, moderate community spaces, and protect the project's architecture, security baseline, and compatibility promises.
 

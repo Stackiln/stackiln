@@ -1,5 +1,5 @@
 {
-  "name": "stackkiln",
+  "name": "stackiln",
   "private": true,
   "version": "0.1.0",
   "description": "A modular TypeScript framework for generating production-ready, standalone Next.js products.",
@@ -7,12 +7,12 @@
   "author": "Christian Relf",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/ChristianRelf/StackKiln.git"
+    "url": "git+https://github.com/ChristianRelf/Stackiln.git"
   },
   "bugs": {
-    "url": "https://github.com/ChristianRelf/StackKiln/issues"
+    "url": "https://github.com/ChristianRelf/Stackiln/issues"
   },
-  "homepage": "https://github.com/ChristianRelf/StackKiln#readme",
+  "homepage": "https://github.com/ChristianRelf/Stackiln#readme",
   "keywords": [
     "nextjs",
     "typescript",
@@ -26,7 +26,7 @@
     "node": ">=22"
   },
   "scripts": {
-    "stackkiln": "tsx packages/cli/src/index.ts",
+    "stackiln": "tsx packages/cli/src/index.ts",
     "typecheck": "tsc --noEmit",
     "test": "vitest run",
     "lint": "eslint .",

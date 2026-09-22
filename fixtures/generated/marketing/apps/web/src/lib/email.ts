@@ -17,7 +17,7 @@ const local: EmailProvider = {
     const mailbox =
       process.env.LOCAL_MAILBOX_DIR ??
       (process.env.NODE_ENV === "production"
-        ? join(tmpdir(), "site-factory-mailbox")
+        ? join(tmpdir(), "stackiln-mailbox")
         : join(process.cwd(), ".local-mailbox"));
     await mkdir(mailbox, { recursive: true });
     await writeFile(

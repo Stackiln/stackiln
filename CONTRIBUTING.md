@@ -1,6 +1,6 @@
-# Contributing to StackKiln
+# Contributing to Stackiln
 
-Thank you for helping improve StackKiln. Contributions of code, tests, documentation, bug reports, and design feedback are welcome.
+Thank you for helping improve Stackiln. Contributions of code, tests, documentation, bug reports, and design feedback are welcome.
 
 By participating, you agree to follow the [Code of Conduct](CODE_OF_CONDUCT.md). By submitting a contribution, you agree that it may be distributed under the project's [MIT License](LICENSE).
 
@@ -17,8 +17,8 @@ By participating, you agree to follow the [Code of Conduct](CODE_OF_CONDUCT.md).
 You need Node.js 24, pnpm 9, and Docker with Compose.
 
 ```sh
-git clone https://github.com/ChristianRelf/StackKiln.git
-cd StackKiln
+git clone https://github.com/ChristianRelf/Stackiln.git
+cd Stackiln
 pnpm install --frozen-lockfile
 pnpm typecheck
 pnpm test

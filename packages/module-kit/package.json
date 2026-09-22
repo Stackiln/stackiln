@@ -1,8 +1,8 @@
 {
-  "name": "@stackkiln/module-kit",
+  "name": "@stackiln/module-kit",
   "version": "0.1.0",
   "private": true,
-  "description": "Typed module recipes and ownership contracts for StackKiln.",
+  "description": "Typed module recipes and ownership contracts for Stackiln.",
   "license": "MIT",
   "type": "module",
   "exports": {

@@ -24,6 +24,6 @@ export const productConfigSchema = z.object({
   }),
   environment: z.enum(["local", "preview", "staging", "production"]),
 });
-export function defineFactoryConfig(input: unknown) {
+export function defineProductConfig(input: unknown) {
   return productConfigSchema.parse(input);
 }

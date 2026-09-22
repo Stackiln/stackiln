@@ -2,7 +2,7 @@
 
 Code changes prepare the repository for public use; these hosting settings still require a repository administrator.
 
-- Rename the GitHub repository from `Site-Factory` to `StackKiln` and update the local `origin` URL.
+- Rename the GitHub repository from `Site-Factory` to `Stackiln` and update the local `origin` URL.
 - Add the description, website, and topics: `nextjs`, `typescript`, `generator`, `starter-kit`, `full-stack`, and `open-source`.
 - Enable Issues, Discussions, and private vulnerability reporting.
 - Protect `main`: require pull requests, the verification check, resolved conversations, and dismissal of stale approvals after new commits.

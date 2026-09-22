@@ -2,7 +2,7 @@
 
 ## Supported versions
 
-StackKiln is currently pre-1.0. Security fixes are made on the `main` branch and included in the next release. Older snapshots are not maintained.
+Stackiln is currently pre-1.0. Security fixes are made on the `main` branch and included in the next release. Older snapshots are not maintained.
 
 ## Reporting a vulnerability
 
@@ -20,6 +20,6 @@ Do not include live credentials, personal data, or data belonging to another per
 
 ## Scope
 
-Reports about StackKiln's generator, templates, modules, dependency choices, generated security defaults, or release infrastructure are in scope. Vulnerabilities in a third-party dependency should also be reported upstream when appropriate. Product-specific customisations in a generated application are generally owned by that product's maintainers.
+Reports about Stackiln's generator, templates, modules, dependency choices, generated security defaults, or release infrastructure are in scope. Vulnerabilities in a third-party dependency should also be reported upstream when appropriate. Product-specific customisations in a generated application are generally owned by that product's maintainers.
 
 The implementation's current security assumptions and known gaps are documented in [docs/security.md](docs/security.md).

@@ -12,8 +12,8 @@ Status: complete for the marketing preset.
 
 Evidence on 2026-09-19:
 
-- `pnpm.cmd stackkiln create fixtures/generated/marketing --preset marketing --name 'Reference Marketing' --description 'A generated reference product'` produced the independent fixture.
-- `pnpm.cmd verify` passed the StackKiln checks, frozen fixture install, real PostgreSQL migration, fixture typecheck/unit test/lint/production build, four Playwright journeys (desktop and mobile), managed-file checksum check, Docker image build, and live container probes for `/`, `/health/live`, `/health/ready`, and `/api/contact`.
+- `pnpm.cmd stackiln create fixtures/generated/marketing --preset marketing --name 'Reference Marketing' --description 'A generated reference product'` produced the independent fixture.
+- `pnpm.cmd verify` passed the Stackiln checks, frozen fixture install, real PostgreSQL migration, fixture typecheck/unit test/lint/production build, four Playwright journeys (desktop and mobile), managed-file checksum check, Docker image build, and live container probes for `/`, `/health/live`, `/health/ready`, and `/api/contact`.
 - Generator tests prove deterministic plans and managed-file hashes, failed-apply rollback, and detection of changed managed files.
 - Contact requests reject foreign origins; local delivery was exercised in a non-root container.
 
@@ -45,3 +45,12 @@ Status: pending. The marketing and optional accounts paths do not satisfy the co
 ## Continuation
 
 From repository root, run `pnpm.cmd install`, then `pnpm.cmd verify`. Continue Phase 2 with permission policy, admin, audit, account states, and queued privacy operations before enabling the personal SaaS and internal tool presets. Keep the marketing fixture and root verification passing.
+
+## Open-source readiness
+
+Evidence on 2026-09-22:
+
+- Renamed the framework, CLI, package scope, generated configuration, state directory, fixtures, verification assets, and documentation to Stackiln.
+- Added the MIT license, public governance and community-health documents, repository templates, release guidance, generated-code licensing guidance, and Stackiln brand assets.
+- `pnpm.cmd format:check` and `git diff --check` passed.
+- `pnpm.cmd verify` passed the root typecheck, five generator tests, lint, both frozen fixture installs, PostgreSQL migrations, the account schema drift check, both production builds, ten desktop/mobile Playwright journeys, both managed-file doctor checks, the Docker image build, and live container probes.

@@ -1,11 +1,11 @@
 {
-  "name": "@stackkiln/cli",
+  "name": "@stackiln/cli",
   "version": "0.1.0",
   "private": true,
-  "description": "The StackKiln command-line interface.",
+  "description": "The Stackiln command-line interface.",
   "license": "MIT",
   "type": "module",
   "bin": {
-    "stackkiln": "./src/index.ts"
+    "stackiln": "./src/index.ts"
   }
 }

@@ -1,6 +1,6 @@
 # Roadmap
 
-StackKiln is in alpha. The roadmap communicates direction, not a delivery promise.
+Stackiln is in alpha. The roadmap communicates direction, not a delivery promise.
 
 ## Available now
 

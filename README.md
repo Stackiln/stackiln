@@ -1,21 +1,21 @@
 <p align="center">
-  <img src="brand/stackkiln-mark.png" alt="StackKiln logo" width="160" />
+  <img src="brand/stackiln-mark.png" alt="Stackiln logo" width="160" />
 </p>
 
-<h1 align="center">StackKiln</h1>
+<h1 align="center">Stackiln</h1>
 
 <p align="center"><strong>Shape a product from composable modules. Ship code you own.</strong></p>
 
-StackKiln is a modular TypeScript framework and CLI that generates standalone, production-oriented Next.js products. It combines a small deployable base with explicit feature recipes, plans every file before writing, and records ownership hashes so generated code can evolve without silently replacing product customisations.
+Stackiln is a modular TypeScript framework and CLI that generates standalone, production-oriented Next.js products. It combines a small deployable base with explicit feature recipes, plans every file before writing, and records ownership hashes so generated code can evolve without silently replacing product customisations.
 
-> **Project status:** alpha. The marketing preset and optional accounts module are implemented and verified. Other presets are reserved by the schema but are not complete yet. See the [roadmap](ROADMAP.md) before choosing StackKiln for production work.
+> **Project status:** alpha. The marketing preset and optional accounts module are implemented and verified. Other presets are reserved by the schema but are not complete yet. See the [roadmap](ROADMAP.md) before choosing Stackiln for production work.
 
-## Why StackKiln
+## Why Stackiln
 
-- **Own the output:** generated applications have no StackKiln runtime dependency.
+- **Own the output:** generated applications have no Stackiln runtime dependency.
 - **Compose intentionally:** modules declare their files, routes, tables, environment variables, permissions, events, dependencies, and conflicts.
 - **Preview safely:** `--plan` is read-only; creation happens in a sibling staging directory and commits only after validation.
-- **Protect changes:** `.stackkiln/state.json` records managed-file checksums for conflict detection.
+- **Protect changes:** `.stackiln/state.json` records managed-file checksums for conflict detection.
 - **Verify the real product:** the repository gate covers generation, migrations, builds, browser journeys, and the container image.
 
 ## Quick start
@@ -23,10 +23,10 @@ StackKiln is a modular TypeScript framework and CLI that generates standalone, p
 Requirements: Node.js 24, pnpm 9, and Docker Desktop or Docker Engine with Compose. On Windows PowerShell, use `pnpm.cmd` if the execution policy blocks `pnpm.ps1`.
 
 ```sh
-git clone https://github.com/ChristianRelf/StackKiln.git
-cd StackKiln
+git clone https://github.com/ChristianRelf/Stackiln.git
+cd Stackiln
 pnpm install --frozen-lockfile
-pnpm stackkiln create my-product --preset marketing --name "My Product" --description "A clear description"
+pnpm stackiln create my-product --preset marketing --name "My Product" --description "A clear description"
 cd my-product
 pnpm install --frozen-lockfile
 docker compose up -d --wait db
@@ -41,11 +41,11 @@ Add verified email/password accounts with `--module accounts`. In production, se
 ## CLI
 
 ```text
-pnpm stackkiln create <directory> --preset marketing --name "Name" [options]
-pnpm stackkiln inspect [directory] [--json]
-pnpm stackkiln doctor [directory] [--json]
-pnpm stackkiln context [directory] [--write]
-pnpm stackkiln verify
+pnpm stackiln create <directory> --preset marketing --name "Name" [options]
+pnpm stackiln inspect [directory] [--json]
+pnpm stackiln doctor [directory] [--json]
+pnpm stackiln context [directory] [--write]
+pnpm stackiln verify
 ```
 
 Useful create options:
@@ -75,4 +75,4 @@ Contributions are welcome. Read [CONTRIBUTING.md](CONTRIBUTING.md), the [Code of
 
 ## License
 
-StackKiln is available under the [MIT License](LICENSE). You may use, copy, modify, distribute, sublicense, and sell the software subject to the license notice. Generated products are yours to use and adapt; see [docs/generated-code.md](docs/generated-code.md) for the small attribution obligation that follows copied MIT-licensed source.
+Stackiln is available under the [MIT License](LICENSE). You may use, copy, modify, distribute, sublicense, and sell the software subject to the license notice. Generated products are yours to use and adapt; see [docs/generated-code.md](docs/generated-code.md) for the small attribution obligation that follows copied MIT-licensed source.

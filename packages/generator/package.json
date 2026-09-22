@@ -1,8 +1,8 @@
 {
-  "name": "@stackkiln/generator",
+  "name": "@stackiln/generator",
   "version": "0.1.0",
   "private": true,
-  "description": "Transactional product generator for StackKiln.",
+  "description": "Transactional product generator for Stackiln.",
   "license": "MIT",
   "type": "module",
   "exports": {

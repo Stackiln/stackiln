@@ -1,5 +1,5 @@
 import { expect, test } from "@playwright/test";
-import config from "../../factory.config.json";
+import config from "../../stackiln.config.json";
 
 test("homepage shows the product and main navigation", async ({ page }) => {
   await page.goto("/");

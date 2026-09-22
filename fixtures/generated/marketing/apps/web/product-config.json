@@ -4,7 +4,9 @@
     "description": "A generated reference product",
     "defaultLocale": "en-GB",
     "timezone": "Europe/London",
-    "currencies": ["GBP"]
+    "currencies": [
+      "GBP"
+    ]
   },
   "preset": "marketing",
   "tenancy": "personal",

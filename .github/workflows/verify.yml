@@ -1,4 +1,4 @@
-name: Verify StackKiln
+name: Verify Stackiln
 on: [push, pull_request]
 jobs:
   verify:

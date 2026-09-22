@@ -70,11 +70,11 @@ export const configSchema = z.object({
     .default("local"),
 });
 
-export type StackKilnConfig = z.infer<typeof configSchema>;
+export type StackilnConfig = z.infer<typeof configSchema>;
 export type PresetName = z.infer<typeof presetSchema>;
 export type ModuleName = z.infer<typeof moduleSchema>;
-export function defineStackKilnConfig(
+export function defineStackilnConfig(
   input: z.input<typeof configSchema>,
-): StackKilnConfig {
+): StackilnConfig {
   return configSchema.parse(input);
 }
