@@ -3,12 +3,17 @@ import { spawnSync } from "node:child_process";
 import { readFile, writeFile } from "node:fs/promises";
 import { resolve, join } from "node:path";
 import {
+  blockNames,
   defineStackilnConfig,
   moduleNames,
+  pageRecipeNames,
   presetNames,
+  type BlockName,
   type ModuleName,
+  type PageRecipeName,
   type PresetName,
 } from "../../config/src/index.js";
+import { blocks, pageRecipes } from "../../generator/src/block-registry.js";
 import {
   applyCreate,
   stackilnRoot,
@@ -31,13 +36,17 @@ function help(): string {
   return `stackiln 0.1.0
 
 Usage:
-  pnpm stackiln create <directory> --preset marketing --name "Product Name" [--module accounts] [--description text] [--plan] [--json]
+  pnpm stackiln create <directory> --preset marketing --name "Product Name" [--recipe marketing-classic] [--block hero.centered] [--module accounts] [--description text] [--plan] [--json]
+  pnpm stackiln blocks list
+  pnpm stackiln blocks show <block-id>
+  pnpm stackiln recipes list
   pnpm stackiln inspect [directory] [--json]
   pnpm stackiln doctor [directory] [--json]
   pnpm stackiln context [directory]
   pnpm stackiln verify
 
 Presets: ${presetNames.join(", ")}
+Page recipes: ${pageRecipeNames.join(", ")}
 Exit codes: 0 success, 1 failure, 2 invalid command or arguments.
 `;
 }
@@ -45,6 +54,31 @@ async function run(args: string[]): Promise<number> {
   const [command, ...rest] = args;
   if (!command || command === "--help" || command === "help") {
     process.stdout.write(help());
+    return 0;
+  }
+  if (command === "blocks") {
+    const action = rest[0] ?? "list";
+    if (action === "list") {
+      process.stdout.write(
+        `${blockNames.map((id) => `${id}\t${blocks[id].description}`).join("\n")}\n`,
+      );
+      return 0;
+    }
+    if (action === "show") {
+      const id = rest[1] as BlockName | undefined;
+      if (!id || !blockNames.includes(id)) throw new Error("Unknown block.");
+      process.stdout.write(`${JSON.stringify(blocks[id], null, 2)}\n`);
+      return 0;
+    }
+    throw new Error(`Unknown blocks command: ${action}`);
+  }
+  if (command === "recipes") {
+    const action = rest[0] ?? "list";
+    if (action !== "list")
+      throw new Error(`Unknown recipes command: ${action}`);
+    process.stdout.write(
+      `${pageRecipeNames.map((name) => `${name}\t${pageRecipes[name].length} blocks`).join("\n")}\n`,
+    );
     return 0;
   }
   if (command === "create") {
@@ -57,10 +91,20 @@ async function run(args: string[]): Promise<number> {
     for (const item of selected)
       if (!moduleNames.includes(item as ModuleName))
         throw new Error(`Unknown module: ${item}`);
+    const selectedBlocks = options(rest, "block");
+    for (const item of selectedBlocks)
+      if (!blockNames.includes(item as BlockName))
+        throw new Error(`Unknown block: ${item}`);
+    const pageRecipe = (option(rest, "recipe") ??
+      "marketing-classic") as PageRecipeName;
+    if (!pageRecipeNames.includes(pageRecipe))
+      throw new Error(`Unknown page recipe: ${pageRecipe}`);
     const config = defineStackilnConfig({
       product: { name, description: option(rest, "description") ?? "" },
       preset,
       modules: Object.fromEntries(selected.map((item) => [item, true])),
+      pageRecipe,
+      blocks: selectedBlocks as BlockName[],
     });
     const plan = await planCreate(config);
     if (rest.includes("--plan")) {
@@ -90,6 +134,7 @@ async function run(args: string[]): Promise<number> {
       const result = {
         preset: state.preset,
         modules: state.installed,
+        blocks: state.blocks ?? {},
         stackilnVersion: state.stackilnVersion,
         deployment: config.deployment.target,
         changedManagedFiles: changed,
@@ -111,7 +156,7 @@ async function run(args: string[]): Promise<number> {
       process.stdout.write(`${JSON.stringify(checks, null, 2)}\n`);
       return changed.length ? 1 : 0;
     }
-    const snapshot = `# Product context\nPreset: ${state.preset}\nModules: ${Object.keys(state.installed).join(", ")}\nDeployment: ${config.deployment.target}\nWeb: apps/web\nDatabase: packages/db\nUI: packages/ui\nChecks: pnpm verify\nChanged managed files: ${changed.join(", ") || "none"}\n`;
+    const snapshot = `# Product context\nPreset: ${state.preset}\nModules: ${Object.keys(state.installed).join(", ")}\nBlocks: ${Object.keys(state.blocks ?? {}).join(", ")}\nDeployment: ${config.deployment.target}\nWeb: apps/web\nDatabase: packages/db\nUI: packages/ui\nChecks: pnpm verify\nChanged managed files: ${changed.join(", ") || "none"}\n`;
     if (rest.includes("--write"))
       await writeFile(join(root, "AGENT_CONTEXT.md"), snapshot);
     process.stdout.write(snapshot);

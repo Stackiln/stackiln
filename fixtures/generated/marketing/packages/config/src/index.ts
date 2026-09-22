@@ -18,6 +18,8 @@ export const productConfigSchema = z.object({
     motion: z.string(),
   }),
   modules: z.record(z.string(), z.unknown()),
+  pageRecipe: z.string(),
+  blocks: z.array(z.string()),
   deployment: z.object({
     target: z.enum(["container", "managed"]),
     region: z.string(),

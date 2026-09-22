@@ -15,23 +15,33 @@ import { fileURLToPath } from "node:url";
 import {
   defineStackilnConfig,
   type StackilnConfig,
+  type BlockName,
   type ModuleName,
 } from "../../config/src/index.js";
 import { modules, presets } from "./registry.js";
 import type { ModuleRecipe, OwnedSurface } from "../../module-kit/src/index.js";
+import type { BlockRecipe } from "../../block-kit/src/index.js";
+import {
+  blockFileName,
+  blocks,
+  pageRecipes,
+  renderBlockSource,
+} from "./block-registry.js";
 
 export const stackilnRoot = resolve(
   fileURLToPath(new URL("../../../", import.meta.url)),
 );
 export const stackilnVersion = "0.1.0";
 export type PlannedFile = {
-  source: string;
+  source?: string;
+  content?: string;
   destination: string;
   owner: string;
 };
 export type Plan = {
   config: StackilnConfig;
   modules: ModuleRecipe[];
+  blocks: BlockRecipe[];
   files: PlannedFile[];
   dependencies: Record<string, string>;
   warnings: string[];
@@ -46,6 +56,7 @@ export type StackilnState = {
     string,
     { version: number; status: "active" | "suspended" }
   >;
+  blocks: Record<string, { version: number }>;
   applied: string[];
   managedFiles: Record<string, { owner: string; sha256: string }>;
   conflicts: string[];
@@ -136,18 +147,52 @@ function checkCollisions(recipes: ModuleRecipe[]): void {
       }
   }
 }
+function resolveBlocks(
+  config: StackilnConfig,
+  resolvedModules: ModuleRecipe[],
+): BlockRecipe[] {
+  const selected = config.blocks.length
+    ? config.blocks
+    : pageRecipes[config.pageRecipe];
+  const duplicate = selected.find(
+    (id, index) => selected.indexOf(id) !== index,
+  );
+  if (duplicate) throw new Error(`Block selected more than once: ${duplicate}`);
+  const moduleIds = new Set(resolvedModules.map((module) => module.id));
+  return selected.map((id: BlockName) => {
+    const block = blocks[id];
+    if (!block) throw new Error(`Unknown block: ${id}`);
+    for (const required of block.requiresModules)
+      if (!moduleIds.has(required))
+        throw new Error(`Block ${id} requires module ${required}.`);
+    return block;
+  });
+}
+function renderHomePage(selected: BlockRecipe[]): string {
+  const imports = selected
+    .map(
+      (block, index) =>
+        `import { ${block.exportName} as Block${index} } from "../blocks/${blockFileName(block.id)}";`,
+    )
+    .join("\n");
+  const body = selected.map((_, index) => `      <Block${index} />`).join("\n");
+  return `${imports}\n\nexport default function Home() {\n  return (\n    <>\n${body}\n    </>\n  );\n}\n`;
+}
 export async function planCreate(raw: unknown): Promise<Plan> {
   const config = defineStackilnConfig(
     raw as Parameters<typeof defineStackilnConfig>[0],
   );
   const resolved = resolveModules(config);
   checkCollisions(resolved);
+  const resolvedBlocks = resolveBlocks(config, resolved);
   const base = join(stackilnRoot, "templates", "base");
-  const files: PlannedFile[] = (await filesUnder(base)).map((source) => ({
-    source,
-    destination: relative(base, source).split(sep).join("/"),
-    owner: "base",
-  }));
+  const files: PlannedFile[] = (await filesUnder(base))
+    .map((source) => ({
+      source,
+      destination: relative(base, source).split(sep).join("/"),
+      owner: "base",
+    }))
+    .filter((file) => file.destination !== "apps/web/src/app/page.tsx");
   for (const recipe of resolved) {
     const root = join(stackilnRoot, "modules", recipe.id, "files");
     const sourceFiles = await filesUnder(root);
@@ -165,6 +210,17 @@ export async function planCreate(raw: unknown): Promise<Plan> {
         owner: recipe.id,
       });
   }
+  for (const block of resolvedBlocks)
+    files.push({
+      content: renderBlockSource(block),
+      destination: `apps/web/src/blocks/${blockFileName(block.id)}.tsx`,
+      owner: `block:${block.id}`,
+    });
+  files.push({
+    content: renderHomePage(resolvedBlocks),
+    destination: "apps/web/src/app/page.tsx",
+    owner: "stackiln",
+  });
   const paths = new Set<string>();
   for (const file of files) {
     if (paths.has(file.destination))
@@ -181,6 +237,7 @@ export async function planCreate(raw: unknown): Promise<Plan> {
   return {
     config,
     modules: resolved,
+    blocks: resolvedBlocks,
     files: files.sort((a, b) => a.destination.localeCompare(b.destination)),
     dependencies,
     warnings: [],
@@ -188,15 +245,21 @@ export async function planCreate(raw: unknown): Promise<Plan> {
       stable({
         config,
         modules: resolved.map((item) => [item.id, item.version]),
+        blocks: resolvedBlocks.map((item) => [item.id, item.version]),
       }),
     ),
   };
 }
 export function formatPlan(plan: Plan): string {
+  const composition = plan.config.blocks.length
+    ? "custom"
+    : plan.config.pageRecipe;
   return [
     `Product: ${plan.config.product.name}`,
     `Preset: ${plan.config.preset}`,
     `Modules: ${plan.modules.map((module) => module.id).join(", ")}`,
+    `Page recipe: ${composition}`,
+    `Blocks (${plan.blocks.length}): ${plan.blocks.map((block) => block.id).join(", ")}`,
     `Template and module files: ${plan.files.length}`,
     `Dependencies: ${Object.keys(plan.dependencies).join(", ") || "none"}`,
     ...plan.warnings.map((warning) => `Warning: ${warning}`),
@@ -225,7 +288,9 @@ export async function applyCreate(
     for (const file of plan.files) {
       const output = join(stage, file.destination);
       await mkdir(dirname(output), { recursive: true });
-      await copyFile(file.source, output);
+      if (file.content !== undefined) await writeFile(output, file.content);
+      else if (file.source) await copyFile(file.source, output);
+      else throw new Error(`Planned file has no source: ${file.destination}`);
       if (file.destination !== "apps/web/next-env.d.ts")
         managedFiles[file.destination] = {
           owner: file.owner,
@@ -352,6 +417,16 @@ export async function applyCreate(
       join(stage, "docs/modules.md"),
       `# Enabled modules\n\n${moduleDocs}`,
     );
+    const blockDocs = plan.blocks
+      .map(
+        (block, index) =>
+          `${index + 1}. **${block.label}** (\`${block.id}\`, ${block.variant}) — ${block.description}`,
+      )
+      .join("\n");
+    await writeFile(
+      join(stage, "docs/blocks.md"),
+      `# Home page blocks\n\nRecipe: ${plan.config.blocks.length ? "custom selection" : plan.config.pageRecipe}.\n\n${blockDocs}\n`,
+    );
     await writeFile(
       join(stage, "docs/routes.md"),
       `# Routes\n\n${plan.modules.flatMap((module) => module.owns.routes.map((route) => `- ${route} (${module.id})`)).join("\n")}\n`,
@@ -381,6 +456,7 @@ export async function applyCreate(
       "apps/web/src/components/navigation.tsx",
       "packages/db/src/enabled-schema.ts",
       "docs/modules.md",
+      "docs/blocks.md",
       "docs/routes.md",
       "docs/events.md",
       "docs/permissions.md",
@@ -414,6 +490,9 @@ export async function applyCreate(
           module.id,
           { version: module.version, status: "active" },
         ]),
+      ),
+      blocks: Object.fromEntries(
+        plan.blocks.map((block) => [block.id, { version: block.version }]),
       ),
       applied: [],
       managedFiles: Object.fromEntries(

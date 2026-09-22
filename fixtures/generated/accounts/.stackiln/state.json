@@ -2,7 +2,7 @@
   "format": 1,
   "stackilnVersion": "0.1.0",
   "preset": "marketing",
-  "manifestHash": "7965fdaca488a8d3f6723ccc8972b31f51e610434369b52b8e33527a2a257b4f",
+  "manifestHash": "4a961d6c40177d39ae277ac120cc8dc0805eca1bf01d6449a75079797a7e0593",
   "installed": {
     "email": {
       "version": 1,
@@ -27,6 +27,38 @@
     "seo": {
       "version": 1,
       "status": "active"
+    }
+  },
+  "blocks": {
+    "navigation.announcement-bar": {
+      "version": 1
+    },
+    "hero.split-image": {
+      "version": 1
+    },
+    "proof.logo-cloud": {
+      "version": 1
+    },
+    "features.icon-grid": {
+      "version": 1
+    },
+    "story.editorial-intro": {
+      "version": 1
+    },
+    "pricing.cards": {
+      "version": 1
+    },
+    "testimonials.cards": {
+      "version": 1
+    },
+    "faq.accordion": {
+      "version": 1
+    },
+    "forms.contact": {
+      "version": 1
+    },
+    "footer.mega": {
+      "version": 1
     }
   },
   "applied": [],
@@ -69,7 +101,7 @@
     },
     "apps/web/product-config.json": {
       "owner": "stackiln",
-      "sha256": "0b0b96c7e672bd2a3b4bf5367312e1a2a2f404d6afce62ba7e693469a133df59"
+      "sha256": "79d6e2a28b3976b049b4de1638958b81e614bd197d9419618eedd7bfa48a8eea"
     },
     "apps/web/public/.gitkeep": {
       "owner": "base",
@@ -129,7 +161,7 @@
     },
     "apps/web/src/app/globals.css": {
       "owner": "base",
-      "sha256": "539007fdffdc6e2abdbda9dc684728dd35656a9d45b9021333d655ef7d678ca0"
+      "sha256": "8b05b624ecec7ef3985f42c2f6dc68105aa910b65fb120353cbe4bd074bbd86d"
     },
     "apps/web/src/app/health/live/route.test.ts": {
       "owner": "base",
@@ -156,8 +188,8 @@
       "sha256": "0a22bfac6cfb6a5d50f75b34a8a2fa3137c0d72f727d05f297913645459e9ebe"
     },
     "apps/web/src/app/page.tsx": {
-      "owner": "base",
-      "sha256": "5573972351718a15dd9494c98bba46e90679f2418d1ea3408c25b17520c62418"
+      "owner": "stackiln",
+      "sha256": "8598435f1d6d519d424a10587a676be8ea72d8dab98716ab0a22c79841b7f48e"
     },
     "apps/web/src/app/privacy/page.tsx": {
       "owner": "legal",
@@ -187,6 +219,46 @@
       "owner": "legal",
       "sha256": "da91431c3be41620470fc6232e650d8805bd1dbba4f4c9c5a22af7c6eacccd9b"
     },
+    "apps/web/src/blocks/faq-accordion.tsx": {
+      "owner": "block:faq.accordion",
+      "sha256": "77ebaf4009d77ea4ebf670b2d0378d3ec3c8cff225c90a23a3d727c98cbd8330"
+    },
+    "apps/web/src/blocks/features-icon-grid.tsx": {
+      "owner": "block:features.icon-grid",
+      "sha256": "9c7e65f66b1d83007f79491eef00cf75ec7205f2346a1453729d034db290a723"
+    },
+    "apps/web/src/blocks/footer-mega.tsx": {
+      "owner": "block:footer.mega",
+      "sha256": "00a8eab708b53a6f8412118ee3de2af6db955facaef3896f75e92cf2c2719802"
+    },
+    "apps/web/src/blocks/forms-contact.tsx": {
+      "owner": "block:forms.contact",
+      "sha256": "0b639b4ef5fa8d5c4f75f61ae7da7f8ebaea495663600f36e3657235cf1c58a3"
+    },
+    "apps/web/src/blocks/hero-split-image.tsx": {
+      "owner": "block:hero.split-image",
+      "sha256": "3344bc9337b1c00a0a4979879c6fb7383c141457917a81b8e2750cb3d14617b8"
+    },
+    "apps/web/src/blocks/navigation-announcement-bar.tsx": {
+      "owner": "block:navigation.announcement-bar",
+      "sha256": "7b37598f4613642f1e8242e716334548785128237efec8a566430f59ffa9b161"
+    },
+    "apps/web/src/blocks/pricing-cards.tsx": {
+      "owner": "block:pricing.cards",
+      "sha256": "b74221bd501b235e2208480d08774b2db849fddb08c2fac6332b6c24f5e65f0f"
+    },
+    "apps/web/src/blocks/proof-logo-cloud.tsx": {
+      "owner": "block:proof.logo-cloud",
+      "sha256": "828ec1b3cb135b126c5fa7947571fd9bcf5f15a6f2ecee294dc81457fa412466"
+    },
+    "apps/web/src/blocks/story-editorial-intro.tsx": {
+      "owner": "block:story.editorial-intro",
+      "sha256": "1c787bcfcd44d4088f6f2d7d8ebe4a92392e3f8c8b679099adbead8e2827329b"
+    },
+    "apps/web/src/blocks/testimonials-cards.tsx": {
+      "owner": "block:testimonials.cards",
+      "sha256": "5fe64a9cd6818c086f8ed3e1d2326cc7b681ea520f3457d0890c1006ffb9bfb9"
+    },
     "apps/web/src/components/auth-form.tsx": {
       "owner": "accounts",
       "sha256": "7dfba493fd14e28099dc22ebd4179d8f0d78c27614f4795bf73df9c7f6533c99"
@@ -198,6 +270,10 @@
     "apps/web/src/components/enabled.tsx": {
       "owner": "stackiln",
       "sha256": "b657dad4da4f7d39bf7bfd349fc803c4547b657a4a50c0626da9eb82fb71eb9d"
+    },
+    "apps/web/src/components/marketing-block.tsx": {
+      "owner": "base",
+      "sha256": "bd48c5a8fae61dec531933be00f9291b845562842e0542d72dd0a7fa36b37dee"
     },
     "apps/web/src/components/navigation.tsx": {
       "owner": "stackiln",
@@ -243,6 +319,10 @@
       "owner": "base",
       "sha256": "b20293c42b9216e4bbb62b0ac06814a6389e605cc7520209646d028cf59c5656"
     },
+    "docs/blocks.md": {
+      "owner": "stackiln",
+      "sha256": "de81fef1da8cfaa943ab4d0002f0e1df0445f7cf8f216a764bdfd13bb98e247b"
+    },
     "docs/deployment.md": {
       "owner": "base",
       "sha256": "11e62a75794c996b11cf783f4871dd3d1f56e679b36141566774e3964dd7a8d5"
@@ -273,7 +353,7 @@
     },
     "packages/config/src/index.ts": {
       "owner": "base",
-      "sha256": "3975cc51fc2acfebaae315db41c6e421d58e4ef3a1fb5eaf3a5cb0783367837f"
+      "sha256": "b1f54fed9538ba2761a679cb4861be183ccec134da7457da07f7ede1f3d104ea"
     },
     "packages/db/drizzle.config.ts": {
       "owner": "base",
@@ -333,7 +413,7 @@
     },
     "pnpm-lock.yaml": {
       "owner": "stackiln",
-      "sha256": "c9d94b7f790c4cbf8976f2993f19deca7eb789d5e75f6c5c6cac89d7eac3ef75"
+      "sha256": "46b93e754f9c9f09057c2dc6197fa827c4ec35a1e5c56262261e13852eb24478"
     },
     "pnpm-workspace.yaml": {
       "owner": "base",
@@ -341,11 +421,11 @@
     },
     "README.md": {
       "owner": "base",
-      "sha256": "2f0b8f218c500edde892fb0f9372e3e05c18857731ed14110338b25c39f3b2e7"
+      "sha256": "64a82d5fb2dbb1cd7b565e9e42b0a33fa3d4bcafff42c551418eb70480b05cee"
     },
     "resolved-manifest.md": {
       "owner": "stackiln",
-      "sha256": "7fe0daf81a6ddce80997851a72ce97545dfb78374f5538dde680334838e3f52f"
+      "sha256": "9ef552220f07ef6d2d225f74f4ff3efd87d5b4050e769555c82740f825163f66"
     },
     "STACKILN-LICENSE.md": {
       "owner": "base",
@@ -353,7 +433,7 @@
     },
     "stackiln.config.json": {
       "owner": "stackiln",
-      "sha256": "0b0b96c7e672bd2a3b4bf5367312e1a2a2f404d6afce62ba7e693469a133df59"
+      "sha256": "79d6e2a28b3976b049b4de1638958b81e614bd197d9419618eedd7bfa48a8eea"
     },
     "stackiln.config.ts": {
       "owner": "stackiln",
@@ -369,7 +449,7 @@
     },
     "tests/e2e/smoke.spec.ts": {
       "owner": "base",
-      "sha256": "6f1cbe0b328ac00ae2a8b18cd0d3a2bd6e4504b89d92c8c7c605392cd5ab0912"
+      "sha256": "d90dbb757208d2dcc4361d33a2df88131f65fdc84f1ebecec08cd57d93f47c1a"
     },
     "turbo.json": {
       "owner": "base",

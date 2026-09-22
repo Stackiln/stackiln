@@ -4,7 +4,19 @@
 
 Status: complete for the implemented marketing path.
 
-Evidence: `pnpm.cmd install --frozen-lockfile` succeeded; `pnpm.cmd typecheck`, `pnpm.cmd test` (five generator tests), and `pnpm.cmd lint` passed. The Zod manifest and typed module recipes parse the generated marketing configuration. See `docs/architecture.md` and `docs/decisions/`.
+Evidence: `pnpm.cmd install --frozen-lockfile` succeeded; `pnpm.cmd typecheck`, `pnpm.cmd test` (eight generator tests), and `pnpm.cmd lint` passed. The Zod manifest, typed module recipes, and typed block catalogue parse the generated marketing configuration. See `docs/architecture.md` and `docs/decisions/`.
+
+## Public block catalogue
+
+Status: first production-verified tranche complete.
+
+Evidence on 2026-09-22:
+
+- Added 60 selectable block families across navigation, heroes, proof, features, storytelling, media, calls to action, pricing, testimonials, FAQ, forms, and footers.
+- Added the `marketing-classic`, `saas-launch`, `editorial`, and `waitlist` page recipes plus exact repeated `--block` selection.
+- Plans now contain generated block component source and the page assembler before apply. Selected blocks and versions are included in the manifest hash and managed state; unselected blocks contribute no component files.
+- Generator tests cover catalogue completeness, default composition, exact selection, absent files, managed hashes, and required-module enforcement.
+- `pnpm.cmd verify` passed root checks, both frozen fixture installs, PostgreSQL migrations, account schema drift, both production builds, ten desktop/mobile Playwright journeys, both doctor checks, the production image build, and live container probes with the default ten-block page.
 
 ## Phase 1: reliable core generator
 

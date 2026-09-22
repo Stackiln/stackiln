@@ -46,6 +46,8 @@ importers:
         specifier: ^3.0.0
         version: 3.2.7(@types/node@24.13.6)(jiti@2.7.0)(tsx@4.23.13)
 
+  packages/block-kit: {}
+
   packages/cli: {}
 
   packages/config: {}

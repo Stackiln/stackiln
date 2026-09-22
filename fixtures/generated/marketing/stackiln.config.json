@@ -18,6 +18,8 @@
     "motion": "subtle"
   },
   "modules": {},
+  "pageRecipe": "marketing-classic",
+  "blocks": [],
   "deployment": {
     "target": "container",
     "region": "eu-west"

@@ -7,12 +7,14 @@ Stackiln is in alpha. The roadmap communicates direction, not a delivery promise
 - Transactional `create`, read-only planning, product inspection, doctor, and context commands.
 - Standalone Next.js marketing products with SEO, local content, email/contact, analytics consent, and legal-page starters.
 - Optional email/password accounts with verification, recovery, profile, session, export, and deletion flows.
+- A 60-family public-site block catalogue, four page recipes, exact block selection, and product-owned generated React source.
 - PostgreSQL migrations, Docker deployment, Playwright journeys, and managed-file change detection.
 
 ## Next
 
 - Central permission catalogue, admin and audit modules, account states, queued privacy operations, and stronger cross-account authorization coverage.
 - Completed personal SaaS and internal-tool presets.
+- Expand from the first 60 public blocks into application shells, dashboards, data views, workflows, settings, commerce, marketplace, support, and developer blocks.
 - Safe add, suspend, remove, and upgrade workflows with explicit conflict proposals.
 - Package and standalone CLI distribution after the internal packages have a compiled release surface.
 

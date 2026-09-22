@@ -3,7 +3,7 @@ import config from "../../stackiln.config.json";
 
 test("homepage shows the product and main navigation", async ({ page }) => {
   await page.goto("/");
-  await expect(page.getByRole("heading", { level: 1 })).toHaveText(
+  await expect(page.getByRole("heading", { level: 1 })).toContainText(
     config.product.name,
   );
   await expect(page.getByRole("main")).toBeVisible();
