@@ -23,6 +23,10 @@ type Props = {
   title: string;
   description: string;
   items: readonly string[];
+  alignment: "left" | "center" | "right";
+  width: "narrow" | "standard" | "wide";
+  spacing: "compact" | "comfortable" | "spacious";
+  headingSize: "small" | "medium" | "large";
 };
 
 function Header({
@@ -48,9 +52,13 @@ export function MarketingBlock({
   title,
   description,
   items,
+  alignment,
+  width,
+  spacing,
+  headingSize,
 }: Props) {
   const headingId = `block-${blockId.replaceAll(".", "-")}`;
-  const className = `marketing-block block-${category} block-${category}-${variant}`;
+  const className = `marketing-block block-${category} block-${category}-${variant} align-${alignment} width-${width} spacing-${spacing} heading-${headingSize}`;
 
   if (category === "navigation")
     return (

@@ -1,5 +1,11 @@
 # Build progress
 
+## Studio editing workflow
+
+Status: redesigned and production-verified on 2026-09-22.
+
+Evidence: the Studio now has separate block-library and draggable-layer views, desktop/tablet/mobile previews, zoom controls, direct canvas selection, top/up/down/bottom movement, keyboard undo/redo, and dedicated content, block-design, and page-theme inspectors. Per-block alignment, content width, vertical spacing, and heading scale are validated in the product configuration and emitted into product-owned React and CSS. Focused Playwright checks covered selection, layers, alignment, responsive preview, and undo. `pnpm.cmd verify` passed the root checks, both fixture installs and migrations, schema drift, both production builds, all ten desktop/mobile browser journeys, both doctor checks, the production image build, and live container probes.
+
 ## Phase 0: repository and architecture
 
 Status: complete for the implemented marketing path.

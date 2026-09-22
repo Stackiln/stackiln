@@ -511,5 +511,24 @@ export function renderBlockSource(
   content: BlockContent = {},
 ): string {
   const items = content.items ?? block.items;
-  return `import { MarketingBlock } from "../components/marketing-block";\n\nexport function ${block.exportName}() {\n  return (\n    <MarketingBlock\n      blockId=${JSON.stringify(block.id)}\n      category=${JSON.stringify(block.category)}\n      variant=${JSON.stringify(block.variant)}\n      eyebrow=${JSON.stringify(content.eyebrow ?? block.label)}\n      title=${JSON.stringify(content.title ?? block.label)}\n      description=${JSON.stringify(content.description ?? block.description)}\n      items={${JSON.stringify(items)}}\n    />\n  );\n}\n`;
+  return `import { MarketingBlock } from "../components/marketing-block";
+
+export function ${block.exportName}() {
+  return (
+    <MarketingBlock
+      blockId=${JSON.stringify(block.id)}
+      category=${JSON.stringify(block.category)}
+      variant=${JSON.stringify(block.variant)}
+      eyebrow=${JSON.stringify(content.eyebrow ?? block.label)}
+      title=${JSON.stringify(content.title ?? block.label)}
+      description=${JSON.stringify(content.description ?? block.description)}
+      items={${JSON.stringify(items)}}
+      alignment=${JSON.stringify(content.alignment ?? "left")}
+      width=${JSON.stringify(content.width ?? "standard")}
+      spacing=${JSON.stringify(content.spacing ?? "comfortable")}
+      headingSize=${JSON.stringify(content.headingSize ?? "medium")}
+    />
+  );
+}
+`;
 }

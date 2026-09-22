@@ -172,6 +172,55 @@ h2 {
 .marketing-block:nth-of-type(even) {
   background: color-mix(in srgb, var(--surface) 72%, transparent);
 }
+.marketing-block.spacing-compact {
+  padding-top: calc(var(--section-space, 5rem) * 0.65);
+  padding-bottom: calc(var(--section-space, 5rem) * 0.65);
+}
+.marketing-block.spacing-spacious {
+  padding-top: calc(var(--section-space, 5rem) * 1.4);
+  padding-bottom: calc(var(--section-space, 5rem) * 1.4);
+}
+.marketing-block.width-narrow {
+  padding-left: max(1.5rem, calc((100vw - 760px) / 2));
+  padding-right: max(1.5rem, calc((100vw - 760px) / 2));
+}
+.marketing-block.width-standard {
+  padding-left: max(1.5rem, calc((100vw - 1200px) / 2));
+  padding-right: max(1.5rem, calc((100vw - 1200px) / 2));
+}
+.marketing-block.width-wide {
+  padding-left: max(1.5rem, calc((100vw - 1440px) / 2));
+  padding-right: max(1.5rem, calc((100vw - 1440px) / 2));
+}
+.marketing-block.align-center {
+  text-align: center;
+}
+.marketing-block.align-center .block-heading,
+.marketing-block.align-center .block-description {
+  margin-left: auto;
+  margin-right: auto;
+}
+.marketing-block.align-center .block-actions {
+  justify-content: center;
+}
+.marketing-block.align-right {
+  text-align: right;
+}
+.marketing-block.align-right .block-heading,
+.marketing-block.align-right .block-description {
+  margin-left: auto;
+}
+.marketing-block.align-right .block-actions {
+  justify-content: flex-end;
+}
+.marketing-block.heading-small h1,
+.marketing-block.heading-small h2 {
+  font-size: clamp(1.75rem, 3vw, 2.5rem);
+}
+.marketing-block.heading-large h1,
+.marketing-block.heading-large h2 {
+  font-size: clamp(3rem, 6vw, 5.5rem);
+}
 .block-heading {
   max-width: 720px;
   margin-bottom: 2.5rem;

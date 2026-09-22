@@ -8,102 +8,173 @@
       :root {
         color-scheme: light;
         font-family: Inter, ui-sans-serif, system-ui, sans-serif;
-        --ink: #171717;
-        --muted: #6d6b67;
-        --line: #dedbd5;
-        --panel: #ffffff;
-        --canvas: #f4f2ed;
-        --accent: #ff9d1c;
-        --accent-strong: #ff5a2b;
-        --accent-soft: #fff1dc;
-        --accent-ink: #171717;
+        --ink: #171b1a;
+        --muted: #6d7471;
+        --subtle: #969d99;
+        --line: #e1e5e2;
+        --line-strong: #cbd1cd;
+        --panel: #fff;
+        --chrome: #f7f8f7;
+        --canvas: #ecefec;
+        --accent: #ff851b;
+        --accent-soft: #fff2e7;
+        --focus: #246bfd;
       }
       * {
         box-sizing: border-box;
       }
+      html,
+      body {
+        height: 100%;
+      }
       body {
         margin: 0;
-        background: var(--canvas);
-        color: var(--ink);
         overflow: hidden;
+        color: var(--ink);
+        background: var(--chrome);
+        font-size: 13px;
       }
       button,
       input,
       textarea,
       select {
+        color: inherit;
         font: inherit;
       }
       button {
         cursor: pointer;
       }
+      :focus-visible {
+        outline: 2px solid var(--focus);
+        outline-offset: 1px;
+      }
       .topbar {
-        height: 64px;
+        height: 58px;
+        display: grid;
+        grid-template-columns: 264px 1fr auto;
+        align-items: center;
+        border-bottom: 1px solid var(--line);
+        background: #fff;
+      }
+      .brand-wrap,
+      .document-wrap,
+      .top-actions {
+        height: 100%;
         display: flex;
         align-items: center;
-        gap: 16px;
-        padding: 0 18px;
-        border-bottom: 1px solid var(--line);
-        background: #ffffff;
+      }
+      .brand-wrap {
+        gap: 10px;
+        padding: 0 16px;
+        border-right: 1px solid var(--line);
+      }
+      .mark {
+        width: 27px;
+        height: 27px;
+        display: grid;
+        place-items: center;
+        border-radius: 7px;
+        color: #fff;
+        background: var(--ink);
+        font-size: 12px;
+        font-weight: 900;
       }
       .brand {
-        font-weight: 900;
-        letter-spacing: -0.04em;
-        font-size: 20px;
+        font-size: 14px;
+        font-weight: 800;
+        letter-spacing: -0.02em;
       }
-      .brand span {
-        display: inline-block;
-        margin-left: 2px;
-        padding: 3px 7px;
-        border-radius: 3px;
-        color: var(--accent-ink);
-        background: var(--accent);
-        font-size: 12px;
-        letter-spacing: 0;
-        vertical-align: 2px;
+      .brand small {
+        margin-left: 5px;
+        color: var(--subtle);
+        font-size: 9px;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
       }
-      .destination {
-        color: var(--muted);
-        font-size: 12px;
+      .document-wrap {
+        min-width: 0;
+        justify-content: center;
+        gap: 10px;
+        padding: 0 18px;
+      }
+      .document-name {
+        max-width: 380px;
         overflow: hidden;
+        font-weight: 650;
         text-overflow: ellipsis;
         white-space: nowrap;
-        flex: 1;
       }
       .status {
-        font-size: 12px;
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
         color: var(--muted);
-        min-width: 90px;
-        text-align: right;
+        font-size: 11px;
+      }
+      .status-dot {
+        width: 6px;
+        height: 6px;
+        border-radius: 50%;
+        background: #a7afab;
+      }
+      .status[data-state="dirty"] .status-dot {
+        background: var(--accent);
+      }
+      .status[data-state="saved"] .status-dot {
+        background: #1a9b61;
+      }
+      .status[data-state="error"] .status-dot {
+        background: #d33b3b;
+      }
+      .top-actions {
+        gap: 7px;
+        padding: 0 12px;
+      }
+      .button,
+      .icon-button {
+        border: 1px solid var(--line-strong);
+        border-radius: 7px;
+        background: #fff;
+        font-weight: 700;
       }
       .button {
-        border: 1px solid var(--line);
-        border-radius: 7px;
-        padding: 9px 13px;
-        color: var(--ink);
-        background: #ffffff;
-        font-weight: 750;
+        min-height: 34px;
+        padding: 7px 12px;
       }
-      .button:hover {
-        border-color: var(--accent-strong);
+      .icon-button {
+        width: 32px;
+        height: 32px;
+        padding: 0;
+        color: var(--muted);
+      }
+      .button:hover,
+      .icon-button:hover {
+        border-color: #98a09b;
+        background: var(--chrome);
       }
       .button-primary {
-        color: var(--accent-ink);
-        background: var(--accent);
-        border-color: var(--accent);
+        border-color: var(--ink);
+        color: #fff;
+        background: var(--ink);
       }
       .button-primary:hover {
-        border-color: var(--accent-strong);
-        background: var(--accent-strong);
-        color: #ffffff;
+        border-color: #343b38;
+        color: #fff;
+        background: #343b38;
+      }
+      .icon-button:disabled {
+        opacity: 0.35;
+        cursor: default;
       }
       .workspace {
-        height: calc(100vh - 64px);
+        height: calc(100vh - 58px);
         display: grid;
-        grid-template-columns: 290px minmax(480px, 1fr) 310px;
+        grid-template-columns: 264px minmax(440px, 1fr) 320px;
       }
       .sidebar,
       .inspector {
-        overflow: auto;
+        min-width: 0;
+        overflow: hidden;
         background: var(--panel);
       }
       .sidebar {
@@ -112,180 +183,414 @@
       .inspector {
         border-left: 1px solid var(--line);
       }
-      .panel-head {
-        position: sticky;
-        top: 0;
-        z-index: 2;
-        padding: 16px;
-        background: var(--panel);
+      .panel-tabs {
+        height: 47px;
+        display: flex;
+        align-items: end;
+        gap: 18px;
+        padding: 0 16px;
         border-bottom: 1px solid var(--line);
       }
-      .panel-head h2 {
-        margin: 0 0 10px;
-        font-size: 13px;
-        text-transform: uppercase;
-        letter-spacing: 0.12em;
+      .panel-tab {
+        height: 100%;
+        padding: 0 1px;
+        border: 0;
+        border-bottom: 2px solid transparent;
+        color: var(--muted);
+        background: none;
+        font-size: 12px;
+        font-weight: 750;
+      }
+      .panel-tab.is-active {
+        border-bottom-color: var(--ink);
+        color: var(--ink);
+      }
+      .panel-view {
+        height: calc(100% - 47px);
+        overflow: auto;
+      }
+      .library-tools {
+        position: sticky;
+        top: 0;
+        z-index: 3;
+        padding: 12px;
+        border-bottom: 1px solid var(--line);
+        background: #fff;
       }
       .search,
-      .field input,
-      .field textarea,
-      .field select {
+      .category-select {
         width: 100%;
-        color: var(--ink);
-        background: #ffffff;
         border: 1px solid var(--line);
         border-radius: 7px;
-        padding: 10px;
+        background: var(--chrome);
+      }
+      .search {
+        height: 34px;
+        padding: 0 10px;
+      }
+      .category-select {
+        height: 31px;
+        margin-top: 8px;
+        padding: 0 9px;
+        color: var(--muted);
+        font-size: 11px;
       }
       .catalog {
         display: grid;
-        gap: 9px;
-        padding: 12px;
+        gap: 5px;
+        padding: 9px;
       }
       .catalog-card {
-        position: relative;
-        padding: 13px;
-        border: 1px solid var(--line);
-        border-radius: 9px;
-        background: #ffffff;
+        display: grid;
+        grid-template-columns: 36px 1fr 22px;
+        gap: 10px;
+        align-items: center;
+        min-height: 62px;
+        padding: 8px;
+        border: 1px solid transparent;
+        border-radius: 8px;
         cursor: grab;
       }
       .catalog-card:hover {
-        border-color: var(--accent);
+        border-color: var(--line);
+        background: var(--chrome);
       }
-      .catalog-card strong {
-        display: block;
-        font-size: 13px;
-        margin-bottom: 5px;
-      }
-      .catalog-card p {
-        margin: 0;
-        color: var(--muted);
-        font-size: 11px;
-        line-height: 1.45;
-      }
-      .badge {
-        display: inline-flex;
-        margin-bottom: 8px;
-        padding: 3px 6px;
-        border-radius: 999px;
-        color: #9f430e;
+      .catalog-preview {
+        width: 36px;
+        height: 36px;
+        display: grid;
+        place-items: center;
+        border: 1px solid #ffd8b6;
+        border-radius: 7px;
+        color: #b94d08;
         background: var(--accent-soft);
         font-size: 9px;
-        font-weight: 800;
+        font-weight: 850;
         text-transform: uppercase;
+      }
+      .catalog-copy {
+        min-width: 0;
+      }
+      .catalog-card strong,
+      .layer-row strong {
+        display: block;
+        overflow: hidden;
+        font-size: 12px;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+      }
+      .catalog-card p {
+        margin: 4px 0 0;
+        overflow: hidden;
+        color: var(--muted);
+        font-size: 10px;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+      }
+      .add-glyph {
+        border: 0;
+        color: var(--subtle);
+        background: none;
+        font-size: 18px;
+      }
+      .empty-list {
+        padding: 28px 18px;
+        color: var(--muted);
+        font-size: 11px;
+        line-height: 1.55;
+        text-align: center;
+      }
+      .layers-head {
+        display: flex;
+        justify-content: space-between;
+        padding: 14px 14px 9px;
+        color: var(--subtle);
+        font-size: 10px;
+        font-weight: 800;
         letter-spacing: 0.08em;
+        text-transform: uppercase;
+      }
+      .layer-list {
+        display: grid;
+        gap: 3px;
+        padding: 0 8px;
+      }
+      .layer-row {
+        display: grid;
+        grid-template-columns: 22px 1fr auto;
+        gap: 8px;
+        align-items: center;
+        min-height: 42px;
+        padding: 5px 7px;
+        border: 1px solid transparent;
+        border-radius: 7px;
+        cursor: grab;
+      }
+      .layer-row:hover {
+        background: var(--chrome);
+      }
+      .layer-row.is-selected {
+        border-color: #ffd1ac;
+        background: var(--accent-soft);
+      }
+      .grip,
+      .layer-index {
+        color: var(--subtle);
+        font-size: 10px;
+      }
+      .grip {
+        font-size: 15px;
+        letter-spacing: -2px;
       }
       .stage {
-        overflow: auto;
-        padding: 28px;
+        min-width: 0;
+        overflow: hidden;
         background: var(--canvas);
       }
       .stage-toolbar {
-        max-width: 920px;
-        margin: 0 auto 16px;
+        height: 47px;
         display: flex;
-        gap: 10px;
         align-items: center;
+        justify-content: space-between;
+        gap: 10px;
+        padding: 0 12px;
+        border-bottom: 1px solid #d9ddda;
+        background: #f7f8f7;
       }
-      .stage-toolbar select {
-        color: var(--ink);
-        background: #ffffff;
+      .tool-group {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+      }
+      .segmented {
+        display: inline-flex;
+        width: 100%;
+        padding: 2px;
         border: 1px solid var(--line);
         border-radius: 7px;
-        padding: 8px;
+        background: #fff;
+      }
+      .segment {
+        flex: 1;
+        min-width: 28px;
+        height: 26px;
+        padding: 0 7px;
+        border: 0;
+        border-radius: 5px;
+        color: var(--muted);
+        background: none;
+        font-size: 10px;
+        font-weight: 700;
+      }
+      .segment:hover,
+      .segment.is-active {
+        color: var(--ink);
+        background: #eef0ee;
+      }
+      .toolbar-select {
+        height: 31px;
+        max-width: 180px;
+        padding: 0 8px;
+        border: 1px solid var(--line);
+        border-radius: 7px;
+        background: #fff;
+        font-size: 11px;
+        font-weight: 650;
+      }
+      .zoom-value {
+        min-width: 38px;
+        color: var(--muted);
+        font-size: 11px;
+        text-align: center;
+      }
+      .stage-scroll {
+        height: calc(100% - 47px);
+        overflow: auto;
+        padding: 34px 46px 70px;
+      }
+      .artboard-wrap {
+        width: max-content;
+        min-width: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: flex-start;
       }
       .canvas {
-        width: min(920px, 100%);
-        min-height: calc(100vh - 145px);
-        margin: auto;
-        background: var(--site-bg, #f7f8f6);
-        color: var(--site-ink, #18221e);
-        border: 1px solid var(--line);
-        border-radius: 4px;
-        box-shadow: none;
+        width: 1180px;
+        min-height: 720px;
         overflow: hidden;
+        border: 1px solid #d5dad7;
+        border-radius: 3px;
+        color: var(--site-ink, #18221e);
+        background: var(--site-bg, #f7f8f6);
+        box-shadow: 0 16px 48px rgb(20 29 25 / 10%);
+        transform-origin: top center;
+        transition: width 0.18s ease;
       }
-      .empty {
-        min-height: 500px;
+      .canvas[data-device="tablet"] {
+        width: 768px;
+      }
+      .canvas[data-device="mobile"] {
+        width: 390px;
+      }
+      .empty-canvas {
+        min-height: 718px;
         display: grid;
         place-items: center;
         padding: 60px;
         color: #647067;
         text-align: center;
       }
+      .empty-mark {
+        width: 42px;
+        height: 42px;
+        display: grid;
+        place-items: center;
+        margin: 0 auto 12px;
+        border: 1px dashed #adb7b1;
+        border-radius: 10px;
+        font-size: 22px;
+      }
       .section {
         position: relative;
-        min-height: 145px;
-        padding: 34px 42px;
+        min-height: 170px;
+        padding: 54px 8%;
         border-bottom: 1px solid
-          color-mix(in srgb, var(--site-ink, #18221e) 16%, transparent);
+          color-mix(in srgb, var(--site-ink, #18221e) 13%, transparent);
         background: var(--site-surface, #fff);
       }
       .section:nth-child(even) {
         background: var(--site-bg, #f7f8f6);
       }
       .section.is-selected {
-        outline: 3px solid var(--accent-strong);
-        outline-offset: -3px;
+        z-index: 2;
+        outline: 2px solid var(--focus);
+        outline-offset: -2px;
       }
-      .section-controls {
+      .section.is-dragging {
+        opacity: 0.45;
+      }
+      .section.spacing-compact {
+        padding-top: 32px;
+        padding-bottom: 32px;
+      }
+      .section.spacing-spacious {
+        padding-top: 82px;
+        padding-bottom: 82px;
+      }
+      .section-inner {
+        width: 100%;
+      }
+      .section.width-narrow .section-inner {
+        max-width: 660px;
+      }
+      .section.width-standard .section-inner {
+        max-width: 900px;
+      }
+      .section.align-center .section-inner {
+        margin: 0 auto;
+        text-align: center;
+      }
+      .section.align-center p,
+      .section.align-center h2 {
+        margin-left: auto;
+        margin-right: auto;
+      }
+      .section.align-right .section-inner {
+        margin-left: auto;
+        text-align: right;
+      }
+      .section.align-right p,
+      .section.align-right h2 {
+        margin-left: auto;
+      }
+      .selection-bar {
         position: absolute;
         top: 8px;
-        right: 8px;
+        left: 8px;
+        z-index: 3;
+        display: none;
+        align-items: center;
+        overflow: hidden;
+        border-radius: 6px;
+        color: #fff;
+        background: var(--focus);
+        box-shadow: 0 4px 14px rgb(12 48 118 / 22%);
+      }
+      .section.is-selected .selection-bar {
         display: flex;
-        gap: 4px;
-        opacity: 0;
       }
-      .section:hover .section-controls,
-      .section.is-selected .section-controls {
-        opacity: 1;
+      .selection-label {
+        max-width: 140px;
+        padding: 6px 9px;
+        overflow: hidden;
+        border-right: 1px solid rgb(255 255 255 / 22%);
+        font-size: 10px;
+        font-weight: 750;
+        text-overflow: ellipsis;
+        white-space: nowrap;
       }
-      .section-controls button {
+      .selection-bar button {
         width: 27px;
         height: 27px;
+        padding: 0;
         border: 0;
-        border-radius: 5px;
-        background: var(--accent-strong);
-        color: white;
+        border-right: 1px solid rgb(255 255 255 / 18%);
+        color: #fff;
+        background: none;
+      }
+      .selection-bar button:hover {
+        background: rgb(0 0 0 / 16%);
+      }
+      .selection-bar .remove:hover {
+        background: #c82f32;
       }
       .eyebrow {
-        margin: 0 0 8px;
+        margin: 0 0 10px;
         color: var(--site-action, #135f4a);
         font-size: 10px;
-        font-weight: 900;
-        letter-spacing: 0.12em;
+        font-weight: 850;
+        letter-spacing: 0.13em;
         text-transform: uppercase;
       }
       .section h2 {
-        max-width: 680px;
-        margin: 0;
-        font-size: clamp(25px, 4vw, 48px);
-        line-height: 1;
+        max-width: 780px;
+        margin: 0 0 16px;
+        font-size: clamp(28px, 4.2vw, 54px);
+        line-height: 1.02;
         letter-spacing: -0.045em;
+        text-wrap: balance;
       }
-      .section p {
-        max-width: 610px;
+      .section.heading-small h2 {
+        font-size: clamp(22px, 3vw, 36px);
+      }
+      .section.heading-large h2 {
+        font-size: clamp(36px, 5.5vw, 72px);
+      }
+      .section p:not(.eyebrow) {
+        max-width: 640px;
+        margin-top: 0;
         color: var(--site-muted, #59665f);
-        line-height: 1.55;
+        line-height: 1.6;
       }
       .mini-grid {
         display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(110px, 1fr));
-        gap: 8px;
-        margin-top: 20px;
+        grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+        gap: 10px;
+        margin-top: 24px;
+        text-align: left;
       }
       .mini-item {
-        min-height: 62px;
-        padding: 12px;
+        min-height: 72px;
+        padding: 14px;
         border: 1px solid
-          color-mix(in srgb, var(--site-ink, #18221e) 17%, transparent);
+          color-mix(in srgb, var(--site-ink, #18221e) 15%, transparent);
         border-radius: var(--site-radius, 8px);
         font-size: 11px;
-        font-weight: 750;
+        font-weight: 720;
       }
       .section[data-category="hero"] {
-        min-height: 340px;
+        min-height: 420px;
         display: grid;
         align-content: center;
         background: linear-gradient(
@@ -293,13 +598,13 @@
           var(--site-surface, #fff),
           color-mix(
             in srgb,
-            var(--site-action, #135f4a) 15%,
+            var(--site-action, #135f4a) 14%,
             var(--site-bg, #f7f8f6)
           )
         );
       }
       .section[data-category="cta"] {
-        margin: 25px;
+        margin: 26px;
         border-radius: var(--site-radius, 8px);
         color: var(--site-bg, #f7f8f6);
         background: var(--site-ink, #18221e);
@@ -309,87 +614,243 @@
         place-items: center;
       }
       .section[data-category="pricing"] .mini-item {
-        min-height: 120px;
+        min-height: 130px;
       }
       .section[data-category="footer"] {
-        background: var(--site-ink, #18221e);
         color: var(--site-bg, #f7f8f6);
+        background: var(--site-ink, #18221e);
       }
-      .inspector-body {
-        padding: 16px;
+      .canvas[data-device="mobile"] .section {
+        padding-left: 24px;
+        padding-right: 24px;
+      }
+      .canvas[data-device="mobile"] .section h2 {
+        font-size: 34px;
+      }
+      .canvas[data-device="mobile"] .mini-grid {
+        grid-template-columns: 1fr;
+      }
+      .inspector-scroll {
+        height: 100%;
+        overflow: auto;
+      }
+      .inspector-section {
+        padding: 15px 16px 17px;
+        border-bottom: 1px solid var(--line);
+      }
+      .section-title {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 13px;
+        font-size: 11px;
+        font-weight: 800;
+      }
+      .section-kicker {
+        color: var(--subtle);
+        font-size: 10px;
+        font-weight: 650;
       }
       .field {
         display: grid;
         gap: 6px;
-        margin-bottom: 15px;
+        margin-bottom: 12px;
       }
-      .field label {
+      .field label,
+      .control-label {
         color: var(--muted);
-        font-size: 11px;
-        font-weight: 800;
-        text-transform: uppercase;
-        letter-spacing: 0.08em;
+        font-size: 10px;
+        font-weight: 720;
+      }
+      .field input,
+      .field textarea,
+      .field select {
+        width: 100%;
+        border: 1px solid var(--line-strong);
+        border-radius: 6px;
+        background: #fff;
+      }
+      .field input,
+      .field select {
+        height: 34px;
+        padding: 0 9px;
       }
       .field textarea {
+        min-height: 76px;
+        padding: 8px 9px;
         resize: vertical;
-        min-height: 90px;
+        line-height: 1.45;
       }
-      .theme-grid {
+      .field-meta {
+        display: flex;
+        justify-content: space-between;
+      }
+      .char-count {
+        color: var(--subtle);
+        font-size: 9px;
+      }
+      .control-row {
         display: grid;
-        grid-template-columns: 1fr 1fr;
-        gap: 10px;
+        grid-template-columns: 78px 1fr;
+        gap: 9px;
+        align-items: center;
+        min-height: 42px;
       }
-      .hint {
+      .control-row + .control-row {
+        border-top: 1px solid #f0f2f1;
+      }
+      .swatches {
+        display: grid;
+        grid-template-columns: repeat(6, 1fr);
+        gap: 7px;
+      }
+      .swatch {
+        aspect-ratio: 1;
+        padding: 3px;
+        border: 1px solid transparent;
+        border-radius: 8px;
+        background: none;
+      }
+      .swatch span {
+        display: block;
+        width: 100%;
+        height: 100%;
+        border: 1px solid rgb(0 0 0 / 10%);
+        border-radius: 5px;
+      }
+      .swatch.is-active {
+        border-color: var(--focus);
+      }
+      .hint,
+      .inspector-empty {
         color: var(--muted);
         font-size: 11px;
-        line-height: 1.5;
+        line-height: 1.55;
       }
       .inspector-empty {
-        padding: 30px 18px;
-        color: var(--muted);
-        line-height: 1.6;
+        padding: 32px 22px;
+        text-align: center;
       }
-      @media (max-width: 1000px) {
+      .inspector-empty strong {
+        display: block;
+        margin-bottom: 6px;
+        color: var(--ink);
+      }
+      .move-grid {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 6px;
+      }
+      .move-grid button {
+        height: 31px;
+        border: 1px solid var(--line);
+        border-radius: 6px;
+        color: var(--muted);
+        background: #fff;
+        font-size: 10px;
+      }
+      .danger-button {
+        width: 100%;
+        height: 34px;
+        border: 1px solid #efcece;
+        border-radius: 6px;
+        color: #a62e32;
+        background: #fffafa;
+        font-size: 11px;
+        font-weight: 700;
+      }
+      @media (max-width: 1050px) {
         .workspace {
-          grid-template-columns: 240px 1fr;
+          grid-template-columns: 230px 1fr 280px;
         }
-        .inspector {
+        .topbar {
+          grid-template-columns: 230px 1fr auto;
+        }
+      }
+      @media (max-width: 850px) {
+        .workspace {
+          grid-template-columns: 220px 1fr;
+        }
+        .topbar {
+          grid-template-columns: 220px 1fr;
+        }
+        .inspector,
+        .document-wrap {
           display: none;
+        }
+        .top-actions {
+          justify-self: end;
         }
       }
     </style>
   </head>
   <body>
     <header class="topbar">
-      <div class="brand">Stackiln <span>Studio</span></div>
-      <div class="destination" id="destination"></div>
-      <div class="status" id="status">Loading…</div>
-      <button class="button" id="save">Save draft</button>
-      <button class="button button-primary" id="export">Export site</button>
+      <div class="brand-wrap">
+        <div class="mark">S</div>
+        <div class="brand">Stackiln <small>Studio</small></div>
+      </div>
+      <div class="document-wrap">
+        <div class="document-name" id="document-name">Untitled site</div>
+        <div class="status" id="status">
+          <span class="status-dot"></span><span id="status-copy">Loading</span>
+        </div>
+      </div>
+      <div class="top-actions">
+        <button class="icon-button" id="undo" title="Undo (Ctrl+Z)" disabled>
+          &#8630;</button
+        ><button
+          class="icon-button"
+          id="redo"
+          title="Redo (Ctrl+Shift+Z)"
+          disabled
+        >
+          &#8631;</button
+        ><button class="button" id="save">Save</button
+        ><button class="button button-primary" id="export">Export site</button>
+      </div>
     </header>
     <main class="workspace">
       <aside class="sidebar">
-        <div class="panel-head">
-          <h2>Block library</h2>
-          <input
-            class="search"
-            id="search"
-            type="search"
-            placeholder="Search 60 blocks…"
-          />
+        <div class="panel-tabs">
+          <button class="panel-tab is-active" data-sidebar-tab="library">
+            Add</button
+          ><button class="panel-tab" data-sidebar-tab="layers">Layers</button>
         </div>
-        <div class="catalog" id="catalog"></div>
+        <div class="panel-view" id="sidebar-view"></div>
       </aside>
       <section class="stage">
         <div class="stage-toolbar">
-          <label for="recipe">Composition</label
-          ><select id="recipe"></select>
+          <select
+            class="toolbar-select"
+            id="recipe"
+            aria-label="Page composition"
+          ></select>
+          <div class="tool-group">
+            <div class="segmented">
+              <button class="segment is-active" data-device="desktop">
+                Desktop</button
+              ><button class="segment" data-device="tablet">Tablet</button
+              ><button class="segment" data-device="mobile">Mobile</button>
+            </div>
+            <button class="icon-button" id="zoom-out">&minus;</button
+            ><span class="zoom-value" id="zoom-value">75%</span
+            ><button class="icon-button" id="zoom-in">+</button>
+          </div>
         </div>
-        <div class="canvas" id="canvas"></div>
+        <div class="stage-scroll">
+          <div class="artboard-wrap">
+            <div class="canvas" id="canvas" data-device="desktop"></div>
+          </div>
+        </div>
       </section>
       <aside class="inspector">
-        <div class="panel-head"><h2>Design and content</h2></div>
-        <div class="inspector-body" id="inspector"></div>
+        <div class="panel-tabs">
+          <button class="panel-tab is-active" data-inspector-tab="content">
+            Content</button
+          ><button class="panel-tab" data-inspector-tab="design">Design</button
+          ><button class="panel-tab" data-inspector-tab="page">Page</button>
+        </div>
+        <div class="panel-view" id="inspector"></div>
       </aside>
     </main>
     <script>
@@ -439,7 +900,14 @@
       };
       let state,
         selectedId = null,
-        saveTimer;
+        sidebarTab = "library",
+        inspectorTab = "content",
+        device = "desktop",
+        zoom = 0.75,
+        saveTimer,
+        editingSnapshot;
+      let history = [],
+        future = [];
       const $ = (id) => document.getElementById(id);
       const escapeHtml = (value) =>
         String(value ?? "").replace(
@@ -453,6 +921,11 @@
               '"': "&quot;",
             })[c],
         );
+      const titleCase = (value) =>
+        String(value)
+          .replaceAll("-", " ")
+          .replace(/\b\w/g, (c) => c.toUpperCase());
+      const snapshot = () => JSON.stringify(state.config);
       async function request(path, options = {}) {
         const response = await fetch(path, {
           headers: { "content-type": "application/json" },
@@ -461,6 +934,10 @@
         const data = await response.json();
         if (!response.ok) throw Error(data.error || "Request failed");
         return data;
+      }
+      function setStatus(copy, mode = "") {
+        $("status-copy").textContent = copy;
+        $("status").dataset.state = mode;
       }
       function selected() {
         return state.config.blocks.length
@@ -474,22 +951,61 @@
       function content(id) {
         return state.config.blockContent[id] || {};
       }
+      function editable(id) {
+        state.config.blockContent[id] ??= {};
+        return state.config.blockContent[id];
+      }
       function definition(id) {
         return state.catalog.find((item) => item.id === id);
       }
+      function record(value = snapshot()) {
+        if (history.at(-1) !== value) history.push(value);
+        if (history.length > 60) history.shift();
+        future = [];
+        updateHistory();
+      }
+      function mutate(change, options = {}) {
+        record();
+        change();
+        renderCanvas();
+        if (options.sidebar !== false) renderSidebar();
+        if (options.inspector !== false) renderInspector();
+        markDirty();
+      }
+      function restore(value) {
+        state.config = JSON.parse(value);
+        if (selectedId && !selected().includes(selectedId)) selectedId = null;
+        renderCanvas();
+        renderSidebar();
+        renderInspector();
+        markDirty();
+        updateHistory();
+      }
+      function undo() {
+        if (!history.length) return;
+        future.push(snapshot());
+        restore(history.pop());
+      }
+      function redo() {
+        if (!future.length) return;
+        history.push(snapshot());
+        restore(future.pop());
+      }
+      function updateHistory() {
+        $("undo").disabled = !history.length;
+        $("redo").disabled = !future.length;
+      }
       function markDirty() {
         clearTimeout(saveTimer);
-        $("status").textContent = "Unsaved";
-        saveTimer = setTimeout(saveDraft, 700);
+        setStatus("Unsaved changes", "dirty");
+        saveTimer = setTimeout(saveDraft, 900);
       }
       function applyTheme() {
-        const p = palettes[state.config.brand.palette] || palettes.neutral;
-        const canvas = $("canvas");
-        canvas.style.setProperty("--site-bg", p.bg);
-        canvas.style.setProperty("--site-surface", p.surface);
-        canvas.style.setProperty("--site-ink", p.ink);
-        canvas.style.setProperty("--site-muted", p.muted);
-        canvas.style.setProperty("--site-action", p.action);
+        const p = palettes[state.config.brand.palette] || palettes.neutral,
+          canvas = $("canvas");
+        Object.entries(p).forEach(([key, value]) =>
+          canvas.style.setProperty(`--site-${key}`, value),
+        );
         canvas.style.setProperty(
           "--site-radius",
           state.config.brand.radius === "large"
@@ -498,230 +1014,446 @@
               ? "3px"
               : "8px",
         );
+        canvas.style.fontFamily =
+          state.config.brand.font === "editorial"
+            ? "Georgia,serif"
+            : state.config.brand.font === "mono"
+              ? "ui-monospace,monospace"
+              : "inherit";
       }
-      function renderCatalog(query = "") {
-        const needle = query.toLowerCase();
-        $("catalog").innerHTML = state.catalog
-          .filter((block) =>
-            `${block.label} ${block.category} ${block.description}`
-              .toLowerCase()
-              .includes(needle),
-          )
-          .map(
-            (block) =>
-              `<article class="catalog-card" draggable="true" data-id="${block.id}"><span class="badge">${block.category}</span><strong>${escapeHtml(block.label)}</strong><p>${escapeHtml(block.description)}</p></article>`,
-          )
-          .join("");
+      function renderSidebar() {
         document
-          .querySelectorAll(".catalog-card")
-          .forEach((card) =>
-            card.addEventListener("dragstart", (event) =>
-              event.dataTransfer.setData("text/block-id", card.dataset.id),
+          .querySelectorAll("[data-sidebar-tab]")
+          .forEach((tab) =>
+            tab.classList.toggle(
+              "is-active",
+              tab.dataset.sidebarTab === sidebarTab,
             ),
           );
+        sidebarTab === "layers" ? renderLayers() : renderLibrary();
+      }
+      function renderLibrary() {
+        const q = $("search")?.value || "",
+          cat = $("category")?.value || "all",
+          categories = [...new Set(state.catalog.map((b) => b.category))];
+        $("sidebar-view").innerHTML =
+          `<div class="library-tools"><input class="search" id="search" type="search" placeholder="Search ${state.catalog.length} blocks" value="${escapeHtml(q)}"><select class="category-select" id="category"><option value="all">All categories</option>${categories.map((c) => `<option value="${c}" ${cat === c ? "selected" : ""}>${titleCase(c)}</option>`).join("")}</select></div><div class="catalog" id="catalog"></div>`;
+        const update = () =>
+          renderCatalog($("search").value, $("category").value);
+        $("search").addEventListener("input", update);
+        $("category").addEventListener("change", update);
+        renderCatalog(q, cat);
+      }
+      function renderCatalog(query = "", category = "all") {
+        const needle = query.toLowerCase(),
+          matches = state.catalog.filter(
+            (b) =>
+              (category === "all" || b.category === category) &&
+              `${b.label} ${b.category} ${b.description}`
+                .toLowerCase()
+                .includes(needle),
+          );
+        $("catalog").innerHTML = matches.length
+          ? matches
+              .map(
+                (b) =>
+                  `<article class="catalog-card" draggable="true" data-id="${b.id}" title="${escapeHtml(b.description)}"><span class="catalog-preview">${b.category.slice(0, 2)}</span><div class="catalog-copy"><strong>${escapeHtml(b.label)}</strong><p>${escapeHtml(b.category)} &middot; ${escapeHtml(b.description)}</p></div><button class="add-glyph" data-add="${b.id}" aria-label="Add block">+</button></article>`,
+              )
+              .join("")
+          : '<div class="empty-list">No blocks match this search.</div>';
+        document.querySelectorAll(".catalog-card").forEach((card) => {
+          card.addEventListener("dragstart", (e) =>
+            e.dataTransfer.setData("text/block-id", card.dataset.id),
+          );
+          card.addEventListener("dblclick", () => addBlock(card.dataset.id));
+        });
+        document.querySelectorAll("[data-add]").forEach((button) =>
+          button.addEventListener("click", (e) => {
+            e.stopPropagation();
+            addBlock(button.dataset.add);
+          }),
+        );
+      }
+      function renderLayers() {
+        const ids = selected();
+        $("sidebar-view").innerHTML =
+          `<div class="layers-head"><span>Page structure</span><span>${ids.length} blocks</span></div><div class="layer-list">${ids.length ? ids.map((id, i) => `<div class="layer-row ${selectedId === id ? "is-selected" : ""}" draggable="true" data-layer-index="${i}" data-layer-id="${id}"><span class="grip">::</span><strong>${escapeHtml(definition(id).label)}</strong><span class="layer-index">${String(i + 1).padStart(2, "0")}</span></div>`).join("") : '<div class="empty-list">Add a block to start your page.</div>'}</div>`;
+        document.querySelectorAll(".layer-row").forEach((row) => {
+          row.addEventListener("click", () =>
+            selectBlock(row.dataset.layerId, true),
+          );
+          row.addEventListener("dragstart", (e) =>
+            e.dataTransfer.setData("text/block-index", row.dataset.layerIndex),
+          );
+          row.addEventListener("dragover", (e) => e.preventDefault());
+          row.addEventListener("drop", (e) => {
+            e.preventDefault();
+            const from = Number(e.dataTransfer.getData("text/block-index"));
+            if (Number.isInteger(from))
+              move(from, Number(row.dataset.layerIndex));
+          });
+        });
       }
       function renderCanvas() {
         applyTheme();
-        const ids = selected();
+        const ids = selected(),
+          canvas = $("canvas");
+        canvas.dataset.device = device;
+        canvas.style.zoom = zoom;
+        $("zoom-value").textContent = `${Math.round(zoom * 100)}%`;
+        document
+          .querySelectorAll("[data-device]")
+          .forEach((b) =>
+            b.classList.toggle("is-active", b.dataset.device === device),
+          );
         if (!ids.length) {
-          $("canvas").innerHTML =
-            '<div class="empty">Drag blocks here to begin your page.</div>';
+          canvas.innerHTML =
+            '<div class="empty-canvas"><div><div class="empty-mark">+</div><strong>Build your first section</strong><p>Drag or double-click a block to add it.</p></div></div>';
           return;
         }
-        $("canvas").innerHTML = ids
-          .map((id, index) => {
+        canvas.innerHTML = ids
+          .map((id, i) => {
             const block = definition(id),
-              copy = content(id);
-            const title = copy.title || block.label,
-              description = copy.description || block.description,
+              copy = content(id),
               items = copy.items || block.items;
-            return `<article class="section ${selectedId === id ? "is-selected" : ""}" draggable="true" data-index="${index}" data-id="${id}" data-category="${block.category}"><div class="section-controls"><button data-action="up" title="Move up">↑</button><button data-action="down" title="Move down">↓</button><button data-action="remove" title="Remove">×</button></div><div class="eyebrow">${escapeHtml(copy.eyebrow || block.label)}</div><h2>${escapeHtml(title)}</h2><p>${escapeHtml(description)}</p><div class="mini-grid">${items
-              .slice(0, 5)
+            return `<article class="section align-${copy.alignment || "left"} width-${copy.width || "standard"} spacing-${copy.spacing || "comfortable"} heading-${copy.headingSize || "medium"} ${selectedId === id ? "is-selected" : ""}" draggable="true" data-index="${i}" data-id="${id}" data-category="${block.category}"><div class="selection-bar"><span class="selection-label">${escapeHtml(block.label)}</span><button data-action="top" title="Move to top">&#10514;</button><button data-action="up" title="Move up">&#8593;</button><button data-action="down" title="Move down">&#8595;</button><button data-action="bottom" title="Move to bottom">&#10515;</button><button class="remove" data-action="remove" title="Remove">&#215;</button></div><div class="section-inner"><div class="eyebrow">${escapeHtml(copy.eyebrow || block.label)}</div><h2>${escapeHtml(copy.title || block.label)}</h2><p>${escapeHtml(copy.description || block.description)}</p><div class="mini-grid">${items
+              .slice(0, 6)
               .map((item) => `<div class="mini-item">${escapeHtml(item)}</div>`)
-              .join("")}</div></article>`;
+              .join("")}</div></div></article>`;
           })
           .join("");
         document.querySelectorAll(".section").forEach((section) => {
-          section.addEventListener("click", (event) => {
-            const action = event.target.dataset.action;
-            if (action) changeOrder(Number(section.dataset.index), action);
-            else {
-              selectedId = section.dataset.id;
-              renderCanvas();
-              renderInspector();
-            }
+          section.addEventListener("click", (e) => {
+            const action = e.target.dataset.action;
+            action
+              ? changeOrder(Number(section.dataset.index), action)
+              : selectBlock(section.dataset.id);
           });
-          section.addEventListener("dragstart", (event) =>
-            event.dataTransfer.setData(
-              "text/block-index",
-              section.dataset.index,
-            ),
+          section.addEventListener("dragstart", (e) => {
+            section.classList.add("is-dragging");
+            e.dataTransfer.setData("text/block-index", section.dataset.index);
+          });
+          section.addEventListener("dragend", () =>
+            section.classList.remove("is-dragging"),
           );
-          section.addEventListener("dragover", (event) =>
-            event.preventDefault(),
-          );
-          section.addEventListener("drop", (event) => {
-            event.preventDefault();
-            const from = Number(event.dataTransfer.getData("text/block-index"));
+          section.addEventListener("dragover", (e) => e.preventDefault());
+          section.addEventListener("drop", (e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            const from = Number(e.dataTransfer.getData("text/block-index"));
             if (Number.isInteger(from))
               move(from, Number(section.dataset.index));
           });
         });
       }
-      function addBlock(id) {
-        materializeRecipe();
-        if (state.config.blocks.includes(id)) {
-          selectedId = id;
-          renderCanvas();
-          renderInspector();
-          return;
-        }
-        state.config.blocks.push(id);
+      function selectBlock(id, scroll = false) {
         selectedId = id;
         renderCanvas();
+        renderSidebar();
         renderInspector();
-        markDirty();
+        if (scroll)
+          document
+            .querySelector(`.section[data-id="${id}"]`)
+            ?.scrollIntoView({ behavior: "smooth", block: "center" });
+      }
+      function addBlock(id) {
+        if (selected().includes(id)) {
+          selectBlock(id, true);
+          return;
+        }
+        mutate(() => {
+          materializeRecipe();
+          state.config.blocks.push(id);
+          selectedId = id;
+        });
       }
       function move(from, to) {
-        materializeRecipe();
-        const [item] = state.config.blocks.splice(from, 1);
-        state.config.blocks.splice(to, 0, item);
-        renderCanvas();
-        markDirty();
+        if (from === to || from < 0 || to < 0) return;
+        mutate(() => {
+          materializeRecipe();
+          const [item] = state.config.blocks.splice(from, 1);
+          state.config.blocks.splice(to, 0, item);
+        });
       }
       function changeOrder(index, action) {
-        materializeRecipe();
+        const ids = selected();
         if (action === "remove") {
-          const [removed] = state.config.blocks.splice(index, 1);
-          if (selectedId === removed) selectedId = null;
-        } else if (action === "up" && index > 0) move(index, index - 1);
-        else if (action === "down" && index < state.config.blocks.length - 1)
-          move(index, index + 1);
-        renderCanvas();
-        renderInspector();
-        markDirty();
-      }
-      function field(label, name, value, type = "input") {
-        return `<div class="field"><label for="${name}">${label}</label>${type === "textarea" ? `<textarea id="${name}">${escapeHtml(value)}</textarea>` : `<input id="${name}" value="${escapeHtml(value)}" />`}</div>`;
+          mutate(() => {
+            materializeRecipe();
+            const [removed] = state.config.blocks.splice(index, 1);
+            if (selectedId === removed) selectedId = null;
+          });
+          return;
+        }
+        const to =
+          action === "top"
+            ? 0
+            : action === "bottom"
+              ? ids.length - 1
+              : action === "up"
+                ? Math.max(0, index - 1)
+                : Math.min(ids.length - 1, index + 1);
+        move(index, to);
       }
       function renderInspector() {
-        const block = selectedId && definition(selectedId),
-          copy = block ? content(selectedId) : null;
+        document
+          .querySelectorAll("[data-inspector-tab]")
+          .forEach((tab) =>
+            tab.classList.toggle(
+              "is-active",
+              tab.dataset.inspectorTab === inspectorTab,
+            ),
+          );
+        if (inspectorTab === "page") renderPageInspector();
+        else if (!selectedId)
+          $("inspector").innerHTML =
+            '<div class="inspector-empty"><strong>Nothing selected</strong>Select a block on the canvas or in Layers.</div>';
+        else if (inspectorTab === "design") renderDesignInspector();
+        else renderContentInspector();
+      }
+      function field(label, name, value, type = "input", max = 0) {
+        return `<div class="field"><div class="field-meta"><label for="${name}">${label}</label>${max ? `<span class="char-count" data-count-for="${name}">${String(value).length}/${max}</span>` : ""}</div>${type === "textarea" ? `<textarea id="${name}" ${max ? `maxlength="${max}"` : ""}>${escapeHtml(value)}</textarea>` : `<input id="${name}" value="${escapeHtml(value)}" ${max ? `maxlength="${max}"` : ""}>`}</div>`;
+      }
+      function segmented(name, values, current) {
+        return `<div class="segmented">${values.map((value) => `<button class="segment ${current === value ? "is-active" : ""}" data-setting="${name}" data-value="${value}">${titleCase(value)}</button>`).join("")}</div>`;
+      }
+      function renderContentInspector() {
+        const block = definition(selectedId),
+          copy = content(selectedId);
         $("inspector").innerHTML =
-          `${field("Site name", "site-name", state.config.product.name)}${field("Description", "site-description", state.config.product.description, "textarea")}<div class="theme-grid"><div class="field"><label>Palette</label><select id="palette">${Object.keys(
+          `<div class="inspector-scroll"><section class="inspector-section"><div class="section-title"><span>${escapeHtml(block.label)}</span><span class="section-kicker">${block.category}</span></div>${field("Eyebrow", "block-eyebrow", copy.eyebrow || block.label, "input", 80)}${field("Heading", "block-title", copy.title || block.label, "textarea", 160)}${field("Description", "block-description", copy.description || block.description, "textarea", 500)}${field("Items · one per line", "block-items", (copy.items || block.items).join("\n"), "textarea")}</section><section class="inspector-section"><p class="hint">Content and design choices are exported into product-owned React.</p></section></div>`;
+        bindText("block-eyebrow", (v) => (editable(selectedId).eyebrow = v));
+        bindText("block-title", (v) => (editable(selectedId).title = v));
+        bindText(
+          "block-description",
+          (v) => (editable(selectedId).description = v),
+        );
+        bindText(
+          "block-items",
+          (v) =>
+            (editable(selectedId).items = v
+              .split("\n")
+              .map((x) => x.trim())
+              .filter(Boolean)
+              .slice(0, 12)),
+        );
+      }
+      function renderDesignInspector() {
+        const copy = content(selectedId),
+          index = selected().indexOf(selectedId);
+        $("inspector").innerHTML =
+          `<div class="inspector-scroll"><section class="inspector-section"><div class="section-title"><span>Layout</span><span class="section-kicker">Block</span></div><div class="control-row"><span class="control-label">Alignment</span>${segmented("alignment", ["left", "center", "right"], copy.alignment || "left")}</div><div class="control-row"><span class="control-label">Width</span>${segmented("width", ["narrow", "standard", "wide"], copy.width || "standard")}</div><div class="control-row"><span class="control-label">Spacing</span>${segmented("spacing", ["compact", "comfortable", "spacious"], copy.spacing || "comfortable")}</div><div class="control-row"><span class="control-label">Heading</span>${segmented("headingSize", ["small", "medium", "large"], copy.headingSize || "medium")}</div></section><section class="inspector-section"><div class="section-title"><span>Position</span><span class="section-kicker">${index + 1} of ${selected().length}</span></div><div class="move-grid"><button data-move="top">Top</button><button data-move="up">Up</button><button data-move="down">Down</button><button data-move="bottom">Bottom</button></div></section><section class="inspector-section"><button class="danger-button" id="remove-block">Remove block</button></section></div>`;
+        document
+          .querySelectorAll("[data-setting]")
+          .forEach((button) =>
+            button.addEventListener("click", () =>
+              mutate(
+                () =>
+                  (editable(selectedId)[button.dataset.setting] =
+                    button.dataset.value),
+                { sidebar: false },
+              ),
+            ),
+          );
+        document
+          .querySelectorAll("[data-move]")
+          .forEach((button) =>
+            button.addEventListener("click", () =>
+              changeOrder(index, button.dataset.move),
+            ),
+          );
+        $("remove-block").addEventListener("click", () =>
+          changeOrder(index, "remove"),
+        );
+      }
+      function renderPageInspector() {
+        const brand = state.config.brand;
+        $("inspector").innerHTML =
+          `<div class="inspector-scroll"><section class="inspector-section"><div class="section-title"><span>Site details</span><span class="section-kicker">Page</span></div>${field("Site name", "site-name", state.config.product.name, "input", 100)}${field("Description", "site-description", state.config.product.description, "textarea", 500)}</section><section class="inspector-section"><div class="section-title"><span>Theme</span><span class="section-kicker">Global</span></div><div class="field"><label>Palette</label><div class="swatches">${Object.entries(
             palettes,
           )
             .map(
-              (name) =>
-                `<option ${state.config.brand.palette === name ? "selected" : ""}>${name}</option>`,
+              ([name, p]) =>
+                `<button class="swatch ${brand.palette === name ? "is-active" : ""}" data-palette="${name}" title="${titleCase(name)}"><span style="background:linear-gradient(135deg,${p.bg} 50%,${p.action} 50%)"></span></button>`,
             )
             .join(
               "",
-            )}</select></div><div class="field"><label>Typeface</label><select id="font">${["system", "editorial", "modern", "geometric", "humanist", "mono"].map((name) => `<option ${state.config.brand.font === name ? "selected" : ""}>${name}</option>`).join("")}</select></div><div class="field"><label>Radius</label><select id="radius">${["small", "medium", "large"].map((name) => `<option ${state.config.brand.radius === name ? "selected" : ""}>${name}</option>`).join("")}</select></div><div class="field"><label>Density</label><select id="density">${["compact", "comfortable"].map((name) => `<option ${state.config.brand.density === name ? "selected" : ""}>${name}</option>`).join("")}</select></div></div>${block ? `<hr style="border:0;border-top:1px solid var(--line);margin:22px 0"><span class="badge">${block.category}</span><h3>${escapeHtml(block.label)}</h3>${field("Eyebrow", "block-eyebrow", copy.eyebrow || block.label)}${field("Heading", "block-title", copy.title || block.label)}${field("Description", "block-description", copy.description || block.description, "textarea")}${field("Items, one per line", "block-items", (copy.items || block.items).join("\n"), "textarea")}<p class="hint">Changes are written to the local draft, then baked into product-owned React when you export.</p>` : '<p class="inspector-empty">Select a block on the canvas to edit its content. Theme controls affect the whole generated site.</p>'}`;
-        bindInspector();
+            )}</div></div><div class="field"><label for="font">Typeface</label><select id="font">${["system", "editorial", "modern", "geometric", "humanist", "mono"].map((name) => `<option value="${name}" ${brand.font === name ? "selected" : ""}>${titleCase(name)}</option>`).join("")}</select></div><div class="control-row"><span class="control-label">Radius</span>${segmented("radius", ["small", "medium", "large"], brand.radius)}</div><div class="control-row"><span class="control-label">Density</span>${segmented("density", ["compact", "comfortable"], brand.density)}</div><div class="control-row"><span class="control-label">Motion</span>${segmented("motion", ["none", "subtle"], brand.motion)}</div></section></div>`;
+        bindText("site-name", (v) => {
+          state.config.product.name = v;
+          $("document-name").textContent = v;
+        });
+        bindText(
+          "site-description",
+          (v) => (state.config.product.description = v),
+        );
+        $("font").addEventListener("change", () =>
+          mutate(() => (state.config.brand.font = $("font").value), {
+            sidebar: false,
+          }),
+        );
+        document
+          .querySelectorAll("[data-palette]")
+          .forEach((button) =>
+            button.addEventListener("click", () =>
+              mutate(
+                () => (state.config.brand.palette = button.dataset.palette),
+                { sidebar: false },
+              ),
+            ),
+          );
+        document
+          .querySelectorAll("[data-setting]")
+          .forEach((button) =>
+            button.addEventListener("click", () =>
+              mutate(
+                () =>
+                  (state.config.brand[button.dataset.setting] =
+                    button.dataset.value),
+                { sidebar: false },
+              ),
+            ),
+          );
       }
-      function bindInspector() {
-        const bind = (id, handler, event = "input") =>
-          $(id)?.addEventListener(event, () => {
-            handler($(id).value);
-            renderCanvas();
-            markDirty();
-          });
-        bind("site-name", (v) => (state.config.product.name = v));
-        bind("site-description", (v) => (state.config.product.description = v));
-        bind("palette", (v) => (state.config.brand.palette = v), "change");
-        bind("font", (v) => (state.config.brand.font = v), "change");
-        bind("radius", (v) => (state.config.brand.radius = v), "change");
-        bind("density", (v) => (state.config.brand.density = v), "change");
-        if (selectedId) {
-          state.config.blockContent[selectedId] ??= {};
-          bind(
-            "block-eyebrow",
-            (v) => (state.config.blockContent[selectedId].eyebrow = v),
-          );
-          bind(
-            "block-title",
-            (v) => (state.config.blockContent[selectedId].title = v),
-          );
-          bind(
-            "block-description",
-            (v) => (state.config.blockContent[selectedId].description = v),
-          );
-          bind(
-            "block-items",
-            (v) =>
-              (state.config.blockContent[selectedId].items = v
-                .split("\n")
-                .map((x) => x.trim())
-                .filter(Boolean)),
-          );
-        }
+      function bindText(id, handler) {
+        const element = $(id);
+        element?.addEventListener(
+          "focus",
+          () => (editingSnapshot = snapshot()),
+          { once: true },
+        );
+        element?.addEventListener("input", () => {
+          handler(element.value);
+          const counter = document.querySelector(`[data-count-for="${id}"]`);
+          if (counter)
+            counter.textContent = `${element.value.length}/${element.maxLength}`;
+          renderCanvas();
+          markDirty();
+        });
+        element?.addEventListener("change", () => {
+          if (editingSnapshot && editingSnapshot !== snapshot())
+            record(editingSnapshot);
+          editingSnapshot = null;
+        });
       }
       async function saveDraft() {
+        clearTimeout(saveTimer);
         try {
-          $("status").textContent = "Saving…";
+          setStatus("Saving");
           const result = await request("/api/draft", {
             method: "PUT",
             body: JSON.stringify(state.config),
           });
-          $("status").textContent = "Saved locally";
-          $("destination").title = `Draft: ${result.draftPath}`;
+          setStatus("Saved locally", "saved");
+          $("status").title = `Draft: ${result.draftPath}`;
         } catch (error) {
-          $("status").textContent = error.message;
+          setStatus(error.message, "error");
         }
       }
       async function exportSite() {
         try {
           $("export").disabled = true;
-          $("status").textContent = "Exporting…";
+          setStatus("Exporting site");
           const result = await request("/api/export", {
             method: "POST",
             body: JSON.stringify(state.config),
           });
-          $("status").textContent = `Exported ${result.blocks.length} blocks`;
+          setStatus(`Exported ${result.blocks.length} blocks`, "saved");
           alert(`${result.message}\n${result.directory}`);
         } catch (error) {
-          $("status").textContent = error.message;
+          setStatus(error.message, "error");
           alert(error.message);
         } finally {
           $("export").disabled = false;
         }
       }
+      function setZoom(value) {
+        zoom = Math.max(0.4, Math.min(1, Math.round(value * 20) / 20));
+        renderCanvas();
+      }
       async function boot() {
         state = await request("/api/bootstrap");
-        $("destination").textContent = state.destination;
+        $("document-name").textContent = state.config.product.name;
+        $("document-name").title = state.destination;
         $("recipe").innerHTML = Object.entries(state.recipes)
           .map(
             ([name, ids]) =>
-              `<option value="${name}" ${state.config.pageRecipe === name ? "selected" : ""}>${name} · ${ids.length} blocks</option>`,
+              `<option value="${name}" ${state.config.pageRecipe === name ? "selected" : ""}>${titleCase(name)} · ${ids.length} blocks</option>`,
           )
           .join("");
-        $("recipe").addEventListener("change", () => {
-          state.config.pageRecipe = $("recipe").value;
-          state.config.blocks = [];
-          selectedId = null;
-          renderCanvas();
-          renderInspector();
-          markDirty();
-        });
-        $("search").addEventListener("input", () =>
-          renderCatalog($("search").value),
+        $("recipe").addEventListener("change", () =>
+          mutate(() => {
+            state.config.pageRecipe = $("recipe").value;
+            state.config.blocks = [];
+            selectedId = null;
+          }),
         );
+        document.querySelectorAll("[data-sidebar-tab]").forEach((tab) =>
+          tab.addEventListener("click", () => {
+            sidebarTab = tab.dataset.sidebarTab;
+            renderSidebar();
+          }),
+        );
+        document.querySelectorAll("[data-inspector-tab]").forEach((tab) =>
+          tab.addEventListener("click", () => {
+            inspectorTab = tab.dataset.inspectorTab;
+            renderInspector();
+          }),
+        );
+        document.querySelectorAll("[data-device]").forEach((button) =>
+          button.addEventListener("click", () => {
+            device = button.dataset.device;
+            zoom =
+              device === "desktop" ? 0.75 : device === "tablet" ? 0.7 : 0.85;
+            renderCanvas();
+          }),
+        );
+        $("zoom-out").addEventListener("click", () => setZoom(zoom - 0.1));
+        $("zoom-in").addEventListener("click", () => setZoom(zoom + 0.1));
+        $("undo").addEventListener("click", undo);
+        $("redo").addEventListener("click", redo);
         $("save").addEventListener("click", saveDraft);
         $("export").addEventListener("click", exportSite);
-        $("canvas").addEventListener("dragover", (event) =>
-          event.preventDefault(),
-        );
-        $("canvas").addEventListener("drop", (event) => {
-          const id = event.dataTransfer.getData("text/block-id");
+        $("canvas").addEventListener("dragover", (e) => e.preventDefault());
+        $("canvas").addEventListener("drop", (e) => {
+          const id = e.dataTransfer.getData("text/block-id");
           if (id) addBlock(id);
         });
-        renderCatalog();
+        document.addEventListener("keydown", (e) => {
+          const mod = e.ctrlKey || e.metaKey;
+          if (mod && e.key.toLowerCase() === "z") {
+            e.preventDefault();
+            e.shiftKey ? redo() : undo();
+          }
+          if (mod && e.key.toLowerCase() === "s") {
+            e.preventDefault();
+            saveDraft();
+          }
+          if (
+            selectedId &&
+            e.altKey &&
+            ["ArrowUp", "ArrowDown"].includes(e.key)
+          ) {
+            e.preventDefault();
+            changeOrder(
+              selected().indexOf(selectedId),
+              e.key === "ArrowUp" ? "up" : "down",
+            );
+          }
+          if (e.key === "Escape" && selectedId) {
+            selectedId = null;
+            renderCanvas();
+            renderSidebar();
+            renderInspector();
+          }
+        });
+        renderSidebar();
         renderCanvas();
         renderInspector();
-        $("status").textContent = "Local draft";
+        updateHistory();
+        setStatus("Local draft", "saved");
       }
-      boot().catch((error) => ($("status").textContent = error.message));
+      boot().catch((error) => setStatus(error.message, "error"));
     </script>
   </body>
 </html>

@@ -109,6 +109,10 @@ export const blockContentSchema = z.object({
   title: z.string().max(160).optional(),
   description: z.string().max(500).optional(),
   items: z.array(z.string().max(160)).max(12).optional(),
+  alignment: z.enum(["left", "center", "right"]).optional(),
+  width: z.enum(["narrow", "standard", "wide"]).optional(),
+  spacing: z.enum(["compact", "comfortable", "spacious"]).optional(),
+  headingSize: z.enum(["small", "medium", "large"]).optional(),
 });
 export const configSchema = z.object({
   product: z.object({

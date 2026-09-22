@@ -199,6 +199,10 @@ test("brand and block content become product-owned generated source", async () =
         title: "A genuinely specific proposition",
         description: "Copy written for this product rather than the template.",
         items: ["First truth", "Second truth"],
+        alignment: "center",
+        width: "narrow",
+        spacing: "spacious",
+        headingSize: "large",
       },
     },
   });
@@ -210,6 +214,8 @@ test("brand and block content become product-owned generated source", async () =
   );
   expect(block?.content).toContain("A genuinely specific proposition");
   expect(block?.content).toContain("First truth");
+  expect(block?.content).toContain('alignment="center"');
+  expect(block?.content).toContain('width="narrow"');
   expect(theme?.content).toContain("--action: #6842b8");
   expect(theme?.content).toContain('Georgia, "Times New Roman", serif');
   expect(theme?.content).toContain("--section-space: 3.5rem");
