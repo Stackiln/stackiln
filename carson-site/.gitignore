@@ -1,0 +1,10 @@
+node_modules/
+.next/
+out/
+.env
+.env.local
+coverage/
+.local-mailbox/
+test-results/
+playwright-report/
+*.tsbuildinfo

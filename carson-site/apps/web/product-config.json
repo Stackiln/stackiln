@@ -1,0 +1,26 @@
+{
+  "product": {
+    "name": "Carson",
+    "description": "Oakridge Nuclear Power Plant's stern, faintly ridiculous 1980s security guard on Discord.",
+    "defaultLocale": "en-GB",
+    "timezone": "Europe/London",
+    "currencies": [
+      "GBP"
+    ]
+  },
+  "preset": "marketing",
+  "tenancy": "personal",
+  "brand": {
+    "font": "system",
+    "radius": "medium",
+    "density": "comfortable",
+    "palette": "neutral",
+    "motion": "subtle"
+  },
+  "modules": {},
+  "deployment": {
+    "target": "container",
+    "region": "eu-west"
+  },
+  "environment": "local"
+}
