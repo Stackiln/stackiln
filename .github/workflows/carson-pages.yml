@@ -49,7 +49,7 @@ jobs:
           APP_ENV: production
           APP_URL: https://carson.stackiln.com
       - name: Upload Pages artifact
-        uses: actions/upload-pages-artifact@v3
+        uses: actions/upload-pages-artifact@v5
         with:
           path: carson-site/apps/web/out
       - name: Deploy to GitHub Pages
